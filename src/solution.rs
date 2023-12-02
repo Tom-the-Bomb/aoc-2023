@@ -1,3 +1,8 @@
 pub trait Solution {
-    pub fn run(&self, inp: String);
+    const NAME: &'static str;
+    
+    fn run(&self, inp: String);
+    fn name(&self) -> &'static str {
+        Self::NAME
+    }
 }

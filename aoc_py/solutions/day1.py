@@ -3,10 +3,22 @@ Day 1: Trebuchet?!
 
 https://adventofcode.com/2023/day/1
 """
+from typing import ClassVar
 from ..solution import Solution
 
 class Day1(Solution):
     NAME = 'Trebuchet?!'
+    NUM_MAP: ClassVar[dict[str, str]] = {
+        'one': '1',
+        'two': '2',
+        'three': '3',
+        'four': '4',
+        'five': '5',
+        'six': '6',
+        'seven': '7',
+        'eight': '8',
+        'nine': '9'
+    }
 
     def part_one(self, inp: str) -> int:
         return sum(
@@ -18,19 +30,8 @@ class Day1(Solution):
         )
 
     def part_two(self, inp: str) -> int:
-        mapping = {
-            'one': '1',
-            'two': '2',
-            'three': '3',
-            'four': '4',
-            'five': '5',
-            'six': '6',
-            'seven': '7',
-            'eight': '8',
-            'nine': '9'
-        }
-        for key in mapping:
-            inp = inp.replace(key, key + mapping[key] + key)
+        for key in self.NUM_MAP:
+            inp = inp.replace(key, key + self.NUM_MAP[key] + key)
             # accounts for overlapping words:
             #   i.e. 'twone'
             #   -> 'twone1one' (when key = 'one')
