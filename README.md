@@ -1,5 +1,5 @@
 # :christmas_tree::christmas_tree: Advent of Code 2023 :christmas_tree::christmas_tree:
-Solutions in `Python 3` and `Rust`:christmas_tree:
+Solutions in `Python 3` :snake: and `Rust` :crab:
 
 ### Usage
 - `./run [day]` - Executes __python__ solutions
