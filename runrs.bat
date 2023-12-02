@@ -1,3 +1,4 @@
+:: script for running the rust solutions
 @ECHO off
 
 cargo build --release

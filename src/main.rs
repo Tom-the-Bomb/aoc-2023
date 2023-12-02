@@ -18,12 +18,12 @@ fn get_input(day: u8) -> String {
 fn run_day(day: u8) {
     match get_day(day) {
         Ok(sol) => {
-            let text = format!("| 🦀 Day [{day}] Solution - {} |", sol.name());
+            let text = format!(" Day [{day}] Solution - {} ", sol.name());
             let line = format!(
-                "+{}+",
-                "-".repeat(text.chars().count() - 1)
+                "+------+{}+",
+                "-".repeat(text.chars().count())
             );
-            println!("\n{line}\n{text}\n{line}");
+            println!("\n{line}\n| RUST |{text}|\n{line}");
             sol.run(get_input(day));
         },
         Err(e) => println!("{e}"),

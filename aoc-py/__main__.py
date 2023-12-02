@@ -9,9 +9,10 @@ def get_input(day: int) -> str:
 def run_day(day: int) -> None:
     try:
         solution = SOLUTIONS[day - 1]()
-        text = f'| 🐍 Day [{day}] Solution - {solution.NAME} |'
-        line = '+' + '-' * (len(text) - 1) + '+'
-        print(f'\n{line}\n{text}\n{line}')
+        text = f' Day [{day}] Solution - {solution.NAME} '
+        line = '+-----+' + '-' * len(text) + '+'
+        
+        print(f'\n{line}\n| PY3 |{text}|\n{line}')
         solution.run(get_input(day))
     except IndexError:
         print(f'Solution does not exist yet for day {day}')

@@ -1,3 +1,4 @@
+:: script for running the python solutions
 @ECHO off
 
-py -m aoc_py %1
+py -m aoc-py %1
