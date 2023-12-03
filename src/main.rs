@@ -3,7 +3,8 @@ use std::{
     fs::read_to_string,
 };
 use solutions::get_day;
-use solution::Solution;
+use solution::*;
+use error::*;
 
 pub mod solutions;
 pub mod solution;

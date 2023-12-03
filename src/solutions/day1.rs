@@ -1,5 +1,5 @@
 use std::fmt::Display;
-use crate::solution::Solution;
+use crate::Solution;
 
 pub struct Day1;
 
@@ -10,12 +10,10 @@ impl Day1 {
             .map(|line| {
                 let digits = line.chars()
                     .into_iter()
-                    .filter(|c| c.is_digit(10))
-                    .collect::<Vec<char>>();
-                format!("{}{}",
-                    digits.first().unwrap(),
-                    digits.last().unwrap(),
-                ).parse::<u32>().unwrap()
+                    .filter_map(|c| c.to_digit(10))
+                    .collect::<Vec<u32>>();
+                digits.first().unwrap() * 10 +
+                digits.last().unwrap()
             })
             .sum()
     }

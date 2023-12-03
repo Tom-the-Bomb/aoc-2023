@@ -41,10 +41,14 @@ class Day1(Solution):
             # Without appending `key` to either side:
             #   'twone' -> '2ne' -> 2 (wrong)
         return self.part_one(inp)
-    
+
     def run(self, inp: str) -> None:
         print('Part 1: ', p1 := self.part_one(inp))
         print('Part 2: ', p2 := self.part_two(inp))
 
         assert p1 == 53651
         assert p2 == 53894
+
+if __name__ == '__main__':
+    # TODO: a
+    ...
