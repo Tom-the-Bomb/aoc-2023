@@ -3,7 +3,10 @@ Day 1: Trebuchet?!
 
 https://adventofcode.com/2023/day/1
 """
+__all__ = ('Day1',)
+
 from typing import ClassVar
+from .. import run_day
 from ..solution import Solution
 
 class Day1(Solution):
@@ -50,5 +53,4 @@ class Day1(Solution):
         assert p2 == 53894
 
 if __name__ == '__main__':
-    # TODO: a
-    ...
+    run_day(1)

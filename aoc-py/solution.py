@@ -1,3 +1,6 @@
+
+__all__ = ('Solution',)
+
 from typing import ClassVar
 from abc import ABC, abstractmethod
 

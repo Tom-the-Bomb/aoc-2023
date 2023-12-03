@@ -3,9 +3,14 @@ Day 1: Cube Conundrum
 
 https://adventofcode.com/2023/day/2
 """
+__all__ = ('Day2',)
+
 from math import prod
 
-class Day2:
+from .. import run_day
+from ..solution import Solution
+
+class Day2(Solution):
     NAME = 'Cube Conundrum'
 
     def part_one(self, inp: str) -> int:
@@ -48,3 +53,6 @@ class Day2:
 
         assert p1 == 2486
         assert p2 == 87984
+
+if __name__ == '__main__':
+    run_day(2)

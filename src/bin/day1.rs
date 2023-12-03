@@ -56,3 +56,11 @@ impl Solution for Day1 {
 fn main() {
     aoc_2023::run_day(1, Day1);
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test() { main(); }
+}

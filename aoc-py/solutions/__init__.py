@@ -1,6 +1,7 @@
 __all__ = (
     'SOLUTIONS',
     'Day1',
+    'Day2',
 )
 
 from .day1 import Day1
