@@ -1,10 +1,10 @@
 use std::fmt::Display;
-use crate::Solution;
+use aoc_2023::Solution;
 
 pub struct Day1;
 
 impl Day1 {
-    pub fn part_one(&self, inp: impl Display) -> u32 {
+    pub fn part_one<T: Display>(&self, inp: T) -> u32 {
         inp.to_string()
             .lines()
             .map(|line| {
@@ -18,7 +18,7 @@ impl Day1 {
             .sum()
     }
 
-    pub fn part_two(&self, inp: impl Display) -> u32 {
+    pub fn part_two<T: Display>(&self, inp: T) -> u32 {
         let mut inp = inp.to_string();
         let map = [
             ("one", "1"),
@@ -51,4 +51,8 @@ impl Solution for Day1 {
         assert_eq!(p1, 53651);
         assert_eq!(p2, 53894);
     }
+}
+
+fn main() {
+    aoc_2023::run_day(1, Day1);
 }

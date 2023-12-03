@@ -1,33 +1,18 @@
-use std::{
-    env,
-    fs::read_to_string,
-};
-use solutions::get_day;
-use solution::*;
-use error::*;
+use std::{env, process::Command};
 
-pub mod solutions;
-pub mod solution;
-pub mod error;
-
-#[inline]
-fn get_input(day: u8) -> String {
-    read_to_string(format!("./inputs/day{day}.txt"))
-        .expect(format!("Failed to read input for Day {day}").as_str())
-}
-
-fn run_day(day: u8) {
-    match get_day(day) {
-        Ok(sol) => {
-            let text = format!(" Day [{day}] Solution - {} ", sol.name());
-            let line = format!(
-                "+------+{}+",
-                "-".repeat(text.chars().count())
-            );
-            println!("\n{line}\n| RUST |{text}|\n{line}");
-            sol.run(get_input(day));
-        },
-        Err(e) => println!("{e}"),
+fn run_bin_day(day: u8) -> Option<String> {
+    let cmd = Command::new("cargo")
+            .args(["run", "--release", "--bin", &format!("day{day}")])
+            .output()
+            .unwrap();
+    let stdout = String::from_utf8(cmd.stdout)
+        .unwrap();
+    let stderr = String::from_utf8(cmd.stderr)
+        .unwrap();
+    match (stdout.is_empty(), stderr.is_empty()) {
+        (false, true) => Some(stdout),
+        (false, false) => Some(format!("{stdout}{stderr}")),
+        (true, _) => None,
     }
 }
 
@@ -38,11 +23,14 @@ fn main() {
         .map(|x| x.parse::<u8>())
         .and_then(Result::ok)
     {
-        run_day(day);
+        println!("{}",
+            run_bin_day(day)
+                .unwrap_or(format!("Solution does not exist yet for day {day}"))
+        );
     } else {
         let mut day = 1;
-        while let Ok(_) = get_day(day) {
-            run_day(day);
+        while let Some(output) = run_bin_day(day) {
+            println!("{}", output);
             day += 1;
         }
     }

@@ -16,13 +16,13 @@ class Day2:
 
             for play in plays.split(';'):
                 colors = {
-                    (parts := color.split())[1]: int(parts[0])
+                    (parts := color.split(maxsplit=1))[1]: int(parts[0])
                     for color in play.split(',', maxsplit=2)
                 }
                 if (
-                    colors.get('red', 0) > 12 or
-                    colors.get('green', 0) > 13 or
-                    colors.get('blue', 0) > 14
+                    colors.get('red', 0) > 12
+                    or colors.get('green', 0) > 13
+                    or colors.get('blue', 0) > 14
                 ): break
             else:
                 total += game
@@ -35,7 +35,7 @@ class Day2:
 
             mapping = {'red': 0, 'green': 0, 'blue': 0}
             for color in plays.replace(',', ';').split(';'):
-                num, name = color.split()
+                num, name = color.split(maxsplit=1)
                 num = int(num)
                 if num > mapping.get(name, 0):
                     mapping[name] = num
@@ -43,8 +43,8 @@ class Day2:
         return total
 
     def run(self, inp: str) -> None:
-        print(p1 := self.part_one(inp))
-        print(p2 := self.part_two(inp))
+        print('Part 1: ', p1 := self.part_one(inp))
+        print('Part 2: ', p2 := self.part_two(inp))
 
         assert p1 == 2486
         assert p2 == 87984
