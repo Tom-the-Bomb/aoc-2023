@@ -16,6 +16,7 @@ fn run_bin_day(day: u8) -> Option<String> {
     }
 }
 
+#[allow(clippy::option_if_let_else)]
 fn main() {
     if let Some(day) = env::args()
         .collect::<Vec<String>>()
@@ -30,7 +31,7 @@ fn main() {
     } else {
         let mut day = 1;
         while let Some(output) = run_bin_day(day) {
-            println!("{}", output);
+            println!("{output}");
             day += 1;
         }
     }

@@ -2,7 +2,11 @@
 name = "aoc-2023"
 version = "0.1.0"
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+license = "MIT"
+authors = ["Tom-the-Bomb"]
+description = "Rust solutions for the 2023 Advent of Code"
+repository = "https://github.com/Tom-the-Bomb/aoc-2023"
+keywords = ["adventofcode", "aoc"]
+categories = ["Algorithms", "Command line utilities"]
 
 [dependencies]

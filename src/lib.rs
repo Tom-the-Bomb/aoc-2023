@@ -4,13 +4,17 @@ pub use solution::*;
 
 pub mod solution;
 
+/// # Panics
+///
+/// Will panic if failed to read input file for specified day for whatever reason
 #[inline]
+#[must_use]
 pub fn get_input(day: u8) -> String {
     read_to_string(format!("./inputs/day{day}.txt"))
-        .expect(format!("Failed to read input for Day {day}").as_str())
+        .unwrap_or_else(|_| panic!("Failed to read input for Day {day}"))
 }
 
-pub fn run_day<D: Solution>(day: u8, cls: D) {
+pub fn run_day<D: Solution>(day: u8, cls: &D) {
     let text = format!(" Day [{day}] Solution - {} ", cls.name());
     let line = format!(
         "+------+{}+",

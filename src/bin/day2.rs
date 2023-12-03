@@ -1,3 +1,5 @@
+#![allow(clippy::missing_panics_doc)]
+
 use std::fmt::Display;
 use aoc_2023::Solution;
 
@@ -8,10 +10,10 @@ impl Day2 {
         inp.to_string()
             .lines()
             .map(|line| {
-                let (game, plays) = line
+                let (game_id, plays) = line
                     .split_once(':')
                     .unwrap();
-                let game = game
+                let game_id = game_id
                     .trim_start_matches("Game ")
                     .parse::<u32>()
                     .unwrap();
@@ -23,7 +25,7 @@ impl Day2 {
                         let mut blue = 0;
                         let mut green = 0;
 
-                        for color in play.splitn(3, ",") {
+                        for color in play.splitn(3, ',') {
                             let (num, name) = color
                                 .trim()
                                 .split_once(' ')
@@ -40,7 +42,7 @@ impl Day2 {
                         }
                         red <= 12 && green <= 13 && blue <= 14
                     })
-                { game } else { 0 }
+                { game_id } else { 0 }
             })
             .sum()
     }
@@ -56,7 +58,7 @@ impl Day2 {
                 let mut blue = 0;
 
                 for color in plays
-                    .replace(",", ";")
+                    .replace(',', ";")
                     .split(';')
                 {
                     let (num, name) = color
@@ -95,7 +97,7 @@ impl Solution for Day2 {
 }
 
 fn main() {
-    aoc_2023::run_day(2, Day2);
+    aoc_2023::run_day(2, &Day2);
 }
 
 #[cfg(test)]

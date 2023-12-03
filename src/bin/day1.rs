@@ -1,3 +1,5 @@
+#![allow(clippy::missing_panics_doc)]
+
 use std::fmt::Display;
 use aoc_2023::Solution;
 
@@ -9,7 +11,6 @@ impl Day1 {
             .lines()
             .map(|line| {
                 let digits = line.chars()
-                    .into_iter()
                     .filter_map(|c| c.to_digit(10))
                     .collect::<Vec<u32>>();
                 digits.first().unwrap() * 10 +
@@ -54,7 +55,7 @@ impl Solution for Day1 {
 }
 
 fn main() {
-    aoc_2023::run_day(1, Day1);
+    aoc_2023::run_day(1, &Day1);
 }
 
 #[cfg(test)]
