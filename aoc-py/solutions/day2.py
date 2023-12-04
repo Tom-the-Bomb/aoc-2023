@@ -7,7 +7,6 @@ __all__ = ('Day2',)
 
 from math import prod
 
-from .. import run_day
 from ..solution import Solution
 
 class Day2(Solution):
@@ -48,11 +47,8 @@ class Day2(Solution):
         return total
 
     def run(self, inp: str) -> None:
-        print('Part 1: ', p1 := self.part_one(inp))
-        print('Part 2: ', p2 := self.part_two(inp))
+        print('Part 1:', p1 := self.part_one(inp))
+        print('Part 2:', p2 := self.part_two(inp))
 
         assert p1 == 2486
         assert p2 == 87984
-
-if __name__ == '__main__':
-    run_day(2)

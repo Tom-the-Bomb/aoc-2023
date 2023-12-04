@@ -6,7 +6,8 @@ https://adventofcode.com/2023/day/1
 __all__ = ('Day1',)
 
 from typing import ClassVar
-from .. import run_day
+
+from ..utils import run_day
 from ..solution import Solution
 
 class Day1(Solution):
@@ -46,8 +47,8 @@ class Day1(Solution):
         return self.part_one(inp)
 
     def run(self, inp: str) -> None:
-        print('Part 1: ', p1 := self.part_one(inp))
-        print('Part 2: ', p2 := self.part_two(inp))
+        print('Part 1:', p1 := self.part_one(inp))
+        print('Part 2:', p2 := self.part_two(inp))
 
         assert p1 == 53651
         assert p2 == 53894
