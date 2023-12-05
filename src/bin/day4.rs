@@ -7,12 +7,8 @@ use aoc_2023::Solution;
 pub struct Day4;
 
 impl Day4 {
-    /// returns the amount of the numbers that are winning numbers
-    /// 
-    /// # Panics
-    /// 
-    /// If the amount of winning numbers exceeds [`usize::MAX`]
-    fn get_winning_amt<T>(card: T) -> u32
+    /// returns the amount of the numbers that are winning numbers on a card
+    fn get_winning_amt<T>(card: T) -> usize
     where
         T: AsRef<str>,
     {
@@ -26,19 +22,15 @@ impl Day4 {
 
         winning
             .split_whitespace()
-            .map(str::to_string)
-            .collect::<HashSet<String>>()
+            .collect::<HashSet<&str>>()
             .intersection(
                 &mine
                     .split_whitespace()
-                    .map(str::to_string)
-                    .collect::<HashSet<String>>()
+                    .collect::<HashSet<&str>>()
             )
             .count()
-            .try_into()
-            .unwrap()
     }
-    
+
     pub fn part_one<T: Display>(&self, inp: T) -> u32 {
         inp
             .to_string()
@@ -46,7 +38,10 @@ impl Day4 {
             .map(|card| {
                 let amt_win = Self::get_winning_amt(card);
                 if amt_win > 0 {
-                    (2u32).pow(amt_win  - 1)
+                    (2_u32).pow(
+                        u32::try_from(amt_win)
+                            .unwrap() - 1
+                    )
                 } else {
                     0
                 }
@@ -62,10 +57,14 @@ impl Day4 {
             .lines()
             .enumerate()
         {
-            let win_amt = Self::get_winning_amt(card) as usize;
+            let win_amt = Self::get_winning_amt(card);
 
             for card in i + 1..=win_amt + i {
-                copies[card] += copies[i];
+                let n_copies = *copies.get(i)
+                    .unwrap_or(&0);
+                if let Some(copy) = copies.get_mut(card) {
+                    *copy += n_copies;
+                }
             }
         }
         copies

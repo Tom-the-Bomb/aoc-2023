@@ -5,7 +5,7 @@ pub struct Day2;
 
 impl Day2 {
     /// # Panics
-    /// 
+    ///
     /// If failed to parse each line's delimiters
     pub fn part_one<T: Display>(&self, inp: T) -> u32 {
         inp.to_string()
@@ -49,7 +49,7 @@ impl Day2 {
     }
 
     /// # Panics
-    /// 
+    ///
     /// If failed to parse each line's delimiters
     pub fn part_two<T: Display>(&self, inp: T) -> u32 {
         inp.to_string()

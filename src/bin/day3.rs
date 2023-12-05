@@ -54,7 +54,7 @@ impl Day3 {
     }
 
     /// # Panics
-    /// 
+    ///
     /// If a number string in the input somehow is unable to be parsed into [`u32`]
     pub fn part_one<T: Display>(&self, inp: T) -> u32 {
         let arr = inp
@@ -96,7 +96,7 @@ impl Day3 {
     }
 
     /// # Panics
-    /// 
+    ///
     /// if the numbers failed to be parsed into [`u32`]
     pub fn part_two<T: Display>(&self, inp: T) -> u32 {
         let arr = inp
