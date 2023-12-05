@@ -4,15 +4,16 @@ use aoc_2023::Solution;
 pub struct Day3;
 
 impl Day3 {
-    fn symbol_adjacent<F>(
-        &self,
-        arr: &Vec<Vec<char>>,
-        coordinates: &Vec<(usize, usize)>,
+    fn symbol_adjacent<F, A>(
+        arr: &[Vec<char>],
+        coordinates: A,
         condition: F,
     ) -> Vec<(usize, usize)>
     where
         F: Fn(char) -> bool,
+        A: AsRef<[(usize, usize)]>,
     {
+        let coordinates = coordinates.as_ref();
         let ncoords = coordinates.len() - 1;
 
         coordinates
@@ -52,6 +53,9 @@ impl Day3 {
             .collect()
     }
 
+    /// # Panics
+    /// 
+    /// If a number string in the input somehow is unable to be parsed into [`u32`]
     pub fn part_one<T: Display>(&self, inp: T) -> u32 {
         let arr = inp
             .to_string()
@@ -75,8 +79,9 @@ impl Day3 {
                     curr_num.push(*chr);
                 } else {
                     if !curr_indices.is_empty()
-                        && !self.symbol_adjacent(
-                            &arr, &curr_indices, char::is_numeric
+                        && !Self::symbol_adjacent(
+                            &arr, &curr_indices,
+                            |c| !c.is_numeric() && c != '.'
                         ).is_empty()
                     {
                         total += curr_num.parse::<u32>()
@@ -90,6 +95,9 @@ impl Day3 {
         total
     }
 
+    /// # Panics
+    /// 
+    /// if the numbers failed to be parsed into [`u32`]
     pub fn part_two<T: Display>(&self, inp: T) -> u32 {
         let arr = inp
             .to_string()
@@ -97,21 +105,18 @@ impl Day3 {
             .map(|line| line.chars().collect())
             .collect::<Vec<Vec<char>>>();
         let mut total = 0;
-        let ncols = arr.first()
-            .unwrap()
-            .len();
 
-        for (y_, row) in arr
+        for (y, row) in arr
             .iter()
             .enumerate()
         {
-            for (x_, chr) in row
+            for (x, chr) in row
                 .iter()
                 .enumerate()
             {
                 if *chr == '*' {
-                    let nums = self.symbol_adjacent(
-                        &arr, &vec![(y_, x_)],
+                    let nums = Self::symbol_adjacent(
+                        &arr, [(y, x)],
                         char::is_numeric
                     );
                     if !nums.is_empty() {
@@ -119,13 +124,20 @@ impl Day3 {
                         for (y, mut x) in nums {
                             let mut curr_num = String::new();
 
-                            while x > 0 && arr[y][x - 1].is_numeric() {
+                            while arr.get(y)
+                                .and_then(|row| row.get(x - 1)
+                                    .filter(|c| c.is_numeric())
+                                )
+                                .is_some()
+                            {
                                 x -= 1;
                             }
-                            while (0..ncols).contains(&x)
-                                && arr[y][x].is_numeric()
+                            while let Some(chr) = arr.get(y)
+                                .and_then(|row| row.get(x)
+                                    .filter(|c| c.is_numeric())
+                                )
                             {
-                                curr_num.push(arr[y][x]);
+                                curr_num.push(*chr);
                                 x += 1;
                             }
                             num_map.insert((y, x), curr_num);
@@ -159,8 +171,8 @@ impl Solution for Day3 {
         println!("Part 1: {p1}");
         println!("Part 2: {p2}");
 
-        assert_eq!(p1, 532428) ;
-        assert_eq!(p2, 84051670);
+        assert_eq!(p1, 532_428) ;
+        assert_eq!(p2, 84_051_670);
     }
 }
 

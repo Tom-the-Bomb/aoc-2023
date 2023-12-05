@@ -1,11 +1,12 @@
-#![allow(clippy::missing_panics_doc)]
-
 use std::fmt::Display;
 use aoc_2023::Solution;
 
 pub struct Day1;
 
 impl Day1 {
+    /// # Panics
+    /// 
+    /// If no digits exist on a line
     pub fn part_one<T: Display>(&self, inp: T) -> u32 {
         inp.to_string()
             .lines()

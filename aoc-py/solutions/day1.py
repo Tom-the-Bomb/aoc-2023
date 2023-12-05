@@ -7,7 +7,6 @@ __all__ = ('Day1',)
 
 from typing import ClassVar
 
-from ..utils import run_day
 from ..solution import Solution
 
 class Day1(Solution):
@@ -52,6 +51,3 @@ class Day1(Solution):
 
         assert p1 == 53651
         assert p2 == 53894
-
-if __name__ == '__main__':
-    run_day(1)

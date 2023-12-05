@@ -82,7 +82,7 @@ class Day3(Solution):
             for col in range(ncols):
                 if arr[row][col] == '*' and (nums := self._symbol_adjacent(
                     nrows, ncols, arr, [(row, col)],
-                    lambda c: c.isnumeric(),
+                    str.isnumeric,
                 )):
                     num_map = {}
                     for y, x in nums:
