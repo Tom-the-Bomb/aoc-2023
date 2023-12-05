@@ -31,6 +31,9 @@ impl Day4 {
             .count()
     }
 
+    /// # Panics
+    ///
+    /// If the amount of winning numbers exceeds [`u32::MAX`]
     pub fn part_one<T: Display>(&self, inp: T) -> u32 {
         inp
             .to_string()
