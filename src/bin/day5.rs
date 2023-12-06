@@ -1,3 +1,6 @@
+//! Day 5: If You Give A Seed A Fertilizer
+//!
+//! <https://adventofcode.com/2023/day/5>
 #![feature(iter_array_chunks)]
 
 use std::{ops::Range, fmt::Display};
@@ -12,8 +15,8 @@ impl Day5 {
     ///
     /// # Panics
     ///
-    /// If the almanac's mapping data fail to be parsed into [`u32`]
-    fn get_lookup_table<T>(map: T) -> Vec<(Range<u32>, u32)>
+    /// If the almanac's mapping data fail to be parsed into [`i64`]
+    fn get_lookup_table<T>(map: T) -> Vec<(Range<i64>, i64)>
     where
         T: AsRef<str>
     {
@@ -23,7 +26,7 @@ impl Day5 {
             .skip(1)
             .map(|line| {
                 let mut parts = line.split_whitespace()
-                    .filter_map(|part| part.parse::<u32>().ok());
+                    .filter_map(|part| part.parse::<i64>().ok());
                 let dest_start = parts
                     .next()
                     .unwrap();
@@ -41,7 +44,7 @@ impl Day5 {
     /// # Panics
     ///
     /// If somehow there are no lines in the data after the first
-    pub fn part_one<T: Display>(&self, inp: T) -> u32 {
+    pub fn part_one<T: Display>(&self, inp: T) -> i64 {
         let inp = inp
             .to_string()
             .replace('\r', "");
@@ -52,8 +55,8 @@ impl Day5 {
             .map(|string| string
                 .trim_start_matches("seeds:")
                 .split_whitespace()
-                .filter_map(|item| item.parse::<u32>().ok())
-                .collect::<Vec<u32>>()
+                .filter_map(|item| item.parse::<i64>().ok())
+                .collect::<Vec<i64>>()
             )
             .unwrap();
         for map in maps {
@@ -77,7 +80,7 @@ impl Day5 {
     /// # Panics
     ///
     /// If somehow there are no lines in the data after the first
-    pub fn part_two<T: Display>(&self, inp: T) -> u32 {
+    pub fn part_two<T: Display>(&self, inp: T) -> i64 {
         let inp = inp
             .to_string()
             .replace('\r', "");
@@ -89,9 +92,9 @@ impl Day5 {
                 string
                     .trim_start_matches("seeds:")
                     .split_whitespace()
-                    .filter_map(|item| item.parse::<u32>().ok())
+                    .filter_map(|item| item.parse::<i64>().ok())
                     .array_chunks::<2>()
-                    .collect::<Vec<[u32; 2]>>()
+                    .collect::<Vec<[i64; 2]>>()
             )
             .unwrap();
 

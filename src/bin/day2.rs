@@ -1,3 +1,6 @@
+//! Day 2: Cube Conundrum
+//!
+//! <https://adventofcode.com/2023/day/2>
 use std::fmt::Display;
 use aoc_2023::Solution;
 

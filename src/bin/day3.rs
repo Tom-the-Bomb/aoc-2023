@@ -1,4 +1,10 @@
-use std::{collections::HashMap, fmt::Display};
+//! Day 3: Gear Ratios
+//!
+//! <https://adventofcode.com/2023/day/3>
+use std::{
+    collections::HashMap,
+    fmt::Display,
+};
 use aoc_2023::Solution;
 
 pub struct Day3;
@@ -21,20 +27,20 @@ impl Day3 {
             .enumerate()
             .flat_map(|(i, (row, col))| {
                 let mut indices = vec![
-                    (*row - 1, *col),
+                    (row.wrapping_sub(1), *col),
                     (*row + 1, *col),
                 ];
                 if i == 0 {
                     indices.extend([
-                        (*row, *col - 1),
-                        (*row - 1, *col - 1),
-                        (*row + 1, *col - 1),
+                        (*row, col.wrapping_sub(1)),
+                        (row.wrapping_sub(1), col.wrapping_sub(1)),
+                        (*row + 1, col.wrapping_sub(1)),
                     ]);
                 }
                 if i == ncoords {
                     indices.extend([
                         (*row, *col + 1),
-                        (*row - 1, *col + 1),
+                        (row.wrapping_sub(1), *col + 1),
                         (*row + 1, *col + 1),
                     ]);
                 }
@@ -125,7 +131,7 @@ impl Day3 {
                             let mut curr_num = String::new();
 
                             while arr.get(y)
-                                .and_then(|row| row.get(x - 1)
+                                .and_then(|row| row.get(x.wrapping_sub(1))
                                     .filter(|c| c.is_numeric())
                                 )
                                 .is_some()

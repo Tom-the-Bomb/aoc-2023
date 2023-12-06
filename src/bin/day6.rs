@@ -1,20 +1,30 @@
+//! Day 6: Wait For It
+//! 
+//! <https://adventofcode.com/2023/day/6>
 use std::fmt::Display;
 use aoc_2023::Solution;
 
 pub struct Day6;
 
 impl Day6 {
+    /// Brute forces getting the amount of combinations
     #[inline]
     fn get_num_beats_bf((time, to_beat): (usize, usize)) -> usize {
         (1..time)
             .filter(|hold_time| hold_time * (time - hold_time) > to_beat)
-            .sum()
+            .count()
     }
 
+    #[allow(
+        clippy::cast_sign_loss,
+        clippy::cast_precision_loss,
+        clippy::cast_possible_truncation,
+    )]
     fn get_num_beats((time, to_beat): (usize, usize)) -> usize {
         let time = time as f64;
         let to_beat = to_beat as f64;
-        let discriminant = time.powf(2.0) - 4.0 * to_beat;
+        let discriminant = 4.0_f64
+            .mul_add(-to_beat, time.powi(2));
 
         if discriminant < 0.0 { 0 }
         else {
@@ -23,7 +33,7 @@ impl Day6 {
             (root2.trunc() - root1.ceil() + 1.0) as usize
         }
     }
-    
+
     fn part_one_helper<T, F>(inp: T, map_func: F) -> usize
     where
         T: Display,
@@ -97,17 +107,20 @@ impl Day6 {
 }
 
 impl Solution for Day6 {
-    const NAME: &'static str = "Trebuchet!?";
+    const NAME: &'static str = "Wait For It";
 
     fn run(&self, inp: String) {
         let p1 = self.part_one(&inp);
         let p2 = self.part_two(&inp);
 
+        assert_eq!(self.part_one_bf(&inp), p1);
+        assert_eq!(self.part_two_bf(&inp), p2);
+
         println!("Part 1: {p1}");
         println!("Part 2: {p2}");
 
-        assert_eq!(p1, 1731600);
-        assert_eq!(p2, 40087680);
+        assert_eq!(p1, 1_731_600);
+        assert_eq!(p2, 40_087_680);
     }
 }
 

@@ -1,4 +1,7 @@
-use std::fs::read_to_string;
+use std::{
+    time::Instant,
+    fs::read_to_string
+};
 
 pub use solution::*;
 
@@ -21,5 +24,12 @@ pub fn run_day<D: Solution>(day: u8, cls: &D) {
         "-".repeat(text.chars().count())
     );
     println!("\n{line}\n| RUST |{text}|\n{line}");
+
+    let instant = Instant::now();
     cls.run(get_input(day));
+    let text = format!("Execution time {:?}", instant.elapsed());
+    println!(
+        "{text}\n{}",
+        "=".repeat(text.chars().count())
+    );
 }

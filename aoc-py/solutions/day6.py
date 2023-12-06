@@ -5,7 +5,7 @@ https://adventofcode.com/2023/day/6
 """
 __all__ = ('Day6',)
 
-from math import prod, sqrt, ceil, floor
+from math import prod, sqrt, ceil
 
 from ..solution import Solution
 
@@ -31,7 +31,7 @@ class Day6(Solution):
             1 for hold_time in range(1, time)
             if hold_time * (time - hold_time) > to_beat
         )
-    
+
     def _get_num_beats(self, time: int, to_beat: int) -> int:
         """Using Quadratics
     
@@ -67,7 +67,7 @@ class Day6(Solution):
         root1 = (time - sqrt(discriminant)) / 2
         root2 = (time + sqrt(discriminant)) / 2
         return int(root2) - ceil(root1) + 1
-    
+
     def part_one(self, inp: str) -> int:
         time, distance = inp.splitlines()
         _, time = time.split(':', maxsplit=1)
@@ -80,7 +80,7 @@ class Day6(Solution):
             self._get_num_beats(time, to_beat)
             for time, to_beat in zip(times, distances)
         )
-    
+
     def part_two(self, inp: str) -> int:
         time, distance = inp.replace(' ', '').splitlines()
         _, time = time.split(':', maxsplit=1)
@@ -90,7 +90,7 @@ class Day6(Solution):
             int(time),
             int(distance),
         )
-        
+
     def part_one_bf(self, inp: str) -> int:
         """Brute force solution for part 1"""
 
@@ -117,7 +117,7 @@ class Day6(Solution):
             int(time),
             int(distance),
         )
-    
+
     def run(self, inp: str) -> None:
         print('Part 1:', p1 := self.part_one(inp))
         print('Part 2:', p2 := self.part_two(inp))
