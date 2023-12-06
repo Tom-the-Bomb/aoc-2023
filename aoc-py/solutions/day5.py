@@ -5,8 +5,6 @@ https://adventofcode.com/2023/day/5
 """
 __all__ = ('Day5',)
 
-from itertools import chain
-
 from ..solution import Solution
 
 class Day5(Solution):
