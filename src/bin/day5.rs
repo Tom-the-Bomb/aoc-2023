@@ -6,6 +6,13 @@ use aoc_2023::Solution;
 pub struct Day5;
 
 impl Day5 {
+    /// Returns a list of pairs of:
+    /// - the source range
+    /// - the offset between the source and destination values
+    ///
+    /// # Panics
+    ///
+    /// If the almanac's mapping data fail to be parsed into [`u32`]
     fn get_lookup_table<T>(map: T) -> Vec<(Range<u32>, u32)>
     where
         T: AsRef<str>
@@ -31,6 +38,9 @@ impl Day5 {
             .collect::<Vec<_>>()
     }
 
+    /// # Panics
+    ///
+    /// If somehow there are no lines in the data after the first
     pub fn part_one<T: Display>(&self, inp: T) -> u32 {
         let inp = inp
             .to_string()
@@ -49,7 +59,7 @@ impl Day5 {
         for map in maps {
             let table = Self::get_lookup_table(map);
 
-            for item in curr_data.iter_mut() {
+            for item in &mut curr_data {
                 *item = table.iter()
                     .find_map(|(map_range, diff)| map_range
                         .contains(item)
@@ -64,6 +74,9 @@ impl Day5 {
             .unwrap()
     }
 
+    /// # Panics
+    ///
+    /// If somehow there are no lines in the data after the first
     pub fn part_two<T: Display>(&self, inp: T) -> u32 {
         let inp = inp
             .to_string()
@@ -81,13 +94,14 @@ impl Day5 {
                     .collect::<Vec<[u32; 2]>>()
             )
             .unwrap();
+
         for map in maps {
             let table = Self::get_lookup_table(map);
-
             let mut temp = Vec::new();
+
             'a: while let Some([a, mut b]) = curr_data.pop() {
                 b += a;
-                for (map_range, diff) in table.iter() {
+                for (map_range, diff) in &table {
                     let isect_a = a.max(map_range.start);
                     let isect_b = b.min(map_range.end);
 
@@ -101,7 +115,7 @@ impl Day5 {
                         continue 'a;
                     }
                 }
-                temp.push([a, b]);
+                temp.push([a, b - a]);
             }
             curr_data = temp;
         }
