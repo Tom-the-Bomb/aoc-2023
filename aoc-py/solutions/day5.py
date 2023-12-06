@@ -21,7 +21,7 @@ class Day5(Solution):
         table = []
         for line in mapping.splitlines()[1:]:
             dest_start, src_start, range_ = [int(x) for x in line.split()]
-            
+
             table.append((
                 range(src_start, src_start + range_),
                 dest_start - src_start,
@@ -39,7 +39,7 @@ class Day5(Solution):
                     item + diff for map_range, diff in table
                     if item in map_range
                 ] or [item])[0]
-                
+
         return min(curr_data)
 
     def part_two(self, inp: str) -> int:
