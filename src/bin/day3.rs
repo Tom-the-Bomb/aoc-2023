@@ -162,7 +162,7 @@ impl Day3 {
 }
 
 impl Solution for Day3 {
-    const NAME: &'static str = "Gear Rati8os";
+    const NAME: &'static str = "Gear Ratios";
 
     fn run(&self, inp: String) {
         let p1 = self.part_one(&inp);
