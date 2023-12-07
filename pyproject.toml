@@ -1,2 +1,24 @@
+[project]
+name = "aoc-py"
+version = "0.1.0"
+authors = [
+    {name = "Tom the Bomb"}
+]
+requires-python = ">=3.9"
+description = "Python 3 Advent of Code 2023 Solutions"
+license = {file = "LICENSE"}
+readme = "README.md"
+keywords = ["aoc", "python", "cli"]
+classifiers = [
+    "Environment :: Console",
+    "Natural Language :: English",
+    "Programming Language :: Python",
+    "License :: OSI Approved :: MIT License",
+]
+
+[project.urls]
+Repository = "https://github.com/Tom-the-Bomb/aoc-2023"
+"Bug Tracker" = "https://github.com/Tom-the-Bomb/aoc-2023/issues"
+
 [tool.pyright]
 typeCheckingMode = "basic"
