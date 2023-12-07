@@ -34,7 +34,7 @@ class Day6(Solution):
 
     def _get_num_beats(self, time: int, to_beat: int) -> int:
         """Using Quadratics
-    
+
         let d(x) be the distance travelled
             where x = the time the button is held
         d(x) = x * (t - x)
