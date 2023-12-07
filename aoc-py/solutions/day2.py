@@ -5,12 +5,13 @@ https://adventofcode.com/2023/day/2
 """
 __all__ = ('Day2',)
 
+from typing import ClassVar
 from math import prod
 
 from ..solution import Solution
 
 class Day2(Solution):
-    NAME = 'Cube Conundrum'
+    NAME: ClassVar[str] = 'Cube Conundrum'
 
     def part_one(self, inp: str) -> int:
         total = 0

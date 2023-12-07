@@ -5,10 +5,12 @@ https://adventofcode.com/2023/day/4
 """
 __all__ = ('Day4',)
 
+from typing import ClassVar
+
 from ..solution import Solution
 
 class Day4(Solution):
-    NAME = 'Scratchcards'
+    NAME: ClassVar[str] = 'Scratchcards'
 
     def _get_winning_amt(self, card: str) -> int:
         _, nums = card.split(':', maxsplit=1)

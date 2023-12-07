@@ -5,12 +5,13 @@ https://adventofcode.com/2023/day/6
 """
 __all__ = ('Day6',)
 
+from typing import ClassVar
 from math import prod, sqrt, ceil
 
 from ..solution import Solution
 
 class Day6(Solution):
-    NAME = 'Wait For It'
+    NAME: ClassVar[str] = 'Wait For It'
 
     def _get_num_beats_bf(self, time: int, to_beat: int) -> int:
         """Brute forces the amount of ways in a race of `time` milliseconds

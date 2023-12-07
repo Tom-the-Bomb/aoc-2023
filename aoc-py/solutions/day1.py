@@ -10,7 +10,7 @@ from typing import ClassVar
 from ..solution import Solution
 
 class Day1(Solution):
-    NAME = 'Trebuchet?!'
+    NAME: ClassVar[str] = 'Trebuchet?!'
     NUM_MAP: ClassVar[dict[str, str]] = {
         'one': '1',
         'two': '2',

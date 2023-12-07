@@ -5,12 +5,12 @@ https://adventofcode.com/2023/day/3
 """
 __all__ = ('Day3',)
 
-from typing import Callable
+from typing import Callable, ClassVar
 
 from ..solution import Solution
 
 class Day3(Solution):
-    NAME = 'Gear Ratios'
+    NAME: ClassVar[str] = 'Gear Ratios'
 
     def _symbol_adjacent(
         self,

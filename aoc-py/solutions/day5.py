@@ -5,10 +5,12 @@ https://adventofcode.com/2023/day/5
 """
 __all__ = ('Day5',)
 
+from typing import ClassVar
+
 from ..solution import Solution
 
 class Day5(Solution):
-    NAME = 'If You Give A Seed A Fertilizer'
+    NAME: ClassVar[str] = 'If You Give A Seed A Fertilizer'
 
     def _get_lookup_table(self, mapping: str) -> list[tuple[range, int]]:
         """Returns a list of pairs of:
