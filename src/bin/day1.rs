@@ -16,8 +16,12 @@ impl Day1 {
             .map(|line| {
                 let mut digits = line.chars()
                     .filter_map(|c| c.to_digit(10));
-                digits.next().unwrap() * 10 +
-                digits.last().unwrap()
+                let first = digits
+                    .next()
+                    .unwrap();
+                first * 10 + digits
+                    .last()
+                    .unwrap_or(first)
             })
             .sum()
     }
