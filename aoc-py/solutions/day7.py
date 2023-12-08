@@ -36,7 +36,7 @@ class Day7(Solution):
             points,
             *map(lambda card: -1 if card[0] in jokers else self.CARDS.index(card[1]), enumerate(hand)),
         )
-    
+
     def _get_hand_strength_joker(self, hand: str) -> tuple[int, ...]:
         if hand == 'JJJJJ':
             return self._get_hand_strength('AAAAA', jokers=set(range(5)))
@@ -61,7 +61,7 @@ class Day7(Solution):
             key=lambda hand: self._get_hand_strength(hand[0])
         )
         return sum(i * bid for i, (_, bid) in enumerate(hands, 1))
-    
+
     def part_two(self, inp: str) -> int:
         hands = sorted(
             [
@@ -71,7 +71,7 @@ class Day7(Solution):
             key=lambda hand: self._get_hand_strength_joker(hand[0])
         )
         return sum(i * bid for i, (_, bid) in enumerate(hands, 1))
-        
+
     def run(self, inp: str) -> None:
         print('Part 1:', p1 := self.part_one(inp))
         print('Part 2:', p2 := self.part_two(inp))
