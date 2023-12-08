@@ -14,10 +14,9 @@ impl Day1 {
         inp.to_string()
             .lines()
             .map(|line| {
-                let digits = line.chars()
-                    .filter_map(|c| c.to_digit(10))
-                    .collect::<Vec<u32>>();
-                digits.first().unwrap() * 10 +
+                let mut digits = line.chars()
+                    .filter_map(|c| c.to_digit(10));
+                digits.next().unwrap() * 10 +
                 digits.last().unwrap()
             })
             .sum()

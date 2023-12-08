@@ -15,9 +15,9 @@ class Day7(Solution):
 
     def _get_hand_strength(self, hand: str, jokers: Optional[set[int]] = None) -> tuple[int, ...]:
         jokers = jokers or set()
-        counter = {card: hand.count(card) for card in hand}
-        
-        match (max(counter.values()), len(counter)):
+        counter = [hand.count(card) for card in set(hand)]
+
+        match (max(counter), len(counter)):
             case 5, _: # 5 of a kind
                 points = 6
             case 4, _: # 4 of a kind
