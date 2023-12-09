@@ -2,7 +2,7 @@
 
 //! Day 9: Mirage Maintenance
 //!
-//! <https://adventofcode.com/2023/day/7>
+//! <https://adventofcode.com/2023/day/9>
 use std::fmt::Display;
 use aoc_2023::Solution;
 
