@@ -9,17 +9,17 @@ use aoc_2023::Solution;
 pub struct Day9;
 
 impl Day9 {
-    fn get_differences(sequence: Vec<i32>) -> Vec<Vec<i32>> {
-        let mut differences = vec![sequence];
+    fn get_diffs(sequence: Vec<i32>) -> Vec<Vec<i32>> {
+        let mut diffs = vec![sequence];
 
-        while differences
+        while diffs
             .first()
             .unwrap()
             .iter()
             .sum::<i32>() != 0
         {
-            differences.insert(0,
-                differences
+            diffs.insert(0,
+                diffs
                     .first()
                     .unwrap()
                     .iter()
@@ -27,47 +27,45 @@ impl Day9 {
                     .collect::<Vec<i32>>()
             );
         }
-        differences
+        diffs
     }
 
     /// # Panics
     ///
-    /// If sequences or differences are somehow empty
+    /// If sequences or diffs are somehow empty
     pub fn part_one<T: Display>(&self, inp: T) -> i32 {
         inp
             .to_string()
             .lines()
             .map(|sequence| {
-                let mut differences = Self::get_differences(
+                let mut diffs = Self::get_diffs(
                     sequence
                         .split_whitespace()
                         .filter_map(|t| t.parse::<i32>().ok())
                         .collect::<Vec<i32>>()
                 );
-                for (i, difference) in differences
+                for (i, diff) in diffs
                     .clone()
                     .into_iter()
                     .enumerate()
                 {
-                    let new_term = difference
+                    let new_term = diff
                         .last()
-                        .map(|d| d
-                        + if i == 0 { 0 }
-                        else {
-                            *differences
-                                .get(i - 1)
-                                .and_then(|difference| difference.last())
-                                .unwrap()
-                        })
+                        .and_then(|previous_term|
+                            if i == 0 { Some(&0) }
+                            else {
+                                diffs
+                                    .get(i - 1)
+                                    .and_then(|previous_diff| previous_diff.last())
+                            }
+                            .map(|new_diff| previous_term + new_diff)
+                        )
                         .unwrap();
-                    differences
-                        .get_mut(i)
-                        .unwrap()
-                        .push(new_term);
+                    diffs[i].push(new_term);
                 }
-                *differences
+                *diffs
                     .last()
-                    .and_then(|difference| difference.last())
+                    .and_then(|sequence| sequence.last())
                     .unwrap()
             })
             .sum()
@@ -75,42 +73,40 @@ impl Day9 {
 
     /// # Panics
     ///
-    /// If sequences or differences are somehow empty
+    /// If sequences or diffs are somehow empty
     pub fn part_two<T: Display>(&self, inp: T) -> i32 {
         inp
             .to_string()
             .lines()
             .map(|sequence| {
-                let mut differences = Self::get_differences(
+                let mut diffs = Self::get_diffs(
                     sequence
                         .split_whitespace()
                         .filter_map(|t| t.parse::<i32>().ok())
                         .collect::<Vec<i32>>()
                 );
-                for (i, difference) in differences
+                for (i, diff) in diffs
                     .clone()
                     .into_iter()
                     .enumerate()
                 {
-                    let new_term = difference
+                    let new_term = diff
                         .first()
-                        .map(|d| d
-                        - if i == 0 { 0 }
-                        else {
-                            *differences
-                                .get(i - 1)
-                                .and_then(|difference| difference.first())
-                                .unwrap()
-                        })
+                        .and_then(|previous_term|
+                            if i == 0 { Some(&0) }
+                            else {
+                                diffs
+                                    .get(i - 1)
+                                    .and_then(|previous_diff| previous_diff.first())
+                            }
+                            .map(|new_diff| previous_term - new_diff)
+                        )
                         .unwrap();
-                    differences
-                        .get_mut(i)
-                        .unwrap()
-                        .insert(0, new_term);
+                    diffs[i].insert(0, new_term);
                 }
-                *differences
+                *diffs
                     .last()
-                    .and_then(|difference| difference.first())
+                    .and_then(|diff| diff.first())
                     .unwrap()
             })
             .sum()
