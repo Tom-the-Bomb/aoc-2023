@@ -7,30 +7,48 @@ use std::{
 };
 use aoc_2023::Solution;
 
-pub struct Day7;
+pub struct Day8;
 
-type Map<'a> = HashMap<&'a str, (&'a str, &'a str)>;
+type Map = HashMap<String, (String, String)>;
 
-impl Day7 {
-    fn parse<'a, T: Display>(inp: T)
-        -> (&'a str, Map<'a>)
+impl Day8 {
+    fn gcd(a: u64, b: u64) -> u64 {
+        if b == 0 { a } else { Self::gcd(b, a % b) }
+    }
+
+    fn lcm<I>(nums: I) -> u64
+    where
+        I: Iterator<Item = u64>,
     {
-        let inp = inp.to_string();
+        nums.fold(
+            1,
+            |num, ans| num * ans / Self::gcd(num, ans),
+        )
+    }
+
+    fn parse<T: Display>(inp: T)
+        -> (String, Map)
+    {
+        let inp = inp
+            .to_string()
+            .replace(|c: char| c.is_whitespace() && c != '\n', "");
         let (instructions, nodes) = inp
-            .replace(|c: char| c.is_whitespace() && c != '\n', "")
             .split_once("\n\n")
             .unwrap();
         (
-            instructions,
+            instructions
+                .to_string(),
             nodes
                 .lines()
                 .map(|line| {
                     let (key, children) = line
                         .split_once('=')
-                        .unwrap().clone()
+                        .map(|(k, v)| (k.to_string(), v.to_string()))
+                        .unwrap();
                     (key, children
                         .trim_matches(|c| c == '(' || c == ')')
                         .split_once(',')
+                        .map(|(k, v)| (k.to_string(), v.to_string()))
                         .unwrap()
                     )
                 })
@@ -46,16 +64,16 @@ impl Day7 {
         end_condition: F
     ) -> u64
     where
-        S: AsRef<str>,
-        F: Fn(&str) -> bool,
-    {   
-        let mut left = left
-            .as_ref();
-        let mut right = right
-            .as_ref();
+        S: Display,
+        F: Fn(&String) -> bool,
+    {
+        let mut left = &left
+            .to_string();
+        let mut right = &right
+            .to_string();
         let mut count = 0;
         for instruction in instructions
-            .as_ref()
+            .to_string()
             .chars()
             .cycle()
         {
@@ -66,29 +84,33 @@ impl Day7 {
             };
             if end_condition(key) {
                 break;
-            } else {
-                (left, right) = *nodes.get(key)
-                    .unwrap();
             }
+            let values = nodes.get(key)
+                .unwrap();
+            left = &values.0;
+            right = &values.1;
         }
         count
     }
 
+    /// # Panics
+    ///
+    /// Panics if the AAA node does not exist for some reason
     pub fn part_one<T: Display>(&self, inp: T) -> u64 {
         let (instructions, nodes) =
             Self::parse(inp);
         let (left, right) = nodes.get("AAA")
             .unwrap();
         Self::count_instructions(
-            instructions, left, right, &nodes, |s| s == "ZZZ"
+            &instructions, left, right, &nodes, |s| s == "ZZZ"
         )
     }
 
     pub fn part_two<T: Display>(&self, inp: T) -> u64 {
         let (instructions, nodes) =
             Self::parse(inp);
-        
-        nodes
+
+        Self::lcm(nodes
             .iter()
             .filter_map(|(key, value)|
                 key
@@ -96,15 +118,15 @@ impl Day7 {
                     .then_some(value)
                     .map(|(left, right)| {
                         Self::count_instructions(
-                            instructions, left, right, &nodes, |s| s.ends_with('Z')
+                            &instructions, left, right, &nodes, |s| s.ends_with('Z')
                         )
                     })
             )
-            .sum()
+        )
     }
 }
 
-impl Solution for Day7 {
+impl Solution for Day8 {
     const NAME: &'static str = "Camel Cards";
 
     fn run(&self, inp: String) {
@@ -114,13 +136,13 @@ impl Solution for Day7 {
         println!("Part 1: {p1}");
         println!("Part 2: {p2}");
 
-        assert_eq!(p1, 253_313_241);
-        assert_eq!(p2, 253_362_743);
+        assert_eq!(p1, 18727);
+        assert_eq!(p2, 18_024_643_846_273);
     }
 }
 
 fn main() {
-    aoc_2023::run_day(7, &Day7);
+    aoc_2023::run_day(8, &Day8);
 }
 
 #[cfg(test)]

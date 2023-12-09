@@ -22,7 +22,7 @@ class Day8(Solution):
             key,
             tuple(children.strip('()').split(',')),
         )
-    
+
     def part_one(self, inp: str) -> int:
         instructions, nodes = inp.split('\n\n')
         nodes = dict(map(self._parse_node, nodes.splitlines()))
