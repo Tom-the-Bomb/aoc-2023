@@ -1,6 +1,6 @@
-//! Day 7: Camel Cards
+//! Day 8: Haunted Wasteland
 //!
-//! <https://adventofcode.com/2023/day/7>
+//! <https://adventofcode.com/2023/day/8>
 use std::{
     collections::HashMap,
     fmt::Display,
@@ -127,7 +127,7 @@ impl Day8 {
 }
 
 impl Solution for Day8 {
-    const NAME: &'static str = "Camel Cards";
+    const NAME: &'static str = "Haunted Wasteland";
 
     fn run(&self, inp: String) {
         let p1 = self.part_one(&inp);

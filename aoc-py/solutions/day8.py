@@ -41,7 +41,8 @@ class Day8(Solution):
         nodes = dict(map(self._parse_node, nodes.splitlines()))
 
         a_nodes = [
-            value for key, value in nodes.items() if key.endswith('A')
+            value for key, value in nodes.items()
+            if key.endswith('A')
         ]
         counts = []
         for left, right in a_nodes:
