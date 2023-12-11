@@ -10,3 +10,4 @@ keywords = ["adventofcode", "aoc"]
 categories = ["Algorithms", "Command line utilities"]
 
 [dependencies]
+lazy_static = "1.4"
