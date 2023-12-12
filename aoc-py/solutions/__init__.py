@@ -11,6 +11,7 @@ __all__ = (
     'Day9',
     'Day10',
     'Day11',
+    'Day12',
 )
 
 from .day1 import Day1
@@ -24,13 +25,14 @@ from .day8 import Day8
 from .day9 import Day9
 from .day10 import Day10
 from .day11 import Day11
+from .day12 import Day12
 
 from ..solution import Solution
 
 SOLUTIONS: tuple[type[Solution], ...] = (
     Day1, Day2, Day3, Day4, Day5,
     Day6, Day7, Day8, Day9, Day10,
-    Day11,
+    Day11, Day12,
 )
 
 del Solution

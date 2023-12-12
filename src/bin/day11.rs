@@ -8,6 +8,29 @@ use itertools::Itertools;
 pub struct Day11;
 
 impl Day11 {
+    /// Brute force method
+    /// that expands the universe
+    /// by +1 row for each empty row and +1 column for each empty colun
+    fn expand_one(mut universe: Vec<Vec<char>>) -> Vec<Vec<char>> {
+        for _ in 0..2 {
+            let mut new_vec = Vec::with_capacity(universe.len());
+            for row in universe {
+                if !row.contains(&'#') {
+                    new_vec.push(row.clone());
+                }
+                new_vec.push(row);
+            }
+            // matrix transposal
+            universe = (0..new_vec[0].len())
+                .map(|i| (0..new_vec.len())
+                    .map(|j| new_vec[j][i])
+                    .collect::<Vec<char>>()
+                )
+                .collect::<Vec<Vec<char>>>();
+        }
+        universe
+    }
+
     fn get_galaxies(universe: &[Vec<char>]) -> Vec<(usize, usize)> {
         universe
             .iter()
@@ -77,6 +100,21 @@ impl Day11 {
             .sum()
     }
 
+    /// Brute force solution for Part 1
+    /// Uses the strategy of actually expanding the universe's matrix
+    pub fn part_one_bf<T: Display>(&self, inp: T) -> usize {
+        let universe = Self::expand_one(
+            Self::get_universe(inp)
+        );
+        Self::get_galaxies(&universe)
+            .into_iter()
+            .tuple_combinations()
+            .map(|((i1, j1), (i2, j2))|
+                i2.abs_diff(i1) + j2.abs_diff(j1)
+            )
+            .sum()
+    }
+
     pub fn part_one<T: Display>(&self, inp: T) -> u64 {
         Self::get_total_distances(inp, 2)
     }
@@ -92,6 +130,8 @@ impl Solution for Day11 {
     fn run(&self, inp: String) {
         let p1 = self.part_one(&inp);
         let p2 = self.part_two(&inp);
+
+        assert_eq!(p1, self.part_one_bf(&inp) as u64);
 
         println!("Part 1: {p1}");
         println!("Part 2: {p2}");
