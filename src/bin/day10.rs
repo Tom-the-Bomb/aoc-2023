@@ -19,6 +19,17 @@ static GO_DOWN_PIPES: [char; 3] =
 pub struct Day10;
 
 impl Day10 {
+    fn get_grid<T: Display>(inp: T) -> Vec<Vec<char>> {
+        inp
+            .to_string()
+            .lines()
+            .map(|row| row
+                .chars()
+                .collect::<Vec<char>>()
+            )
+            .collect::<Vec<Vec<char>>>()
+    }
+
     fn get_starting_pos(grid: &Vec<Vec<char>>) -> (usize, usize) {
         for (i, row) in grid
             .iter()
@@ -34,14 +45,9 @@ impl Day10 {
         panic!("No 'S' character found in grid")
     }
 
-    fn get_loop(grid: Vec<Vec<char>>) -> HashSet<(usize, usize)> {
+    fn get_loop(grid: &Vec<Vec<char>>) -> HashSet<(usize, usize)> {
         let starting_coords = Self::get_starting_pos(&grid);
 
-        let n_rows = grid.len();
-        let n_cols = grid
-            .first()
-            .unwrap()
-            .len();
         let mut nodes = HashSet::from([starting_coords]);
         let mut to_check = VecDeque::from([starting_coords]);
 
@@ -49,7 +55,7 @@ impl Day10 {
             let curr_tile = grid[curr_row][curr_col];
 
             let neighbors = [
-                (curr_row - 1, curr_col,
+                (curr_row.wrapping_sub(1), curr_col,
                     GO_UP_PIPES,
                     GO_DOWN_PIPES,
                 ),
@@ -57,7 +63,7 @@ impl Day10 {
                     GO_DOWN_PIPES,
                     GO_UP_PIPES,
                 ),
-                (curr_row, curr_col - 1,
+                (curr_row, curr_col.wrapping_sub(1),
                     GO_LEFT_PIPES,
                     GO_RIGHT_PIPES,
                 ),
@@ -67,18 +73,62 @@ impl Day10 {
                 ),
             ];
             for (next_row, next_col, pipes, co_pipes) in neighbors {
-                todo!()
+                if let Some(next_tile) = grid
+                    .get(next_row)
+                    .and_then(|row| row.get(next_col))
+                {
+                    let next_coord = (next_row, next_col);
+                    if (pipes.contains(&curr_tile)
+                        || curr_tile == 'S')
+                        && co_pipes.contains(&next_tile)
+                        && !nodes.contains(&next_coord)
+                    {
+                        nodes.insert(next_coord);
+                        to_check.push_back(next_coord);
+                    }
+                }
+                    
             }
         }
         nodes
     }
 
-    pub fn part_one<T: Display>(&self, inp: T) -> u32 {
-        todo!()
+    pub fn part_one<T: Display>(&self, inp: T) -> usize {
+        Self::get_loop(
+            &Self::get_grid(inp)
+        )
+        .len() / 2
     }
 
     pub fn part_two<T: Display>(&self, inp: T) -> u32 {
-        todo!()
+        let grid = Self::get_grid(inp);
+        let nodes = Self::get_loop(&grid);
+        
+        let mut area = 0;
+        for (i, row) in grid
+            .into_iter()
+            .enumerate()
+        {
+            let mut downwards = 0;
+            let mut upwards = 0;
+            
+            for (j, tile) in row
+                .into_iter()
+                .enumerate()
+            {
+                if nodes.contains(&(i, j)) {
+                    if GO_DOWN_PIPES.contains(&tile) {
+                        downwards += 1;
+                    }
+                    if GO_UP_PIPES.contains(&tile) {
+                        upwards += 1;
+                    }
+                } else if downwards % 2 == 1 && upwards % 2 == 1 {
+                    area += 1;
+                }
+            }
+        }
+        area
     }
 }
 

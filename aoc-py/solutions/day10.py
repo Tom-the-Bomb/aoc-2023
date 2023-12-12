@@ -6,7 +6,6 @@ https://adventofcode.com/2023/day/10
 __all__ = ('Day10',)
 
 from typing import ClassVar
-from itertools import pairwise
 
 from ..solution import Solution
 
@@ -84,7 +83,7 @@ class Day10(Solution):
         return loop
 
     def part_one(self, inp: str) -> int:
-        grid = grid = inp.splitlines()
+        grid = inp.splitlines()
         loop = self._get_loop(grid)
         # the halfway mark of the loop is the furthest point from the start
         return len(loop) // 2
@@ -94,32 +93,25 @@ class Day10(Solution):
 
         <https://en.wikipedia.org/wiki/Point_in_polygon>
         """
-        grid = grid = inp.splitlines()
+        grid = inp.splitlines()
         loop = self._get_loop(grid)
 
-        n_rows = len(grid)
-        n_cols = len(grid[0])
-
         area = 0
-        for row in range(n_rows + 1):
+        for i, row in enumerate(grid):
             downwards = 0
             upwards = 0
-            count = 0
-            for col in range(n_cols + 1):
-                if (row, col) in loop:
-                    char = grid[row][col]
+            for j, char in enumerate(row):
+                if (i, j) in loop:
                     if char in self.GO_DOWN_PIPES: # | ┌ ┐, downward facing pipes
                         downwards += 1
                     if char in self.GO_UP_PIPES:   # | └ ┘, upward facing pipes
                         upwards += 1
-                else:
+                elif downwards % 2 == 1 and upwards % 2 == 1:
                     # we hit a possible candidate for a tile that can be in or out the loop
                     # since we have been keeping track of the amount of "walls" we have hit
                     # we check if the amount of downward pointing walls and upward pointing walls are all even
                     # if so we can say that this tile is inside the loop
-                    if downwards % 2 == 1 and upwards % 2 == 1:
-                        count += 1
-            area += count
+                    area += 1
         return area
 
     def format_grid(self, inp: str) -> str:
