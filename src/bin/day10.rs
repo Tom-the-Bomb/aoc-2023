@@ -30,7 +30,7 @@ impl Day10 {
             .collect::<Vec<Vec<char>>>()
     }
 
-    fn get_starting_pos(grid: &Vec<Vec<char>>) -> (usize, usize) {
+    fn get_starting_pos(grid: &[Vec<char>]) -> (usize, usize) {
         for (i, row) in grid
             .iter()
             .enumerate()
@@ -45,8 +45,8 @@ impl Day10 {
         panic!("No 'S' character found in grid")
     }
 
-    fn get_loop(grid: &Vec<Vec<char>>) -> HashSet<(usize, usize)> {
-        let starting_coords = Self::get_starting_pos(&grid);
+    fn get_loop(grid: &[Vec<char>]) -> HashSet<(usize, usize)> {
+        let starting_coords = Self::get_starting_pos(grid);
 
         let mut nodes = HashSet::from([starting_coords]);
         let mut to_check = VecDeque::from([starting_coords]);
@@ -80,14 +80,13 @@ impl Day10 {
                     let next_coord = (next_row, next_col);
                     if (pipes.contains(&curr_tile)
                         || curr_tile == 'S')
-                        && co_pipes.contains(&next_tile)
+                        && co_pipes.contains(next_tile)
                         && !nodes.contains(&next_coord)
                     {
                         nodes.insert(next_coord);
                         to_check.push_back(next_coord);
                     }
                 }
-                    
             }
         }
         nodes
@@ -103,7 +102,7 @@ impl Day10 {
     pub fn part_two<T: Display>(&self, inp: T) -> u32 {
         let grid = Self::get_grid(inp);
         let nodes = Self::get_loop(&grid);
-        
+
         let mut area = 0;
         for (i, row) in grid
             .into_iter()
@@ -111,7 +110,7 @@ impl Day10 {
         {
             let mut downwards = 0;
             let mut upwards = 0;
-            
+
             for (j, tile) in row
                 .into_iter()
                 .enumerate()
@@ -133,7 +132,7 @@ impl Day10 {
 }
 
 impl Solution for Day10 {
-    const NAME: &'static str = "Mirage Maintenance";
+    const NAME: &'static str = "Pipe Maze";
 
     fn run(&self, inp: String) {
         let p1 = self.part_one(&inp);

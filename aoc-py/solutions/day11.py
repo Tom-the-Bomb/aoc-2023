@@ -15,7 +15,7 @@ class Day11(Solution):
 
     def _expand_one(self, universe: list[list[str]]) -> list[list[str]]:
         """Expands the universe
-        
+
         we need to repeat the expansion process 2 times
         1 time for rows, 1 time for columns, hence the `for _ in range(2):`
             we transpose the matrix after every time
@@ -29,7 +29,7 @@ class Day11(Solution):
                     new_list.append(row)
             universe = list(zip(*new_list))
         return universe
-    
+
     def _get_galaxies(self, universe: list[list[str]]) -> list[tuple[int, int]]:
         """Returns the indices of the galaxies in the universe"""
         return [
@@ -38,7 +38,7 @@ class Day11(Solution):
             for j, galaxy in enumerate(row)
             if galaxy == '#'
         ]
-    
+
     def _get_total_distances(self, inp: str, *, expansion_amount: int = 2) -> int:
         """Calculates (solves the problem) simply by adding `expansion_amount`
         every time an empty row/column is between a pair of galaxies
@@ -77,10 +77,10 @@ class Day11(Solution):
                 r=2,
             )
         )
-    
+
     def part_one(self, inp: str) -> int:
         return self._get_total_distances(inp, expansion_amount=2)
-    
+
     def part_two(self, inp: str) -> int:
         return self._get_total_distances(inp, expansion_amount=1_000_000)
 
