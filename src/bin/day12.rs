@@ -10,23 +10,26 @@ use aoc_2023::Solution;
 pub struct Day12;
 
 impl Day12 {
-    fn get_arrangements<'a, T>(
+    fn get_arrangements<'a, T, C>(
         records: &'a T,
-        criteria: &'a [usize],
+        criteria: &'a C,
         cache: &mut HashMap<(&'a [u8], &'a [usize]), u64>,
     ) -> u64
     where
         T: AsRef<[u8]> + ?Sized,
+        C: AsRef<[usize]> + ?Sized,
     {
-        let records = records.as_ref();
+        let records = records
+            .as_ref();
+        let criteria = criteria
+            .as_ref();
+
         let criteria_empty = criteria
             .is_empty();
         if records.is_empty() {
-            return criteria_empty
-                .into()
+            return u64::from(criteria_empty)
         } else if criteria_empty {
-            return (!records.contains(&b'#'))
-                .into()
+            return u64::from(!records.contains(&b'#'))
         }
 
         if let Some(&val) = cache.get(&(records, criteria)) {
@@ -104,9 +107,7 @@ impl Day12 {
                 Self::get_arrangements(
                     &[records.as_bytes()]
                         .repeat(5)
-                        .join([b'?']
-                            .as_slice()
-                        ),
+                        .join([b'?'].as_slice()),
                     &criteria
                         .split(',')
                         .filter_map(|entry| entry.parse::<usize>().ok())
