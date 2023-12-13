@@ -11,11 +11,11 @@ impl Day11 {
     /// Brute force method
     /// that expands the universe
     /// by +1 row for each empty row and +1 column for each empty colun
-    fn expand_one(mut universe: Vec<Vec<char>>) -> Vec<Vec<char>> {
+    fn expand_one(mut universe: Vec<Vec<u8>>) -> Vec<Vec<u8>> {
         for _ in 0..2 {
             let mut new_vec = Vec::with_capacity(universe.len());
             for row in universe {
-                if !row.contains(&'#') {
+                if !row.contains(&b'#') {
                     new_vec.push(row.clone());
                 }
                 new_vec.push(row);
@@ -24,14 +24,14 @@ impl Day11 {
             universe = (0..new_vec[0].len())
                 .map(|i| (0..new_vec.len())
                     .map(|j| new_vec[j][i])
-                    .collect::<Vec<char>>()
+                    .collect::<Vec<u8>>()
                 )
-                .collect::<Vec<Vec<char>>>();
+                .collect::<Vec<Vec<u8>>>();
         }
         universe
     }
 
-    fn get_galaxies(universe: &[Vec<char>]) -> Vec<(usize, usize)> {
+    fn get_galaxies(universe: &[Vec<u8>]) -> Vec<(usize, usize)> {
         universe
             .iter()
             .enumerate()
@@ -39,22 +39,22 @@ impl Day11 {
                 .iter()
                 .enumerate()
                 .filter_map(move |(j, galaxy)|
-                    (*galaxy == '#')
+                    (*galaxy == b'#')
                         .then_some((i, j))
                 )
             )
             .collect::<Vec<(usize, usize)>>()
     }
 
-    fn get_universe<T: Display>(inp: T) -> Vec<Vec<char>> {
+    fn get_universe<T: Display>(inp: T) -> Vec<Vec<u8>> {
         inp
             .to_string()
             .lines()
             .map(|line| line
-                .chars()
-                .collect::<Vec<char>>()
+                .as_bytes()
+                .to_vec()
             )
-            .collect::<Vec<Vec<char>>>()
+            .collect::<Vec<Vec<u8>>>()
     }
 
     fn get_total_distances<T: Display>(inp: T, expansion_amount: u64) -> u64 {
@@ -63,7 +63,7 @@ impl Day11 {
             .iter()
             .enumerate()
             .filter_map(|(i, row)|
-                (!row.contains(&'#'))
+                (!row.contains(&b'#'))
                     .then_some(i)
             )
             .collect::<Vec<usize>>();
@@ -76,7 +76,7 @@ impl Day11 {
 
         let empty_cols = (0..n_cols)
             .filter(|j| (0..n_rows)
-                .all(|i| universe[i][*j] != '#')
+                .all(|i| universe[i][*j] != b'#')
             )
             .collect::<Vec<usize>>();
 

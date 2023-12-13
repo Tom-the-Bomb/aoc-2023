@@ -7,45 +7,45 @@ use std::{
 };
 use aoc_2023::Solution;
 
-static GO_LEFT_PIPES: [char; 3] =
-    ['-', 'J', '7'];
-static GO_RIGHT_PIPES: [char; 3] =
-    ['-', 'L', 'F'];
-static GO_UP_PIPES: [char; 3] =
-    ['|', 'J', 'L'];
-static GO_DOWN_PIPES: [char; 3] =
-    ['|', '7', 'F'];
+static GO_LEFT_PIPES: [u8; 3] =
+    [b'-', b'J', b'7'];
+static GO_RIGHT_PIPES: [u8; 3] =
+    [b'-', b'L', b'F'];
+static GO_UP_PIPES: [u8; 3] =
+    [b'|', b'J', b'L'];
+static GO_DOWN_PIPES: [u8; 3] =
+    [b'|', b'7', b'F'];
 
 pub struct Day10;
 
 impl Day10 {
-    fn get_grid<T: Display>(inp: T) -> Vec<Vec<char>> {
+    fn get_grid<T: Display>(inp: T) -> Vec<Vec<u8>> {
         inp
             .to_string()
             .lines()
             .map(|row| row
-                .chars()
-                .collect::<Vec<char>>()
+                .as_bytes()
+                .to_vec()
             )
-            .collect::<Vec<Vec<char>>>()
+            .collect::<Vec<Vec<u8>>>()
     }
 
-    fn get_starting_pos(grid: &[Vec<char>]) -> (usize, usize) {
+    fn get_starting_pos(grid: &[Vec<u8>]) -> (usize, usize) {
         for (i, row) in grid
             .iter()
             .enumerate()
         {
             if let Some(j) = row
                 .iter()
-                .position(|c| *c == 'S')
+                .position(|c| *c == b'S')
             {
                 return (i, j)
             }
         }
-        panic!("No 'S' character found in grid")
+        panic!("No 'S' u8acter found in grid")
     }
 
-    fn get_loop(grid: &[Vec<char>]) -> HashSet<(usize, usize)> {
+    fn get_loop(grid: &[Vec<u8>]) -> HashSet<(usize, usize)> {
         let starting_coords = Self::get_starting_pos(grid);
 
         let mut nodes = HashSet::from([starting_coords]);
@@ -79,7 +79,7 @@ impl Day10 {
                 {
                     let next_coord = (next_row, next_col);
                     if (pipes.contains(&curr_tile)
-                        || curr_tile == 'S')
+                        || curr_tile == b'S')
                         && co_pipes.contains(next_tile)
                         && !nodes.contains(&next_coord)
                     {
