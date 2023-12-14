@@ -114,7 +114,7 @@ class Day10(Solution):
                     area += 1
         return area
 
-    def format_grid(self, inp: str) -> str:
+    def display_grid(self, inp: str) -> str:
         """Reformats the grid using unicode characters to help better visualize the pipes
 
         All pipes that are not part of the loop are replaced with a "."
@@ -125,10 +125,10 @@ class Day10(Solution):
 
         for i, row in enumerate(grid):
             for j, char in enumerate(row):
-                if (i, j) not in loop:
-                    grid[i][j] = '.'
-                else:
+                if (i, j) in loop:
                     grid[i][j] = self.DISPLAY_CHAR_MAPPING.get(char, char)
+                else:
+                    grid[i][j] = '.'
 
         return '\n' + '\n'.join(
             f"{i:>2}| {''.join(row)}"

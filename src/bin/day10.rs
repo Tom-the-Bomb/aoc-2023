@@ -2,7 +2,11 @@
 //!
 //! <https://adventofcode.com/2023/day/10>
 use std::{
-    collections::{VecDeque, HashSet},
+    collections::{
+        VecDeque,
+        HashSet,
+        HashMap,
+    },
     fmt::Display,
 };
 use aoc_2023::Solution;
@@ -92,6 +96,42 @@ impl Day10 {
         nodes
     }
 
+    /// Reformats the grid using unicode characters to help better visualize the pipes
+    /// 
+    /// All pipes that are not part of the loop are replaced with a "."
+    pub fn display_grid<T: Display>(&self, inp: T) -> String {
+        let mapping = HashMap::from([
+            (b'|', '│'),
+            (b'-', '─'),
+            (b'J', '┘'),
+            (b'7', '┐'),
+            (b'L', '└'),
+            (b'F', '┌'),
+        ]);
+        let grid = Self::get_grid(inp);
+        let nodes = Self::get_loop(&grid);
+        
+        grid
+            .iter()
+            .enumerate()
+            .map(|(i, row)| row
+                .iter()
+                .enumerate()
+                .map(|(j, tile)|
+                    if nodes.contains(&(i, j)) {
+                        *mapping.get(tile)
+                            .unwrap_or(&(*tile as char))
+                    }
+                    else { '.' }
+                    .to_string()
+                )
+                .collect::<Vec<String>>()
+                .join("")
+            )
+            .collect::<Vec<String>>()
+            .join("\n")
+    }
+
     pub fn part_one<T: Display>(&self, inp: T) -> usize {
         Self::get_loop(
             &Self::get_grid(inp)
@@ -135,6 +175,8 @@ impl Solution for Day10 {
     const NAME: &'static str = "Pipe Maze";
 
     fn run(&self, inp: String) {
+        println!("{}", self.display_grid(&inp));
+
         let p1 = self.part_one(&inp);
         let p2 = self.part_two(&inp);
 
