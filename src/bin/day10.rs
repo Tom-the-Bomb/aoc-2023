@@ -97,7 +97,7 @@ impl Day10 {
     }
 
     /// Reformats the grid using unicode characters to help better visualize the pipes
-    /// 
+    ///
     /// All pipes that are not part of the loop are replaced with a "."
     pub fn display_grid<T: Display>(&self, inp: T) -> String {
         let mapping = HashMap::from([
@@ -110,26 +110,30 @@ impl Day10 {
         ]);
         let grid = Self::get_grid(inp);
         let nodes = Self::get_loop(&grid);
-        
-        grid
+
+        let formatted = grid
             .iter()
             .enumerate()
-            .map(|(i, row)| row
-                .iter()
-                .enumerate()
-                .map(|(j, tile)|
-                    if nodes.contains(&(i, j)) {
-                        *mapping.get(tile)
-                            .unwrap_or(&(*tile as char))
-                    }
-                    else { '.' }
-                    .to_string()
+            .map(|(i, row)| format!(
+                "{i:>3}| {}",
+                row
+                    .iter()
+                    .enumerate()
+                    .map(|(j, tile)|
+                        if nodes.contains(&(i, j)) {
+                            *mapping.get(tile)
+                                .unwrap_or(&(*tile as char))
+                        }
+                        else { '.' }
+                        .to_string()
+                    )
+                    .collect::<String>()
                 )
-                .collect::<Vec<String>>()
-                .join("")
             )
             .collect::<Vec<String>>()
-            .join("\n")
+            .join("\n");
+
+        format!("\n{formatted}\n")
     }
 
     pub fn part_one<T: Display>(&self, inp: T) -> usize {

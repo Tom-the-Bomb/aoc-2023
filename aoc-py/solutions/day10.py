@@ -131,11 +131,13 @@ class Day10(Solution):
                     grid[i][j] = '.'
 
         return '\n' + '\n'.join(
-            f"{i:>2}| {''.join(row)}"
+            f"{i:>3}| {''.join(row)}"
             for i, row in enumerate(grid, 1)
         ) + '\n'
 
     def run(self, inp: str) -> None:
+        print(self.display_grid(inp))
+
         print('Part 1:', p1 := self.part_one(inp))
         print('Part 2:', p2 := self.part_two(inp))
 
