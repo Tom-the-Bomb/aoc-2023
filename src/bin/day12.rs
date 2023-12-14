@@ -1,4 +1,4 @@
-//! Day 12: Cosmic Expansion
+//! Day 12: Hot Springs
 //!
 //! <https://adventofcode.com/2023/day/12>
 use std::{
@@ -121,7 +121,7 @@ impl Day12 {
 }
 
 impl Solution for Day12 {
-    const NAME: &'static str = "Cosmic Expansion";
+    const NAME: &'static str = "Hot Springs";
 
     fn run(&self, inp: String) {
         let p1 = self.part_one(&inp);
