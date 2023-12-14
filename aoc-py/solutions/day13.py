@@ -33,10 +33,12 @@ class Day13(Solution):
             if (
                 # if the smudge is 0 (Part 1: no differences are allowed; the grid must be reflected exactly)
                 # we simply check left and side equality and if so then we found the mirror line: `mirror`
+                # technically this specific case for when smudge is 0 is completely unecessary
+                # but it is more to compare lists directly vs. the below (which would still work)
                 smudge == 0
                 and left == right
-                # if smudge isnt 0 that means we have to individual compare all the tiles
-                # and check if there is exactly `smudge` amount of tile differences
+                # if smudge is not 0 that means we have to individual compare all the tiles
+                # and check if there is exactly `smudge` number of tile differences
                 # between each side of the mirror line
                 or sum(t1 != t2
                     for t1, t2 in zip(
