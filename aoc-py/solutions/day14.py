@@ -19,7 +19,7 @@ class Day14(Solution):
     def _transpose(self, grid: Grid) -> Grid:
         """Transposes the grid"""
         return [list(row) for row in zip(*grid)]
-    
+
     def _reverse_rows(self, grid: Grid) -> Grid:
         """Reverses each row in the grid"""
         for row in grid:
@@ -43,13 +43,13 @@ class Day14(Solution):
                             # non empty tile, we are done pushing it
                             break
         return grid
-    
+
     def _tilt_north(self, grid: Grid) -> Grid:
         """Tilts the rocks north (up) (transpose first)"""
         grid = self._transpose(grid)
         grid = self._tilt_lever(grid)
         return self._transpose(grid)
-    
+
     def _tilt_south(self, grid: Grid) -> Grid:
         """Tilts the rocks south (down)
         (same as north; but reverse the columns
@@ -60,7 +60,7 @@ class Day14(Solution):
         grid = self._tilt_lever(grid)
         grid = self._reverse_rows(grid)
         return self._transpose(grid)
-    
+
     def _tilt_east(self, grid: Grid) -> Grid:
         """Tilts the rocks east (right)
         Same as the default (left) but reverses the rows
@@ -68,14 +68,14 @@ class Day14(Solution):
         grid = self._reverse_rows(grid)
         grid = self._tilt_lever(grid)
         return self._reverse_rows(grid)
-    
+
     def _cycle(self, grid: Grid) -> Grid:
         grid = self._tilt_north(grid)
         # west = left (no need for pre manipulation)
         grid = self._tilt_lever(grid)
         grid = self._tilt_south(grid)
         return self._tilt_east(grid)
-    
+
     def _get_load(self, grid: Grid) -> int:
         """Calculates the load
         by counting the rounded boulders per row
@@ -93,7 +93,7 @@ class Day14(Solution):
 
     def part_two(self, inp: str) -> int:
         grid = [list(row) for row in inp.splitlines()]
-        
+
         # `cycles` will contain the extra non-repeating terms
         # + 1 period
         cycles = [grid]
