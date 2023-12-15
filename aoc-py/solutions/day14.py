@@ -112,17 +112,25 @@ class Day14(Solution):
             else:
                 cycles.append(next_term)
 
-        for _ in range(
-            # the total length of the repeating chunk
-            (1_000_000_000 - start)
-            # modulo by the period of the sequence
-            # (gets the remainder at the end that does not complete another full cycle)
-            % (len(cycles) - start)
-            # add back the non-repeating chunk's length
-            + start
-        ):
-            grid = self._cycle(grid)
-        return self._get_load(grid)
+        # we do not have to re-evaluate the cycles as we can just use the cycles in `cycles`
+        # `cycles` guarantees to contain 1 cycle + the prefixing non-repeating chunk
+        # and the amount we need to cycle for is guaranteed to be within that
+        # `repeating_chunk % period` will always give us the remainder that doesn't fit in a period,
+        # which will always be less than a period
+        # (and the extra non-repating chunk that is in our cycles is also always in `cycles`)
+        #
+        # hence we can always guarantee that our desired cycle is inside `cycles`
+        return self._get_load(
+            cycles[
+                # the total length of the repeating chunk
+                (1_000_000_000 - start)
+                # modulo by the period of the sequence
+                # (gets the remainder at the end that does not complete another full cycle)
+                % (len(cycles) - start)
+                # add back the non-repeating chunk's length
+                + start
+            ]
+        )
 
     def run(self, inp: str) -> None:
         print('Part 1:', p1 := self.part_one(inp))
