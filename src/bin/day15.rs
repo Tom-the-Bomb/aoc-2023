@@ -38,7 +38,8 @@ impl Day15 {
     /// If neither a '=' or '-' exist in an entry in the input
     pub fn part_two<T: Display>(&self, inp: T) -> u32 {
         let inp = inp.to_string();
-        let mut boxes = vec![Vec::new(); 256];
+        let mut boxes: [Vec<(&str, u32)>; 256] =
+            std::array::from_fn(|_| Vec::new());
 
         for string in inp
             .split(',')
