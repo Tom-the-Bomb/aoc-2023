@@ -7,6 +7,10 @@ use aoc_2023::Solution;
 pub struct Day15;
 
 impl Day15 {
+    /// Hashing algorithm
+    /// turns any string into an 8-bit integer
+    /// 
+    /// `((current_value + ascii_value(character)) * 17) % 256`
     fn hash<T>(string: T) -> u8
     where
         T: AsRef<str>
@@ -25,10 +29,13 @@ impl Day15 {
         inp
             .to_string()
             .split(',')
-            .map(|s| Self::hash(s) as u32)
+            .map(|s| u32::from(Self::hash(s)))
             .sum()
     }
 
+    /// # Panics
+    /// 
+    /// If neither a '=' or '-' exist in an entry in the input
     pub fn part_two<T: Display>(&self, inp: T) -> u32 {
         let inp = inp.to_string();
         let mut boxes = vec![Vec::new(); 256];
@@ -50,11 +57,7 @@ impl Day15 {
                     // index of the entry (label, _) if exists
                     map
                         .iter()
-                        .enumerate()
-                        .find_map(|(i, (l, _))|
-                            (*l == label)
-                                .then_some(i)
-                        ),
+                        .position(|(l, _)| *l == label),
                     focus.parse::<u32>()
                 ) {
                     // label already exists, focus is a number

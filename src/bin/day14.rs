@@ -40,14 +40,14 @@ impl Day14 {
         }
     }
 
-    fn tilt_north(mut grid: Grid) -> Grid {
-        grid = Self::transpose(&grid);
+    fn tilt_north(grid: &Grid) -> Grid {
+        let mut grid = Self::transpose(grid);
         Self::tilt_lever(&mut grid);
         Self::transpose(&grid)
     }
 
-    fn tilt_south(mut grid: Grid) -> Grid {
-        grid = Self::transpose(&grid);
+    fn tilt_south(grid: &Grid) -> Grid {
+        let mut grid = Self::transpose(grid);
         Self::reverse_rows(&mut grid);
         Self::tilt_lever(&mut grid);
         Self::reverse_rows(&mut grid);
@@ -60,10 +60,10 @@ impl Day14 {
         Self::reverse_rows(grid);
     }
 
-    fn cycle(mut grid: Grid) -> Grid {
-        grid = Self::tilt_north(grid);
+    fn cycle(grid: &Grid) -> Grid {
+        let mut grid = Self::tilt_north(grid);
         Self::tilt_lever(&mut grid);
-        grid = Self::tilt_south(grid);
+        grid = Self::tilt_south(&grid);
         Self::tilt_east(&mut grid);
         grid
     }
@@ -99,42 +99,42 @@ impl Day14 {
     pub fn part_one<T: Display>(&self, inp: T) -> usize {
         Self::get_load(
             &Self::tilt_north(
-                Self::get_grid(inp)
+                &Self::get_grid(inp)
             )
         )
     }
 
     pub fn part_two<T: Display>(&self, inp: T) -> usize {
-        let mut grid = Self::get_grid(inp);
+        let grid = Self::get_grid(inp);
 
-        let mut cycles = HashMap::from([
-            (format!("{grid:?}"), 0),
-        ]);
         let mut start = 0;
-        let mut next_term = Self::cycle(
-            grid.clone()
-        );
+        let mut next_term = Self::cycle(&grid);
+        let mut cycles = HashMap::from([(grid, 0)]);
         for i in 1.. {
-            next_term = Self::cycle(next_term);
+            next_term = Self::cycle(&next_term);
 
-            let key = format!("{next_term:?}");
             if let Some(&index) =
-                cycles.get(&key)
+                cycles.get(&next_term)
             {
                 start = index;
                 break;
             }
-            cycles.insert(key, i);
+            cycles.insert(next_term.clone(), i);
         }
 
-        for _ in 0..(
-            (1_000_000_000 - start)
-            % (cycles.len() - start)
-            + start
-        ) {
-            grid = Self::cycle(grid);
-        }
-        Self::get_load(&grid)
+        Self::get_load(
+            &cycles
+                .iter()
+                .find_map(|(grid, &index)|
+                    (index + 1
+                        == (1_000_000_000 - start)
+                        % (cycles.len() - start)
+                        + start
+                    )
+                    .then_some(grid)
+                )
+                .unwrap()
+        )
     }
 }
 

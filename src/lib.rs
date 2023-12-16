@@ -25,8 +25,10 @@ pub fn run_day<D: Solution>(day: u8, cls: &D) {
     );
     println!("\n{line}\n| RUST |{text}|\n{line}");
 
+    let input = get_input(day);
+    // benchmark and run
     let instant = Instant::now();
-    cls.run(get_input(day));
+    cls.run(input);
     let text = format!("Execution time {:?}", instant.elapsed());
     println!(
         "{text}\n{}",

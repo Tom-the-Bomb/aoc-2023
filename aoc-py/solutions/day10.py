@@ -91,7 +91,8 @@ class Day10(Solution):
     def part_two(self, inp: str) -> int:
         """Solution to Part 2 using Ray Casting
 
-        <https://en.wikipedia.org/wiki/Point_in_polygon>
+        [Ray Casting](https://en.wikipedia.org/wiki/Point_in_polygon)
+        [Jordan Curve Theorem](https://en.wikipedia.org/wiki/Jordan_curve_theorem)
         """
         grid = inp.splitlines()
         loop = self._get_loop(grid)
