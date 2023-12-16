@@ -17,8 +17,10 @@ def run_day(day: int) -> None:
         line = '+-----+' + '-' * len(text) + '+'
         print(f'\n{line}\n| PY3 |{text}|\n{line}')
 
+        inp = get_input(day)
+        # benchmark and run
         start = perf_counter()
-        solution.run(get_input(day))
+        solution.run(inp)
         end = perf_counter()
 
         print(line := f'Execution time: {(end - start) * 1000:.2f}ms')
