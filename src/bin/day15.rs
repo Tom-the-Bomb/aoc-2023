@@ -9,7 +9,7 @@ pub struct Day15;
 impl Day15 {
     /// Hashing algorithm
     /// turns any string into an 8-bit integer
-    /// 
+    ///
     /// `((current_value + ascii_value(character)) * 17) % 256`
     fn hash<T>(string: T) -> u8
     where
@@ -34,7 +34,7 @@ impl Day15 {
     }
 
     /// # Panics
-    /// 
+    ///
     /// If neither a '=' or '-' exist in an entry in the input
     pub fn part_two<T: Display>(&self, inp: T) -> u32 {
         let inp = inp.to_string();
@@ -45,7 +45,7 @@ impl Day15 {
         {
             let (label, focus) = string
                 .split_once('=')
-                .unwrap_or_else(|| 
+                .unwrap_or_else(||
                     string
                         .split_once('-')
                         .unwrap()
@@ -80,7 +80,7 @@ impl Day15 {
                     // therefore this will never happen, so we do nothing
                     _ => (),
                 }
-            }   
+            }
         }
 
         boxes

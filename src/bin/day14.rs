@@ -1,7 +1,7 @@
 //! Day 14: Parabolic Reflector Dish
 //!
 //! <https://adventofcode.com/2023/day/14>
-use std::{collections::HashMap, fmt::Display};
+use std::{collections::VecDeque, fmt::Display};
 use aoc_2023::Solution;
 
 pub struct Day14;
@@ -104,36 +104,34 @@ impl Day14 {
         )
     }
 
+    /// # Panics
+    ///
+    /// If the cycles vec is empty
     pub fn part_two<T: Display>(&self, inp: T) -> usize {
         let grid = Self::get_grid(inp);
 
-        let mut start = 0;
-        let mut next_term = Self::cycle(&grid);
-        let mut cycles = HashMap::from([(grid, 0)]);
-        for i in 1.. {
-            next_term = Self::cycle(&next_term);
+        let mut cycles = VecDeque::from([grid]);
+        let start = loop {
+            let next_term = Self::cycle(cycles
+                .back()
+                .unwrap()
+            );
 
-            if let Some(&index) =
-                cycles.get(&next_term)
+            if let Some(index) = cycles
+                .iter()
+                .position(|term| term == &next_term)
             {
-                start = index;
-                break;
+                break index;
             }
-            cycles.insert(next_term.clone(), i);
-        }
+            cycles.push_back(next_term);
+        };
 
         Self::get_load(
-            &cycles
-                .iter()
-                .find_map(|(grid, &index)|
-                    (index + 1
-                        == (1_000_000_000 - start)
-                        % (cycles.len() - start)
-                        + start
-                    )
-                    .then_some(grid)
-                )
-                .unwrap()
+            &cycles[
+                (1_000_000_000 - start)
+                % (cycles.len() - start)
+                + start
+            ]
         )
     }
 }
