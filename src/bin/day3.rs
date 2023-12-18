@@ -20,7 +20,7 @@ impl Day3 {
         A: AsRef<[(usize, usize)]>,
     {
         let coordinates = coordinates.as_ref();
-        let ncoords = coordinates.len() - 1;
+        let n_coords = coordinates.len() - 1;
 
         coordinates
             .iter()
@@ -37,7 +37,7 @@ impl Day3 {
                         (*row + 1, col.wrapping_sub(1)),
                     ]);
                 }
-                if i == ncoords {
+                if i == n_coords {
                     indices.extend([
                         (*row, *col + 1),
                         (row.wrapping_sub(1), *col + 1),

@@ -35,6 +35,7 @@ impl Day16 {
             (starting_row_incr, starting_col_incr),
         )]);
 
+        #[allow(clippy::cast_sign_loss)]
         while let Some((
             (mut row, mut col),
             (mut row_incr, mut col_incr)
@@ -47,22 +48,23 @@ impl Day16 {
                 .get(row)
                 .and_then(|row| row.get(col))
             {
-                let directions = if tile == b'-'
-                    && row_incr != 0
-                {
-                    vec![(0, -1), (0, 1)]
-                } else if tile == b'|'
-                    && col_incr != 0
-                {
-                    vec![(-1, 0), (1, 0)]
-                } else {
-                    (row_incr, col_incr) = match tile {
-                        b'/' => (-col_incr, -row_incr),
-                        b'\\' => (col_incr, row_incr),
-                        _ => (row_incr, col_incr),
+                let directions =
+                    if tile == b'-'
+                        && row_incr != 0
+                    {
+                        vec![(0, -1), (0, 1)]
+                    } else if tile == b'|'
+                        && col_incr != 0
+                    {
+                        vec![(-1, 0), (1, 0)]
+                    } else {
+                        (row_incr, col_incr) = match tile {
+                            b'/' => (-col_incr, -row_incr),
+                            b'\\' => (col_incr, row_incr),
+                            _ => (row_incr, col_incr),
+                        };
+                        vec![(row_incr, col_incr)]
                     };
-                    vec![(row_incr, col_incr)]
-                };
 
                 for direction in directions {
                     let entry = ((row, col), direction);
@@ -88,6 +90,9 @@ impl Day16 {
         )
     }
 
+    /// # Panics
+    ///
+    /// If the grid is empty
     pub fn part_two<T: Display>(&self, inp: T) -> usize {
         let grid = Self::get_grid(inp);
 
@@ -99,24 +104,36 @@ impl Day16 {
 
         (0..n_rows)
             .map(|row|
-                Self::get_energized_amount(&grid, row, usize::MAX, 0, 1)
+                Self::get_energized_amount(
+                    &grid,
+                    row, usize::MAX, 0, 1
+                )
                 .max(
-                    Self::get_energized_amount(&grid, row, n_cols, 0, -1)
+                    Self::get_energized_amount(
+                        &grid,
+                        row, n_cols, 0, -1
+                    )
                 )
             )
             .max()
-            .unwrap()
-            .max(
+            .and_then(|max_row|
                 (0..n_cols)
                     .map(|col|
-                        Self::get_energized_amount(&grid, usize::MAX, col, 1, 0)
+                        Self::get_energized_amount(
+                            &grid,
+                            usize::MAX, col, 1, 0
+                        )
                         .max(
-                            Self::get_energized_amount(&grid, n_rows, col, -1, 0)
+                            Self::get_energized_amount(
+                                &grid,
+                                n_rows, col, -1, 0
+                            )
                         )
                     )
                     .max()
-                    .unwrap()
+                    .map(|max_col| max_col.max(max_row))
             )
+            .unwrap()
     }
 }
 
