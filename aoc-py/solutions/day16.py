@@ -1,4 +1,3 @@
-from __future__ import annotations
 """
 Day 16: The Floor Will Be Lava
 

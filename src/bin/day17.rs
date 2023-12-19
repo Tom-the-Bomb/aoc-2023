@@ -16,7 +16,7 @@ static ALL_DIRECTIONS: [(i8, i8); 4] =
 impl Day17 {
     /// # Panics
     ///
-    /// If grid is empty
+    /// If the grid is empty for some reason
     fn find_path<T: Display>(inp: T, is_part_two: bool) -> Option<u32> {
         let grid = inp
             .to_string()
@@ -39,7 +39,11 @@ impl Day17 {
         ]);
         let max_dir_traversed = if is_part_two { 10 } else { 3 };
 
-        while let Some(Reverse((heat, dir_traversed, (row, col), (row_incr, col_incr)))) = to_check.pop() {
+        while let Some(Reverse((
+            heat, dir_traversed, (row, col), (row_incr, col_incr)
+        ))) =
+            to_check.pop()
+        {
             let set_entry = (dir_traversed, (row, col), (row_incr, col_incr));
 
             if row == n_rows - 1

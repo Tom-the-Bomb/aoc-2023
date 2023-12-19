@@ -1,4 +1,3 @@
-from __future__ import annotations
 """
 Day 17: Clumsy Crucible
 
@@ -20,7 +19,7 @@ class Day17(Solution):
         (1, 0),  # right
     )
 
-    def find_path(self, inp: str, *, is_part_two: bool) -> int:
+    def _find_path(self, inp: str, *, is_part_two: bool) -> int:
         grid = [
             [int(block) for block in row]
             for row in inp.splitlines()
@@ -38,7 +37,7 @@ class Day17(Solution):
         max_dir_traversed = 10 if is_part_two else 3
 
         while to_check:
-            heat, *set_entry = heappop(to_check)
+            total_heat, *set_entry = heappop(to_check)
             dir_traversed, (row, col), (row_incr, col_incr) = set_entry
 
             if (
@@ -48,7 +47,7 @@ class Day17(Solution):
                 # part 2: we need to have not turned for at least 4 blocks before we can end
                 and (dir_traversed >= 4 if is_part_two else True)
             ):
-                return heat
+                return total_heat
 
             if (set_entry := tuple(set_entry)) not in traversed:
                 directions = []
@@ -88,7 +87,7 @@ class Day17(Solution):
                             to_check,
                             (
                                 # add current heat of block
-                                heat + grid[new_row][new_col],
+                                total_heat + grid[new_row][new_col],
                                 # if we've changed directions, reset `dir_traversed` counter to 1 (fresh direction)
                                 # else we add to the counter
                                 1 if changed_directions else dir_traversed + 1,
@@ -100,10 +99,10 @@ class Day17(Solution):
         raise ValueError('Failed to traverse path')
 
     def part_one(self, inp: str) -> int:
-        return self.find_path(inp, is_part_two=False)
+        return self._find_path(inp, is_part_two=False)
 
     def part_two(self, inp: str) -> int:
-        return self.find_path(inp, is_part_two=True)
+        return self._find_path(inp, is_part_two=True)
 
     def run(self, inp: str) -> None:
         print('Part 1:', p1 := self.part_one(inp))
