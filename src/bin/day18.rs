@@ -16,7 +16,7 @@ impl Day18 {
         T: AsRef<[(i64, i64)]>
     {
         let points = points.as_ref();
-        
+
         (points
             .iter()
             .zip(
@@ -33,14 +33,14 @@ impl Day18 {
     }
 
     /// Uses shoelace formula + Pick's theorem to find the total area
-    /// 
+    ///
     /// `A + b/2 + 1 = i + b`
     /// where A = shoelace result
     ///       b = perimeter
     ///       i + b = desired result
-    /// 
+    ///
     /// # Panics
-    /// 
+    ///
     /// If the vector of points is empty
     fn get_area<T>(data: T) -> i64
     where
@@ -64,7 +64,7 @@ impl Day18 {
     }
 
     /// # Panics
-    /// 
+    ///
     /// If failed to parse input numbers
     pub fn part_one<T: Display>(&self, inp: T) -> i64 {
         let inp = inp.to_string();
@@ -92,7 +92,7 @@ impl Day18 {
     }
 
     /// # Panics
-    /// 
+    ///
     /// If failed to parse input numbers
     pub fn part_two<T: Display>(&self, inp: T) -> i64 {
         let inp = inp.to_string();

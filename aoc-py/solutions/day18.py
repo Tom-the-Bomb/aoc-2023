@@ -38,7 +38,7 @@ class Day18(Solution):
                 'R': (1, 0),
             }.get(direction, (0, 0))
         )
-    
+
     def _parse_p2(self, line: str) -> Entry:
         """Parses each line from Part 2:
         - ignores the provided direction and distance
@@ -74,7 +74,7 @@ class Day18(Solution):
         this value is not of use to us at all directly as it works for cartesian polygons
         (it has no meaning in this application)
         but it is only useful to input into `Pick's Theorem` as `A`
-        
+
         <https://en.wikipedia.org/wiki/Shoelace_formula>
         """
         return abs(
@@ -123,7 +123,7 @@ class Day18(Solution):
         #   A = what we get from applying the `shoelace formula``
         #   b = `perimeter` (which is the same as # of interior boundary lattice points in this case)
         #   i + b = internal lattice + boundary lattice = the desired output for us
-        # 
+        #
         return self._shoelace(points) + perimeter // 2 + 1
 
     def part_one(self, inp: str) -> int:
