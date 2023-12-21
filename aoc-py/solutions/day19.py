@@ -73,7 +73,7 @@ class Workflow:
         for rule in rules:
             condition, target = rule.split(':')
             is_gt = '>' in condition
-            key, n = condition.split('>' if is_gt else '<')
+            key, rhs = condition.split('>' if is_gt else '<')
 
             self.rules.append(Rule(
                 key, target,
@@ -81,7 +81,7 @@ class Workflow:
                     # partial puts the argument `n`first before the custom ones
                     # hence we need to reverse it `x>2` -> `(a, b=n) -> n < a`
                     lt if is_gt else gt,
-                    int(n),
+                    int(rhs),
                 ),
                 is_gt=is_gt,
             ))
@@ -142,72 +142,72 @@ class Day19(Solution):
         return self._is_accepted(workflows, group, workflow.default)
 
     def _count_range(
-            self,
-            workflows: dict[str, Workflow],
-            ranges: dict[str, range],
-            target: str = 'in',
-        ) -> int:
-            """Counts the number of possible ratings that satisfy the workflows within [1, 4000]
+        self,
+        workflows: dict[str, Workflow],
+        ranges: dict[str, range],
+        target: str = 'in',
+    ) -> int:
+        """Counts the number of possible ratings that satisfy the workflows within [1, 4000]
 
-            Used in Part 2
-            """
-            if target == 'A':
-                return prod(len(interval) for interval in ranges.values())
-            if target == 'R':
-                return 0
+        Used in Part 2
+        """
+        if target == 'A':
+            return prod(len(interval) for interval in ranges.values())
+        if target == 'R':
+            return 0
 
-            total = 0
-            workflow = workflows[target]
+        total = 0
+        workflow = workflows[target]
 
-            for rule in workflow.rules:
-                interval = ranges[rule.key]
-                # rhs in the inequality condition
-                rhs = rule.condition.args[0]
+        for rule in workflow.rules:
+            interval = ranges[rule.key]
+            # rhs in the inequality condition
+            rhs = rule.condition.args[0]
 
-                true_range = range(
-                    # if the condition is `key > rhs`
-                    # for all `key` in between [a, b) evaluates to `true`
-                    # when `key` is between [a, b) if `a > rhs` else (rhs, b)
-                    max(rhs + 1, interval.start),
-                    interval.stop,
-                ) if rule.is_gt else range(
-                    # if the condition is `key < rhs`
-                    # for all `key` in between [a, b) evaluates to `true`
-                    # when `key` is between [a, b) if `b < rhs` else [a, rhs)
-                    interval.start,
-                    min(rhs, interval.stop),
-                )
-                # complementing the above, the inverse is when the conditions are false:
-                false_range = range(
-                    # if the condition is `key > rhs`
-                    # for all `key` in between [a, b) evaluates to `false`
-                    # when `key` is between [a, b) if `b < rhs` else [a, rhs]
-                    #
-                    # * the same as the `true` condition for `key < rhs` but inclusive on the end
-                    # since `a < b` is false when `b >= a` (not) `b > a`
-                    interval.start,
-                    min(rhs + 1, interval.stop)
-                ) if rule.is_gt else range(
-                    # if the condition is `key > rhs`
-                    # for all `key` in between [a, b) evaluates to `false`
-                    # when `key` is between [a, b) if `a > rhs` else [rhs, b)
-                    #
-                    # * the same as the `true` condition for `key > rhs` but inclusive on the start
-                    max(rhs, interval.start),
-                    interval.stop
-                )
+            true_range = range(
+                # if the condition is `key > rhs`
+                # for all `key` in between [a, b) evaluates to `true`
+                # when `key` is between [a, b) if `a > rhs` else (rhs, b)
+                max(rhs + 1, interval.start),
+                interval.stop,
+            ) if rule.is_gt else range(
+                # if the condition is `key < rhs`
+                # for all `key` in between [a, b) evaluates to `true`
+                # when `key` is between [a, b) if `b < rhs` else [a, rhs)
+                interval.start,
+                min(rhs, interval.stop),
+            )
+            # complementing the above, the inverse is when the conditions are false:
+            false_range = range(
+                # if the condition is `key > rhs`
+                # for all `key` in between [a, b) evaluates to `false`
+                # when `key` is between [a, b) if `b < rhs` else [a, rhs]
+                #
+                # * the same as the `true` condition for `key < rhs` but inclusive on the end
+                # since `a < b` is false when `b >= a` (not) `b > a`
+                interval.start,
+                min(rhs + 1, interval.stop)
+            ) if rule.is_gt else range(
+                # if the condition is `key > rhs`
+                # for all `key` in between [a, b) evaluates to `false`
+                # when `key` is between [a, b) if `a > rhs` else [rhs, b)
+                #
+                # * the same as the `true` condition for `key > rhs` but inclusive on the start
+                max(rhs, interval.start),
+                interval.stop
+            )
 
-                if true_range:
-                    copy = ranges.copy()
-                    copy[rule.key] = true_range
-                    total += self._count_range(workflows, copy, rule.target)
-                if false_range:
-                    ranges[rule.key] = false_range
-                else:
-                    break
+            if true_range:
+                copy = ranges.copy()
+                copy[rule.key] = true_range
+                total += self._count_range(workflows, copy, rule.target)
+            if false_range:
+                ranges[rule.key] = false_range
             else:
-                total += self._count_range(workflows, ranges, workflow.default)
-            return total
+                break
+        else:
+            total += self._count_range(workflows, ranges, workflow.default)
+        return total
 
     def part_one(self, inp: str) -> int:
         workflows, parts = inp.split('\n\n')
