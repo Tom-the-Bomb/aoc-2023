@@ -80,8 +80,7 @@ impl Day19 {
                     .unwrap();
                 let mut data = data
                     .trim_end_matches('}')
-                    .split(',')
-                    .rev();
+                    .rsplit(',');
                 let default = data
                     .next()
                     .unwrap();

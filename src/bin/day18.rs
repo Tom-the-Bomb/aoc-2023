@@ -46,7 +46,12 @@ impl Day18 {
     where
         T: Iterator<Item = (i64, (i64, i64))>
     {
-        let mut points = vec![(0, 0)];
+        let (low, high) = data.size_hint();
+        let mut points = Vec::with_capacity(
+            high.unwrap_or(low) + 1
+        );
+        points.push((0, 0));
+
         let mut perimeter = 0;
 
         for (dist, (dir_x, dir_y)) in data {
