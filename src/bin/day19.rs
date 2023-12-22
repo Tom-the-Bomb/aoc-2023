@@ -8,15 +8,13 @@ use std::{
 };
 use aoc_2023::Solution;
 
-pub struct Day19;
-
 #[derive(Debug, Clone)]
 struct Rule<'a> {
-    pub key: &'a str,
-    pub target: &'a str,
-    pub rhs: usize,
-    pub is_gt: bool,
-    pub condition: fn(&usize, &usize) -> bool,
+    key: &'a str,
+    target: &'a str,
+    rhs: usize,
+    is_gt: bool,
+    condition: fn(&usize, &usize) -> bool,
 }
 
 impl<'a> Rule<'a> {
@@ -29,8 +27,8 @@ impl<'a> Rule<'a> {
 
 #[derive(Debug, Clone)]
 struct Workflow<'a> {
-    pub default: &'a str,
-    pub rules: Vec<Rule<'a>>,
+    default: &'a str,
+    rules: Vec<Rule<'a>>,
 }
 
 impl<'a> Workflow<'a> {
@@ -54,7 +52,7 @@ impl<'a> Workflow<'a> {
                 if is_gt { '>' } else { '<' }
             )
                 .unwrap();
-            
+
             self.rules.push(Rule {
                 key, target, is_gt,
                 rhs: rhs.parse::<usize>()
@@ -65,6 +63,8 @@ impl<'a> Workflow<'a> {
         self
     }
 }
+
+pub struct Day19;
 
 impl Day19 {
     fn parse_workflows<T>(raw: &T) -> HashMap<String, Workflow<'_>>
@@ -200,7 +200,7 @@ impl Day19 {
     }
 
     /// # Panics
-    /// 
+    ///
     /// If failed to parse input (malformed)
     pub fn part_one<T: Display>(&self, inp: T) -> usize {
         let inp = inp
@@ -219,9 +219,9 @@ impl Day19 {
             )
             .sum()
     }
-    
+
     /// # Panics
-    /// 
+    ///
     /// If failed to parse input (malformed)
     pub fn part_two<T: Display>(&self, inp: T) -> usize {
         let inp = inp

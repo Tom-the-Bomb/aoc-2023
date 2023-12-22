@@ -103,10 +103,10 @@ class Day20(Solution):
                     # defaulting to false to begin
                     module.memory[name] = False
         return modules, broadcast_targets
-    
+
     def _run_modules(self, destinations: list[Destination], module: Module, source: str, pulse: bool) -> None:
         """Runs a single iteration of all the modules' pulse sending process"""
-        
+
         if isinstance(module, Flipper) and not pulse:
             module.status = not module.status
             pulse_to_send = module.status
@@ -176,8 +176,8 @@ class Day20(Solution):
                         seen[name := source.name] = True
 
                         if name not in press_amounts:
-                            press_amounts[name] = n_presses 
-                        
+                            press_amounts[name] = n_presses
+
                         if all(seen.values()):
                             # we have checked all the modules that feed into the module
                             # we can then return the result
