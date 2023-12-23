@@ -21,6 +21,9 @@ class Destination:
         self.target = target
         self.pulse = pulse
 
+    def __repr__(self) -> str:
+        return f'<{self.__class__.__name__} name={self.name!r} target={self.target!r} pulse={self.pulse}>'
+
 class Module:
     """Base Module Class"""
     __slots__ = ('name', 'outputs')
@@ -46,7 +49,7 @@ class Flipper(Module):
         self.status = False
 
     def __repr__(self) -> str:
-        return f'<{self.__class__.__name__} name={self.name!r}> status={self.status}'
+        return f'<{self.__class__.__name__} name={self.name!r}> status={self.status}>'
 
 class Conjunction(Module):
     """Conjunction type module, a module with a prefix of '&'
@@ -62,7 +65,7 @@ class Conjunction(Module):
         self.memory: dict[str, bool] = {}
 
     def __repr__(self) -> str:
-        return f'<{self.__class__.__name__} name={self.name!r}> memory={self.memory}'
+        return f'<{self.__class__.__name__} name={self.name!r}> memory={self.memory}>'
 
 class Day20(Solution):
     NAME: ClassVar[str] = 'Pulse Propagation'
@@ -133,6 +136,7 @@ class Day20(Solution):
                 Destination(target, pulse=False)
                 for target in broadcast_targets
             ]
+            print(destinations)
             while destinations:
                 source = destinations.pop(0)
 

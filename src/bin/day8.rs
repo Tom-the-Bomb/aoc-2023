@@ -5,27 +5,13 @@ use std::{
     collections::HashMap,
     fmt::Display,
 };
-use aoc_2023::Solution;
+use aoc_2023::{Solution, lcm};
 
 pub struct Day8;
 
 type Map = HashMap<String, (String, String)>;
 
 impl Day8 {
-    fn gcd(a: u64, b: u64) -> u64 {
-        if b == 0 { a } else { Self::gcd(b, a % b) }
-    }
-
-    fn lcm<I>(nums: I) -> u64
-    where
-        I: Iterator<Item = u64>,
-    {
-        nums.fold(
-            1,
-            |num, ans| num * ans / Self::gcd(num, ans),
-        )
-    }
-
     fn parse<T: Display>(inp: T)
         -> (String, Map)
     {
@@ -62,7 +48,7 @@ impl Day8 {
         right: S,
         nodes: &Map,
         end_condition: F
-    ) -> u64
+    ) -> usize
     where
         S: Display,
         F: Fn(&String) -> bool,
@@ -96,7 +82,7 @@ impl Day8 {
     /// # Panics
     ///
     /// Panics if the AAA node does not exist for some reason
-    pub fn part_one<T: Display>(&self, inp: T) -> u64 {
+    pub fn part_one<T: Display>(&self, inp: T) -> usize {
         let (instructions, nodes) =
             Self::parse(inp);
         let (left, right) = nodes.get("AAA")
@@ -106,11 +92,11 @@ impl Day8 {
         )
     }
 
-    pub fn part_two<T: Display>(&self, inp: T) -> u64 {
+    pub fn part_two<T: Display>(&self, inp: T) -> usize {
         let (instructions, nodes) =
             Self::parse(inp);
 
-        Self::lcm(nodes
+        lcm(nodes
             .iter()
             .filter_map(|(key, value)|
                 key

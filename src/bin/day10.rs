@@ -46,7 +46,7 @@ impl Day10 {
                 return (i, j)
             }
         }
-        panic!("No 'S' u8acter found in grid")
+        panic!("No 'S' character found in grid")
     }
 
     fn get_loop(grid: &[Vec<u8>]) -> HashSet<(usize, usize)> {

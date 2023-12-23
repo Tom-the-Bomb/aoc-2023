@@ -4,8 +4,10 @@ use std::{
 };
 
 pub use solution::*;
+pub use util::*;
 
 pub mod solution;
+pub mod util;
 
 /// # Panics
 ///

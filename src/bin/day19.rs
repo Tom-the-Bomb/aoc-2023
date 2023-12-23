@@ -67,6 +67,7 @@ impl<'a> Workflow<'a> {
 pub struct Day19;
 
 impl Day19 {
+    #[must_use]
     fn parse_workflows<T>(raw: &T) -> HashMap<String, Workflow<'_>>
     where
         T: AsRef<str>
@@ -120,6 +121,7 @@ impl Day19 {
             )
     }
 
+    #[must_use]
     fn is_accepted(
         workflows: &HashMap<String, Workflow>,
         group: &HashMap<String, usize>,
@@ -143,6 +145,7 @@ impl Day19 {
         }
     }
 
+    #[must_use]
     fn count_range(
         workflows: &HashMap<String, Workflow>,
         ranges: &mut HashMap<String, Range<usize>>,
