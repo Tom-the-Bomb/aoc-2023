@@ -136,7 +136,6 @@ class Day20(Solution):
                 Destination(target, pulse=False)
                 for target in broadcast_targets
             ]
-            print(destinations)
             while destinations:
                 source = destinations.pop(0)
 
