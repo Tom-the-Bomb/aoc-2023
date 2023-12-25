@@ -6,3 +6,5 @@ Solutions in `Python 3` :snake: and `Rust` :crab:
     - if `day` is not provided, it executes **all** solutions
 - `./runrs [day]` - Executes __rust__ solutions
     - if `day` is not provided, it executes **all** solutions
+
+Only the `python` solutions are well documented 

@@ -27,6 +27,7 @@ class Day10(Solution):
     }
 
     def _get_starting_pos(self, grid: list[str]) -> tuple[int, int]:
+        """Finds and returns the coordinates (indices) of the starting position, the character 'S'"""
         for i, row in enumerate(grid):
             for j, char in enumerate(row):
                 if char == 'S':

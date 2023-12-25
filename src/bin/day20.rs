@@ -1,3 +1,5 @@
+#![feature(map_try_insert)]
+
 //! Day 20: Pulse Propagation
 //!
 //! <https://adventofcode.com/2023/day/20>
@@ -244,10 +246,9 @@ impl Day20 {
                             source.name.to_string(),
                             true,
                         );
-
-                        if !press_amounts.contains_key(source.name) {
-                            press_amounts.insert(source.name, n_presses);
-                        }
+                        press_amounts
+                            .try_insert(source.name, n_presses)
+                            .ok();
 
                         if seen
                             .values()
