@@ -57,9 +57,11 @@ class Day21(Solution):
                     # i.e. when we are in th initial, given grid:
                     #   `n_row_wraps` and `n_col_wraps` are both `0`
                     #
-                    # quotient of dividing the current `index` by the number of rows/cols
+                    # quotient of dividing the current `index` by the # of rows/cols
                     # needs to be stored in `traversed` to allow the set to distinguish
                     # between coordinates that are the same, but are on different cycles/wraps of the grid
+                    #
+                    # the modulo of the index and the # of rows/cols will give us the index we can use on the gri
                     new_row_wraps, new_row = divmod(new_row, n_rows)
                     new_col_wraps, new_col = divmod(new_col, n_cols)
                     new_row_wraps += n_row_wraps
