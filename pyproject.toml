@@ -4,7 +4,7 @@ version = "0.1.0"
 authors = [
     {name = "Tom the Bomb"}
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 description = "Python 3 Advent of Code 2023 Solutions"
 license = {file = "LICENSE"}
 readme = "README.md"

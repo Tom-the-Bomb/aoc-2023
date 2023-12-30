@@ -17,9 +17,8 @@ impl Day15 {
     {
         string
             .as_ref()
-            .as_bytes()
-            .iter()
-            .fold(0u8, |acc, &next| acc
+            .bytes()
+            .fold(0u8, |acc, next| acc
                 .wrapping_add(next)
                 .wrapping_mul(17)
             )

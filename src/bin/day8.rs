@@ -60,12 +60,12 @@ impl Day8 {
         let mut count = 0;
         for instruction in instructions
             .to_string()
-            .chars()
+            .bytes()
             .cycle()
         {
             count += 1;
             let key = match instruction {
-                'L' => left,
+                b'L' => left,
                 _ => right,
             };
             if end_condition(key) {

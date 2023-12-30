@@ -173,10 +173,11 @@ class Day22(Solution):
             # we go through all bricks `b` supports and include it (`a`)
             # if `a` is supported by only 1 brick, which has to be `b`
             to_check = [
-                a for a in supports[b] if len(supported_by[a]) == 1
+                a for a in supports[b]
+                if len(supported_by[a]) == 1
             ]
             # bricks that are going to fall
-            falling = set(to_check + [b])
+            falling = set(to_check)
 
             while to_check:
                 to_fall = to_check.pop(0)
@@ -184,12 +185,13 @@ class Day22(Solution):
                 # go through all bricks that are supported by `to_fall`
                 # that is also NOT already falling
                 for a in supports[to_fall].difference(falling):
-                    # if everything that supports `a` is ALL falling
+                    # if everything that supports `a` are ALL falling
+                    # meaning `a` itself is no longer supported
                     if supported_by[a].issubset(falling):
                         to_check.append(a)
                         falling.add(a)
-            # we need to substract `1` as we included `b` the original disintegrated brick
-            total += len(falling) - 1
+            # add # of falling bricks for each brick `b`
+            total += len(falling)
         return total
 
     def run(self, inp: str) -> None:

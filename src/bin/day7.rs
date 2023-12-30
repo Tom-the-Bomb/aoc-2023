@@ -6,8 +6,8 @@ use aoc_2023::Solution;
 
 pub struct Day7;
 
-static CARDS: [char; 13] = [
-    '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'
+static CARDS: [u8; 13] = [
+    b'2', b'3', b'4', b'5', b'6', b'7', b'8', b'9', b'T', b'J', b'Q', b'K', b'A',
 ];
 
 impl Day7 {
@@ -24,12 +24,12 @@ impl Day7 {
         let hand = hand
             .as_ref();
         let counter = hand
-            .chars()
-            .collect::<HashSet<char>>()
+            .bytes()
+            .collect::<HashSet<u8>>()
             .into_iter()
             .map(|card| hand
-                .chars()
-                .filter(|c| *c == card)
+                .bytes()
+                .filter(|&c| c == card)
                 .count()
             )
             .collect::<Vec<usize>>();
@@ -46,14 +46,14 @@ impl Day7 {
         ];
         #[allow(clippy::cast_possible_wrap)]
         strength.extend(hand
-            .chars()
+            .bytes()
             .enumerate()
             .map(|(i, card)|
                 if jokers.contains(&i) { -1 }
                 else {
                     CARDS
                         .iter()
-                        .position(|r| *r ==  card)
+                        .position(|&r| r ==  card)
                         .unwrap_or_default()
                         as isize
                 }
@@ -75,26 +75,25 @@ impl Day7 {
                     .collect::<Vec<usize>>())
             )
         } else {
-            let mut buf = [0; 4];
-
             Self::get_hand_strength(
-                hand.replace('J',
-                    hand
-                        .chars()
-                        .filter(|card| *card != 'J')
+                hand.replace('J', std::str::from_utf8(
+                    &[hand
+                        .bytes()
+                        .filter(|&card| card != b'J')
                         .max_by_key(|card| hand
-                            .chars()
+                            .bytes()
                             .filter(|c| c == card)
                             .count()
                         )
-                        .unwrap()
-                        .encode_utf8(&mut buf)
+                        .unwrap()]
+                    )
+                    .unwrap()
                 ),
                 &Some(hand
-                    .chars()
+                    .bytes()
                     .enumerate()
                     .filter_map(|(i, card)|
-                        (card == 'J').then_some(i)
+                        (card == b'J').then_some(i)
                     )
                     .collect::<Vec<usize>>(),
                 ),
