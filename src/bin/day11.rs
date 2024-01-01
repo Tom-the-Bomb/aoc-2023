@@ -3,7 +3,6 @@
 //! <https://adventofcode.com/2023/day/11>
 use std::fmt::Display;
 use aoc_2023::Solution;
-use itertools::Itertools;
 
 pub struct Day11;
 
@@ -57,9 +56,9 @@ impl Day11 {
             .collect::<Vec<Vec<u8>>>()
     }
 
-    fn get_total_distances<T: Display>(inp: T, expansion_amount: u64) -> u64 {
+    fn get_total_distances<T: Display>(inp: T, expansion_amount: usize) -> usize {
         let universe = Self::get_universe(inp);
-        let empty_rows = universe
+        let empty_rows = &universe
             .iter()
             .enumerate()
             .filter_map(|(i, row)|
@@ -74,29 +73,39 @@ impl Day11 {
             .unwrap()
             .len();
 
-        let empty_cols = (0..n_cols)
+        let empty_cols = &(0..n_cols)
             .filter(|j| (0..n_rows)
                 .all(|i| universe[i][*j] != b'#')
             )
             .collect::<Vec<usize>>();
 
-        Self::get_galaxies(&universe)
-            .into_iter()
-            .tuple_combinations()
-            .map(|((i1, j1), (i2, j2))| {
-                (i1.min(i2)..i1.max(i2))
-                    .map(|row|
-                        if empty_rows.contains(&row) { expansion_amount }
-                        else { 1 }
+        let galaxies = Self::get_galaxies(&universe);
+
+        galaxies
+            .iter()
+            .enumerate()
+            // galaxy 1
+            .flat_map(|(idx, &(i1, j1))|
+                galaxies
+                    .iter()
+                    // effectively equivalent to getting combinations where k=2
+                    .take(idx)
+                    // galaxy 2
+                    .map(move |&(i2, j2)|
+                        (i1.min(i2)..i1.max(i2))
+                            .map(|row|
+                                if empty_rows.contains(&row) { expansion_amount }
+                                else { 1 }
+                            )
+                            .sum::<usize>()
+                        + (j1.min(j2)..j1.max(j2))
+                            .map(|col|
+                                if empty_cols.contains(&col) { expansion_amount }
+                                else { 1 }
+                            )
+                            .sum::<usize>()
                     )
-                    .sum::<u64>()
-                + (j1.min(j2)..j1.max(j2))
-                    .map(|col|
-                        if empty_cols.contains(&col) { expansion_amount }
-                        else { 1 }
-                    )
-                    .sum::<u64>()
-            })
+            )
             .sum()
     }
 
@@ -106,20 +115,27 @@ impl Day11 {
         let universe = Self::expand_one(
             Self::get_universe(inp)
         );
-        Self::get_galaxies(&universe)
-            .into_iter()
-            .tuple_combinations()
-            .map(|((i1, j1), (i2, j2))|
-                i2.abs_diff(i1) + j2.abs_diff(j1)
+        let galaxies = Self::get_galaxies(&universe);
+
+        galaxies
+            .iter()
+            .enumerate()
+            .flat_map(|(idx, &(i1, j1))|
+                galaxies
+                    .iter()
+                    .take(idx)
+                    .map(move |&(i2, j2)|
+                        i2.abs_diff(i1) + j2.abs_diff(j1)
+                    )
             )
             .sum()
     }
 
-    pub fn part_one<T: Display>(&self, inp: T) -> u64 {
+    pub fn part_one<T: Display>(&self, inp: T) -> usize {
         Self::get_total_distances(inp, 2)
     }
 
-    pub fn part_two<T: Display>(&self, inp: T) -> u64 {
+    pub fn part_two<T: Display>(&self, inp: T) -> usize {
         Self::get_total_distances(inp, 1_000_000)
     }
 }
@@ -131,7 +147,7 @@ impl Solution for Day11 {
         let p1 = self.part_one(&inp);
         let p2 = self.part_two(&inp);
 
-        assert_eq!(p1, self.part_one_bf(&inp) as u64);
+        assert_eq!(p1, self.part_one_bf(&inp));
 
         println!("Part 1: {p1}");
         println!("Part 2: {p2}");

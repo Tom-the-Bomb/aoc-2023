@@ -13,7 +13,7 @@ from ..solution import Solution
 class Day23(Solution):
     NAME: ClassVar[str] = 'A Long Walk'
 
-    def _get_neighbors(self, grid: list[str], i: int, j: int) -> dict[str, tuple[int, int]]:
+    def _get_neighbors(self, grid: list[str], row: int, col: int) -> dict[str, tuple[int, int]]:
         """Returns the 4-neighborhood tiles of (i, j)
 
         while ensuring it is not a maze wall ('#')
@@ -23,16 +23,16 @@ class Day23(Solution):
         n_cols = len(grid[0])
 
         return {
-            direction: (i, j)
-            for direction, (i, j) in (
-                ('>', (i, j + 1)),
-                ('<', (i, j - 1)),
-                ('v', (i + 1, j)),
-                ('^', (i - 1, j)),
+            direction: (row, col)
+            for direction, (row, col) in (
+                ('>', (row, col + 1)),
+                ('<', (row, col - 1)),
+                ('v', (row + 1, col)),
+                ('^', (row - 1, col)),
             )
-            if i in range(n_rows)
-            and j in range(n_cols)
-            and grid[i][j] != '#'
+            if row in range(n_rows)
+            and col in range(n_cols)
+            and grid[row][col] != '#'
         }
 
     def _hike(self, inp: str, *, slopes: bool) -> int:
@@ -75,7 +75,7 @@ class Day23(Solution):
                     row, col = node
                     connected_nodes = self._get_neighbors(grid, row, col)
 
-                    for row, col in (
+                    for node in (
                         [slope]
                         # we've reached a slope tile: '<', '>', '^', 'v'
                         # obtain the single direction (neighbor in that direction)
@@ -84,7 +84,7 @@ class Day23(Solution):
                         # '.' tile, regular tile, check all 4 neighbors
                         else connected_nodes.values()
                     ):
-                        if (node := (row, col)) not in seen:
+                        if node not in seen:
                             # add tile as part of edge, increment distance
                             to_check.append((node, distance + 1))
                             seen.add(node)

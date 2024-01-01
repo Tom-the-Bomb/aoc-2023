@@ -13,8 +13,8 @@ impl Day12 {
     fn get_arrangements<'a, T, C>(
         records: &'a T,
         criteria: &'a C,
-        cache: &mut HashMap<(&'a [u8], &'a [usize]), u64>,
-    ) -> u64
+        cache: &mut HashMap<(&'a [u8], &'a [usize]), usize>,
+    ) -> usize
     where
         T: AsRef<[u8]> + ?Sized,
         C: AsRef<[usize]> + ?Sized,
@@ -27,9 +27,9 @@ impl Day12 {
         let criteria_empty = criteria
             .is_empty();
         if records.is_empty() {
-            return u64::from(criteria_empty)
+            return usize::from(criteria_empty)
         } else if criteria_empty {
-            return u64::from(!records.contains(&b'#'))
+            return usize::from(!records.contains(&b'#'))
         }
 
         if let Some(&val) = cache.get(&(records, criteria)) {
@@ -73,7 +73,7 @@ impl Day12 {
     /// # Panics
     ///
     /// If unable to parse out the criteria and records from each line
-    pub fn part_one<T: Display>(&self, inp: T) -> u64 {
+    pub fn part_one<T: Display>(&self, inp: T) -> usize {
         inp
             .to_string()
             .lines()
@@ -96,7 +96,7 @@ impl Day12 {
     /// # Panics
     ///
     /// If unable to parse out the criteria and records from each line
-    pub fn part_two<T: Display>(&self, inp: T) -> u64 {
+    pub fn part_two<T: Display>(&self, inp: T) -> usize {
         inp
             .to_string()
             .lines()

@@ -9,6 +9,7 @@ pub struct Day14;
 type Grid = Vec<Vec<u8>>;
 
 impl Day14 {
+    #[inline]
     fn transpose(grid: &Grid) -> Grid {
         (0..grid[0].len())
             .map(|i| (0..grid.len())
@@ -18,6 +19,7 @@ impl Day14 {
             .collect::<Grid>()
     }
 
+    #[inline]
     fn reverse_rows(grid: &mut Grid) {
         for row in grid {
             row.reverse();
@@ -40,12 +42,14 @@ impl Day14 {
         }
     }
 
+    #[inline]
     fn tilt_north(grid: &Grid) -> Grid {
         let mut grid = Self::transpose(grid);
         Self::tilt_lever(&mut grid);
         Self::transpose(&grid)
     }
 
+    #[inline]
     fn tilt_south(grid: &Grid) -> Grid {
         let mut grid = Self::transpose(grid);
         Self::reverse_rows(&mut grid);
@@ -54,12 +58,14 @@ impl Day14 {
         Self::transpose(&grid)
     }
 
+    #[inline]
     fn tilt_east(grid: &mut Grid) {
         Self::reverse_rows(grid);
         Self::tilt_lever(grid);
         Self::reverse_rows(grid);
     }
 
+    #[inline]
     fn cycle(grid: &Grid) -> Grid {
         let mut grid = Self::tilt_north(grid);
         Self::tilt_lever(&mut grid);
@@ -68,6 +74,7 @@ impl Day14 {
         grid
     }
 
+    #[inline]
     fn get_load(grid: &Grid) -> usize {
         let n_rows = grid.len();
 
@@ -85,6 +92,7 @@ impl Day14 {
             .sum()
     }
 
+    #[inline]
     fn get_grid<T: Display>(inp: T) -> Grid {
         inp
             .to_string()

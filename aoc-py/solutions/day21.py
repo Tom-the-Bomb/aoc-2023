@@ -20,7 +20,7 @@ class Day21(Solution):
                     return i, j
         raise ValueError("No 'S' character found in grid")
 
-    def traverse(
+    def _traverse(
         self,
         grid: list[str],
         start: tuple[int, int],
@@ -40,6 +40,8 @@ class Day21(Solution):
             (row, col), (n_row_wraps, n_col_wraps), steps_left = to_check.pop(0)
 
             if steps_left % 2 == 0:
+                # even # of steps left -> we are in a cycle of
+                # going back and forth +1 -> -1 ... in the same position, so we end here
                 n_reached += 1
 
             if steps_left > 0:
@@ -54,7 +56,7 @@ class Day21(Solution):
                     # gets the amount of times we wrap around the grid's repetition cycles
                     # also the "n-th cycle" of the grid content
                     #
-                    # i.e. when we are in th initial, given grid:
+                    # i.e. when we are in the initial, given grid:
                     #   `n_row_wraps` and `n_col_wraps` are both `0`
                     #
                     # quotient of dividing the current `index` by the # of rows/cols
@@ -81,7 +83,7 @@ class Day21(Solution):
         grid = inp.splitlines()
         start = self._get_starting_pos(grid)
 
-        return self.traverse(grid, start, steps=64)
+        return self._traverse(grid, start, steps=64)
 
     def part_two(self, inp: str) -> int:
         grid = inp.splitlines()
@@ -91,13 +93,13 @@ class Day21(Solution):
         start = self._get_starting_pos(grid)
         start_x, _ = start
 
-        t1 = self.traverse(grid, start, steps=start_x)
-        t2 = self.traverse(grid, start, steps=start_x + n_rows)
-        t3 = self.traverse(grid, start, steps=start_x + n_rows + n_rows)
-
+        t1 = self._traverse(grid, start, steps=start_x)
+        t2 = self._traverse(grid, start, steps=start_x + n_rows)
+        t3 = self._traverse(grid, start, steps=start_x + n_rows + n_rows)
+        print(t1, t2, t3)
         return (
             (n ** 2 - n)
-            * ((t3 + t1) // 2 - t2)
+            * ((t1 + t3) // 2 - t2)
             + n * (t2 - t1)
             + t1
         )

@@ -166,6 +166,8 @@ class Day22(Solution):
         bricks, supports, supported_by = self._get_support_mappings(inp)
         total = 0
 
+        print(sorted(supports))
+
         for b in range(len(bricks)):
             # all bricks `a` that are SOLELY supported by `b`
             # which will also be all the bricks that will fall once `b` disintegrates

@@ -23,6 +23,7 @@ static GO_DOWN_PIPES: [u8; 3] =
 pub struct Day10;
 
 impl Day10 {
+    #[inline]
     fn get_grid<T: Display>(inp: T) -> Vec<Vec<u8>> {
         inp
             .to_string()

@@ -9,5 +9,8 @@ repository = "https://github.com/Tom-the-Bomb/aoc-2023"
 keywords = ["adventofcode", "aoc"]
 categories = ["Algorithms", "Command line utilities"]
 
+[profile.release]
+overflow-checks = true
+lto = "fat"
+
 [dependencies]
-itertools = "0.12"

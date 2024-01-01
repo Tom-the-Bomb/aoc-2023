@@ -18,7 +18,7 @@ struct Rule<'a> {
 }
 
 impl<'a> Rule<'a> {
-    pub fn eval(&self, data: &HashMap<String, usize>) -> bool {
+    fn eval(&self, data: &HashMap<String, usize>) -> bool {
         data.get(self.key)
             .map(|key| (self.condition)(key, &self.rhs))
             .unwrap_or_default()
@@ -32,14 +32,14 @@ struct Workflow<'a> {
 }
 
 impl<'a> Workflow<'a> {
-    pub const fn from_default(default: &'a str) -> Self {
+    const fn from_default(default: &'a str) -> Self {
         Self {
             default,
             rules: Vec::new(),
         }
     }
 
-    pub fn with_rules<T>(mut self, rules: T) -> Self
+    fn with_rules<T>(mut self, rules: T) -> Self
     where
         T: Iterator<Item = &'a str>
     {
