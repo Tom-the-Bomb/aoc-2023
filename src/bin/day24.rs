@@ -33,6 +33,11 @@ macro_rules! parse_part {
     }
 }
 
+#[inline]
+fn float_cmp(a: f64, b: f64) -> bool {
+    (a - b).abs() < f64::EPSILON
+}
+
 impl FromStr for Hailstone {
     type Err = ParseHailstoneError;
 
@@ -63,23 +68,32 @@ impl Hailstone {
 
     #[inline]
     fn b(&self) -> f64 {
-        self.y_pos - self.m() * self.x_pos
+        self.m()
+            .mul_add(-self.x_pos, self.y_pos)
     }
 
     #[inline]
     fn evaluate(&self, x: f64) -> f64 {
-        self.m() * x + self.b()
+        self.m()
+            .mul_add(x, self.b())
     }
 
     #[inline]
     fn in_domain(&self, x: f64, y: f64) -> bool {
-        (if self.x_vel > 0.0 { x >= self.x_pos }
-        else if self.x_vel == 0.0 { x == self.x_pos }
-        else { x <= self.x_pos })
-        &&
-        (if self.y_vel > 0.0 { y >= self.y_pos }
-        else if self.y_vel == 0.0 { y == self.y_pos }
-        else { y <= self.y_pos })
+        (if self.x_vel > 0.0 {
+            x >= self.x_pos
+        } else if float_cmp(self.x_vel, 0.0) {
+            float_cmp(x, self.x_pos)
+        } else {
+            x <= self.x_pos
+        })
+        && (if self.y_vel > 0.0 {
+            y >= self.y_pos
+        } else if float_cmp(self.x_vel, 0.0) {
+            float_cmp(y, self.y_pos)
+        } else {
+            y <= self.y_pos
+        })
     }
 
     #[inline]
@@ -106,20 +120,19 @@ impl Day24 {
         hailstones
             .iter()
             .enumerate()
-            .flat_map(|(i, hs1)|
-                hailstones
-                    .iter()
-                    .take(i)
-                    .filter(|hs2|
-                        hs1.intersection(hs2)
-                            .map(|(x, y)|
-                                hs1.in_domain(x, y)
-                                && hs2.in_domain(x, y)
-                                && (200_000_000_000_000.0..=400_000_000_000_000.0).contains(&x)
-                                && (200_000_000_000_000.0..=400_000_000_000_000.0).contains(&y)
-                            )
-                            .unwrap_or_default()
+            .flat_map(|(i, hs1)| hailstones
+                .iter()
+                .take(i)
+                .filter(|hs2| hs1
+                    .intersection(hs2)
+                    .map(|(x, y)|
+                        hs1.in_domain(x, y)
+                        && hs2.in_domain(x, y)
+                        && (200_000_000_000_000.0..=400_000_000_000_000.0).contains(&x)
+                        && (200_000_000_000_000.0..=400_000_000_000_000.0).contains(&y)
                     )
+                    .unwrap_or_default()
+                )
             )
             .count()
     }
@@ -140,7 +153,7 @@ impl Solution for Day24 {
         println!("Part 2: {p2}");
 
         assert_eq!(p1, 14672);
-        //assert_eq!(p2, 646_810_057_104_753);
+        assert_eq!(p2, 646_810_057_104_753);
     }
 }
 

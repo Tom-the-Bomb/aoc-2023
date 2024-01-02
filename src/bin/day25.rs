@@ -11,6 +11,9 @@ use aoc_2023::Solution;
 pub struct Day25;
 
 impl Day25 {
+    /// # Panics
+    ///
+    /// If failed to parse line
     pub fn part_one<T: Display>(&self, inp: T) -> usize {
         let mut graph = GraphMap::new();
         let inp = inp
@@ -20,10 +23,7 @@ impl Day25 {
             let (left, right) = line
                 .split_once(':')
                 .unwrap();
-            for node in right
-                .trim()
-                .split_whitespace()
-            {
+            for node in right.split_whitespace() {
                 graph.add_edge(left, node, 1);
                 graph.add_edge(node, left, 1);
             }
@@ -31,8 +31,8 @@ impl Day25 {
 
         if let Ok(Some((_, partition_1))) = min_cut(
             &graph,
-            |_| Ok::<usize, usize>(1))
-        {
+            |_| Ok::<usize, usize>(1)
+        ) {
             let size_1 = partition_1.len();
             let size_2 = graph.node_count() - size_1;
 
@@ -51,11 +51,11 @@ impl Solution for Day25 {
     const NAME: &'static str = "Snowverload";
 
     fn run(&self, inp: String) {
-        let p1 = self.part_one(&inp);
+        let p1 = self.part_one(inp);
 
         println!("Part 1: {p1}");
 
-        assert_eq!(p1, 554064);
+        assert_eq!(p1, 554_064);
     }
 }
 
