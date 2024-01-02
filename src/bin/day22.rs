@@ -109,9 +109,11 @@ impl Day22 {
             .lines()
             .filter_map(|line| line.parse::<Brick>().ok())
             .collect::<Vec<Brick>>();
+
+        let n_bricks = bricks.len();
         bricks.sort();
 
-        for i in 0..bricks.len() {
+        for i in 0..n_bricks {
             let brick = &bricks[i];
             let mut z = 1;
 
@@ -128,8 +130,8 @@ impl Day22 {
         }
         bricks.sort();
 
-        let mut supports = HashMap::new();
-        let mut supported_by = HashMap::new();
+        let mut supports = HashMap::with_capacity(n_bricks);
+        let mut supported_by = HashMap::with_capacity(n_bricks);
 
         for (a, brick) in bricks
             .iter()

@@ -17,17 +17,21 @@ class Day25(Solution):
     def part_one(self, inp: str) -> int:
         graph = nx.Graph()
 
+        # generate graph
         for line in inp.splitlines():
             left, right = line.split(':')
             for node in right.strip().split():
                 graph.add_edge(left, node)
                 graph.add_edge(node, left)
 
+        # remove the edges that are of the cut
         graph.remove_edges_from(
             nx.minimum_edge_cut(graph)
         )
 
+        # get 2 partitioned groups after the cut (`a` and `b`)
         a, b = nx.connected_components(graph)
+        # multiply sizes of 2 groups together
         return len(a) * len(b)
 
     def part_two(self, _: str) -> None:

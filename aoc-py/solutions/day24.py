@@ -10,6 +10,7 @@ from typing import ClassVar, Optional
 
 import z3
 import numpy as np
+from sympy import Symbol, solve
 
 from ..solution import Solution
 
@@ -110,11 +111,49 @@ class Day24(Solution):
                         total += 1
         return total
 
+    def part_two_sympy(self, inp: str) -> int:
+        """Part 2 solved algebraically using sympy"""
+        hailstones = [
+            Hailstone.from_str(line) for line in inp.splitlines()
+        ]
+        # Declare symbols:
+        # They are all integers, and positions have to also be non-negative
+        #
+        # rock x, y, z starting positions
+        x_pos = Symbol('x_pos', integer=True, nonnegative=True)
+        y_pos = Symbol('y_pos', integer=True, nonnegative=True)
+        z_pos = Symbol('z_pos', integer=True, nonnegative=True)
+        # rock x, y, z velocities
+        x_vel = Symbol('x_vel', integer=True)
+        y_vel = Symbol('y_vel', integer=True)
+        z_vel = Symbol('z_vel', integer=True)
+
+        equations = []
+
+        for n_eqs, hailstone in enumerate(hailstones, 1):
+            equations.append(
+                (x_pos - hailstone.x_pos) * (hailstone.y_vel - y_vel)    # type: ignore (cannot recognize arithmetic between `int` and `Symbol`)
+                - (y_pos - hailstone.y_pos) * (hailstone.x_vel - x_vel)) # type: ignore
+            equations.append(
+                (y_pos - hailstone.y_pos) * (hailstone.z_vel - z_vel)   # type: ignore
+                - (z_pos - hailstone.z_pos) * (hailstone.y_vel - y_vel) # type: ignore
+            )
+            # we have 3 or more equations -> try solve & solution exists
+            if n_eqs >= 3 and (solutions := solve(equations)):
+                solution = solutions[0]
+                # solution = add up values of (x, y, z) for the rock's position
+                return int(solution[x_pos] + solution[y_pos] + solution[z_pos])
+        raise ValueError('No solution found for the system of equations')
+
     def part_two_linalg(self, inp: str) -> int:
         """Part 2 solved using linear algebra"""
         hs1, hs2, hs3, *_ = [Hailstone.from_str(line) for line in inp.splitlines()]
 
         # solving for `x` in Ax + b where (A = a)
+        #
+        # coeffcient matrix (A) of 6x6
+        # 6 variables & 6 equations generated from positions and velocities
+        # of 3 hailstone vectors that are linearly independent
         a = np.array(
             [
                 [hs2.y_vel - hs1.y_vel, hs1.x_vel - hs2.x_vel, 0, hs1.y_pos - hs2.y_pos, hs2.x_pos - hs1.x_pos, 0],
@@ -181,8 +220,9 @@ class Day24(Solution):
 
     def run(self, inp: str) -> None:
         print('Part 1:', p1 := self.part_one(inp))
-        print('Part 2:', p2 := self.part_two_linalg(inp))
+        print('Part 2:', p2 := self.part_two(inp))
 
+        assert p2 == self.part_two_sympy(inp)
         assert p2 == self.part_two_linalg(inp)
 
         assert p1 == 14672

@@ -20,8 +20,9 @@ impl Day18 {
         (points
             .iter()
             .zip(
-                points[1..]
+                points
                     .iter()
+                    .skip(1)
                     .chain(once(&points[0]))
             )
             .map(|((x1, y1), (x2, y2))|

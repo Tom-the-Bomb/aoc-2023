@@ -7,8 +7,6 @@ use std::{
 };
 use aoc_2023::Solution;
 
-pub struct Day24;
-
 #[derive(Debug, Clone, PartialEq, Eq)]
 struct ParseHailstoneError;
 
@@ -22,6 +20,19 @@ struct Hailstone {
     z_vel: f64,
 }
 
+macro_rules! parse_part {
+    ($parts:expr) => {
+        $parts
+            .next()
+            .and_then(|raw| raw
+                .trim()
+                .parse::<f64>()
+                .ok()
+            )
+            .ok_or(ParseHailstoneError)?
+    }
+}
+
 impl FromStr for Hailstone {
     type Err = ParseHailstoneError;
 
@@ -33,31 +44,13 @@ impl FromStr for Hailstone {
         let mut vel = vel.split(',');
 
         Ok(Self {
-            x_pos: pos
-                .next()
-                .and_then(|x_pos| x_pos.parse::<f64>().ok())
-                .ok_or(ParseHailstoneError)?,
-            y_pos: pos
-                .next()
-                .and_then(|y_pos| y_pos.parse::<f64>().ok())
-                .ok_or(ParseHailstoneError)?,
-            z_pos: pos
-                .next()
-                .and_then(|z_pos| z_pos.parse::<f64>().ok())
-                .ok_or(ParseHailstoneError)?,
+            x_pos: parse_part!(pos),
+            y_pos: parse_part!(pos),
+            z_pos: parse_part!(pos),
 
-            x_vel: vel
-                .next()
-                .and_then(|x_vel| x_vel.parse::<f64>().ok())
-                .ok_or(ParseHailstoneError)?,
-            y_vel: vel
-                .next()
-                .and_then(|y_vel| y_vel.parse::<f64>().ok())
-                .ok_or(ParseHailstoneError)?,
-            z_vel: vel
-                .next()
-                .and_then(|z_vel| z_vel.parse::<f64>().ok())
-                .ok_or(ParseHailstoneError)?,
+            x_vel: parse_part!(vel),
+            y_vel: parse_part!(vel),
+            z_vel: parse_part!(vel),
         })
     }
 }
@@ -99,6 +92,8 @@ impl Hailstone {
             })
     }
 }
+
+pub struct Day24;
 
 impl Day24 {
     pub fn part_one<T: Display>(&self, inp: T) -> usize {
@@ -144,7 +139,7 @@ impl Solution for Day24 {
         println!("Part 1: {p1}");
         println!("Part 2: {p2}");
 
-        //assert_eq!(p1, 14672);
+        assert_eq!(p1, 14672);
         //assert_eq!(p2, 646_810_057_104_753);
     }
 }

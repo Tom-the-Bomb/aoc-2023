@@ -24,11 +24,12 @@ impl Day23 {
             (b'^', (row.wrapping_sub(1), col)),
         ]
         .into_iter()
-        .filter(|&(_, (i, j))| grid
-            .get(i)
-            .and_then(|row| row.get(j))
-            .map(|&tile| tile != b'#')
-            .unwrap_or_default()
+        .filter(|&(_, (i, j))|
+            grid
+                .get(i)
+                .and_then(|row| row.get(j))
+                .map(|&tile| tile != b'#')
+                .unwrap_or_default()
         )
         .collect::<HashMap<u8, Coord>>()
     }
@@ -104,7 +105,7 @@ impl Day23 {
                 )
         );
 
-        let mut graph = HashMap::new();
+        let mut graph = HashMap::with_capacity(nodes.len());
 
         for starting_node in &nodes {
             let mut to_check = VecDeque::from([
