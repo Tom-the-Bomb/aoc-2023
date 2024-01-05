@@ -27,16 +27,16 @@ struct Hailstone {
     z_vel: f64,
 }
 
-type BF1024 = BigFloat<ConstCtx<1024>>;
+type BF128 = BigFloat<ConstCtx<128>>;
 
 #[derive(Debug, Clone, PartialEq)]
 struct BFHailstone {
-    x_pos: BF1024,
-    y_pos: BF1024,
-    z_pos: BF1024,
-    x_vel: BF1024,
-    y_vel: BF1024,
-    z_vel: BF1024,
+    x_pos: BF128,
+    y_pos: BF128,
+    z_pos: BF128,
+    x_vel: BF128,
+    y_vel: BF128,
+    z_vel: BF128,
 }
 
 macro_rules! parse_part {
@@ -79,7 +79,7 @@ macro_rules! impl_from_str {
 }
 
 impl_from_str!(Hailstone, f64);
-impl_from_str!(BFHailstone, BF1024);
+impl_from_str!(BFHailstone, BF128);
 
 #[inline]
 fn float_cmp(a: f64, b: f64) -> bool {
@@ -170,6 +170,10 @@ impl Day24 {
             .count()
     }
 
+    /// # Panics
+    ///
+    /// If failed to invert the `a` matrix
+    /// or failed to parse input lines
     pub fn part_two<T: Display>(&self, inp: T) -> usize {
         let inp = inp.to_string();
         let mut hailstones = inp
@@ -189,27 +193,27 @@ impl Day24 {
 
         let a = Matrix6::new(
             hs2.y_vel.clone() - hs1.y_vel.clone(),
-            hs1.x_vel.clone() - hs2.x_vel.clone(), BF1024::zero(),
+            hs1.x_vel.clone() - hs2.x_vel.clone(), BF128::zero(),
             hs1.y_pos.clone() - hs2.y_pos.clone(),
-            hs2.x_pos.clone() - hs1.x_pos.clone(), BF1024::zero(),
+            hs2.x_pos.clone() - hs1.x_pos.clone(), BF128::zero(),
             hs3.y_vel.clone() - hs1.y_vel.clone(),
-            hs1.x_vel.clone() - hs3.x_vel.clone(), BF1024::zero(),
+            hs1.x_vel.clone() - hs3.x_vel.clone(), BF128::zero(),
             hs1.y_pos.clone() - hs3.y_pos.clone(),
-            hs3.x_pos.clone() - hs1.x_pos.clone(), BF1024::zero(),
-            hs2.z_vel.clone() - hs1.z_vel.clone(), BF1024::zero(),
+            hs3.x_pos.clone() - hs1.x_pos.clone(), BF128::zero(),
+            hs2.z_vel.clone() - hs1.z_vel.clone(), BF128::zero(),
             hs1.x_vel.clone() - hs2.x_vel.clone(),
-            hs1.z_pos.clone() - hs2.z_pos.clone(), BF1024::zero(),
+            hs1.z_pos.clone() - hs2.z_pos.clone(), BF128::zero(),
             hs2.x_pos.clone() - hs1.x_pos.clone(),
-            hs3.z_vel.clone() - hs1.z_vel.clone(), BF1024::zero(),
+            hs3.z_vel.clone() - hs1.z_vel.clone(), BF128::zero(),
             hs1.x_vel.clone() - hs3.x_vel.clone(),
-            hs1.z_pos.clone() - hs3.z_pos.clone(), BF1024::zero(),
+            hs1.z_pos.clone() - hs3.z_pos.clone(), BF128::zero(),
             hs3.x_pos.clone() - hs1.x_pos.clone(),
-            BF1024::zero(), hs2.z_vel.clone() - hs1.z_vel.clone(),
-            hs1.y_vel.clone() - hs2.y_vel.clone(), BF1024::zero(),
+            BF128::zero(), hs2.z_vel.clone() - hs1.z_vel.clone(),
+            hs1.y_vel.clone() - hs2.y_vel.clone(), BF128::zero(),
             hs1.z_pos.clone() - hs2.z_pos.clone(),
             hs2.y_pos.clone() - hs1.y_pos.clone(),
-            BF1024::zero(), hs3.z_vel.clone() - hs1.z_vel.clone(),
-            hs1.y_vel.clone() - hs3.y_vel.clone(), BF1024::zero(),
+            BF128::zero(), hs3.z_vel.clone() - hs1.z_vel.clone(),
+            hs1.y_vel.clone() - hs3.y_vel.clone(), BF128::zero(),
             hs1.z_pos.clone() - hs3.z_pos.clone(),
             hs3.y_pos.clone() - hs1.y_pos.clone(),
         );
@@ -234,6 +238,7 @@ impl Day24 {
             - (hs1.y_pos * hs1.z_vel - hs3.y_pos * hs3.z_vel),
         );
 
+        #[allow(clippy::cast_sign_loss, clippy::cast_possible_truncation)]
         a
             .try_inverse()
             .map(|a_inverse| {
