@@ -13,7 +13,7 @@ pub struct Day25;
 impl Day25 {
     /// # Panics
     ///
-    /// If failed to parse line
+    /// If failed to parse input lines
     pub fn part_one<T: Display>(&self, inp: T) -> usize {
         let mut graph = GraphMap::new();
         let inp = inp
@@ -38,7 +38,7 @@ impl Day25 {
 
             size_1 * size_2
         } else {
-            panic!("Could not perform a minimum cut on the graph");
+            panic!("Could not perform a minimum cut on the graph")
         }
     }
 

@@ -15,3 +15,5 @@ lto = "fat"
 
 [dependencies]
 rustworkx-core = "0.13"
+nalgebra = "0.32"
+astro_nalgebra = "0.1"

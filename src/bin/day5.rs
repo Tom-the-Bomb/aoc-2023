@@ -38,7 +38,7 @@ impl Day5 {
                     .unwrap();
                 (src_start..src_start + range, dest_start - src_start)
             })
-            .collect::<Vec<_>>()
+            .collect::<Vec<(Range<i64>, i64)>>()
     }
 
     /// # Panics

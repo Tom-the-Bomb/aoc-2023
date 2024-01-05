@@ -174,7 +174,9 @@ class Day24(Solution):
             hs1.z_pos * hs1.y_vel - hs3.z_pos * hs3.y_vel - (hs1.y_pos * hs1.z_vel - hs3.y_pos * hs3.z_vel),
         ])
 
-        return round(sum(np.linalg.solve(a, b)[:3])) # type: ignore (`solve` function is not known)
+        return round(
+            sum(np.linalg.solve(a, b)[:3]) # type: ignore (`solve` function is not known)
+        )
 
     def part_two(self, inp: str) -> int:
         """Part 2 solved using z3-solver"""
