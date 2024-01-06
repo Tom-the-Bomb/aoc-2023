@@ -11,9 +11,9 @@ pub struct Day18;
 
 impl Day18 {
     /// Shoelace formula to find interior area
-    fn shoelace<T>(points: T) -> i64
+    fn shoelace<T>(points: T) -> usize
     where
-        T: AsRef<[(i64, i64)]>
+        T: AsRef<[(isize, isize)]>
     {
         let points = points.as_ref();
 
@@ -28,9 +28,9 @@ impl Day18 {
             .map(|((x1, y1), (x2, y2))|
                 x1 * y2 - x2 * y1
             )
-            .sum::<i64>() / 2
+            .sum::<isize>() / 2
         )
-        .abs()
+        .unsigned_abs()
     }
 
     /// Uses shoelace formula + Pick's theorem to find the total area
@@ -43,9 +43,9 @@ impl Day18 {
     /// # Panics
     ///
     /// If the vector of points is empty
-    fn get_area<T>(data: T) -> i64
+    fn get_area<T>(data: T) -> usize
     where
-        T: Iterator<Item = (i64, (i64, i64))>
+        T: Iterator<Item = (usize, (isize, isize))>
     {
         let (low, high) = data.size_hint();
         let mut points = Vec::with_capacity(
@@ -60,19 +60,24 @@ impl Day18 {
                 .last()
                 .unwrap();
 
+            #[allow(clippy::cast_possible_wrap)]
             points.push((
-                last_x + dir_x * dist,
-                last_y + dir_y * dist,
+                last_x + dir_x * dist as isize,
+                last_y + dir_y * dist as isize,
             ));
             perimeter += dist;
         }
         Self::shoelace(&points) + perimeter / 2 + 1
     }
+}
+
+impl Solution for Day18 {
+    const NAME: &'static str = "Lavaduct Lagoon";
 
     /// # Panics
     ///
     /// If failed to parse input numbers
-    pub fn part_one<T: Display>(&self, inp: T) -> i64 {
+    fn part_one<T: Display>(&self, inp: T) -> usize {
         let inp = inp.to_string();
         let data = inp
             .lines()
@@ -90,7 +95,7 @@ impl Day18 {
                 };
                 let dist = parts
                     .next()
-                    .and_then(|dist| dist.parse::<i64>().ok())
+                    .and_then(|dist| dist.parse::<usize>().ok())
                     .unwrap();
                 (dist, direction)
             });
@@ -100,7 +105,7 @@ impl Day18 {
     /// # Panics
     ///
     /// If failed to parse input numbers
-    pub fn part_two<T: Display>(&self, inp: T) -> i64 {
+    fn part_two<T: Display>(&self, inp: T) -> usize {
         let inp = inp.to_string();
         let data = inp
             .lines()
@@ -113,7 +118,7 @@ impl Day18 {
                 let (dist, direction) = hexcode
                     .split_at(hexcode.len() - 1);
                 (
-                    i64::from_str_radix(dist, 16)
+                    usize::from_str_radix(dist, 16)
                         .unwrap(),
                     [
                         (1, 0),
@@ -128,10 +133,6 @@ impl Day18 {
             });
         Self::get_area(data)
     }
-}
-
-impl Solution for Day18 {
-    const NAME: &'static str = "Lavaduct Lagoon";
 
     fn run(&self, inp: String) {
         let p1 = self.part_one(&inp);

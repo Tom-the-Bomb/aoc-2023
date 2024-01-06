@@ -9,14 +9,14 @@ use aoc_2023::Solution;
 pub struct Day9;
 
 impl Day9 {
-    fn get_diffs(sequence: Vec<i32>) -> Vec<Vec<i32>> {
+    fn get_diffs(sequence: Vec<isize>) -> Vec<Vec<isize>> {
         let mut diffs = vec![sequence];
 
         while diffs
             .first()
             .unwrap()
             .iter()
-            .sum::<i32>() != 0
+            .sum::<isize>() != 0
         {
             diffs.insert(0,
                 diffs
@@ -24,16 +24,21 @@ impl Day9 {
                     .unwrap()
                     .iter()
                     .map_windows(|[t1, t2]| *t2 - *t1)
-                    .collect::<Vec<i32>>()
+                    .collect::<Vec<isize>>()
             );
         }
         diffs
     }
+}
+
+impl Solution for Day9 {
+    const NAME: &'static str = "Mirage Maintenance";
 
     /// # Panics
     ///
     /// If sequences or diffs are somehow empty
-    pub fn part_one<T: Display>(&self, inp: T) -> i32 {
+    #[allow(clippy::cast_sign_loss)]
+    fn part_one<T: Display>(&self, inp: T) -> usize {
         inp
             .to_string()
             .lines()
@@ -41,15 +46,11 @@ impl Day9 {
                 let mut diffs = Self::get_diffs(
                     sequence
                         .split_whitespace()
-                        .filter_map(|t| t.parse::<i32>().ok())
-                        .collect::<Vec<i32>>()
+                        .filter_map(|t| t.parse::<isize>().ok())
+                        .collect::<Vec<isize>>()
                 );
-                for (i, diff) in diffs
-                    .clone()
-                    .into_iter()
-                    .enumerate()
-                {
-                    let new_term = diff
+                for i in 0..diffs.len() {
+                    let new_term = diffs[i]
                         .last()
                         .and_then(|previous_term|
                             if i == 0 { Some(&0) }
@@ -68,13 +69,14 @@ impl Day9 {
                     .and_then(|sequence| sequence.last())
                     .unwrap()
             })
-            .sum()
+            .sum::<isize>() as usize
     }
 
     /// # Panics
     ///
     /// If sequences or diffs are somehow empty
-    pub fn part_two<T: Display>(&self, inp: T) -> i32 {
+    #[allow(clippy::cast_sign_loss)]
+    fn part_two<T: Display>(&self, inp: T) -> usize {
         inp
             .to_string()
             .lines()
@@ -82,8 +84,8 @@ impl Day9 {
                 let mut diffs = Self::get_diffs(
                     sequence
                         .split_whitespace()
-                        .filter_map(|t| t.parse::<i32>().ok())
-                        .collect::<Vec<i32>>()
+                        .filter_map(|t| t.parse::<isize>().ok())
+                        .collect::<Vec<isize>>()
                 );
                 for (i, diff) in diffs
                     .clone()
@@ -109,12 +111,8 @@ impl Day9 {
                     .and_then(|diff| diff.first())
                     .unwrap()
             })
-            .sum()
+            .sum::<isize>() as usize
     }
-}
-
-impl Solution for Day9 {
-    const NAME: &'static str = "Mirage Maintenance";
 
     fn run(&self, inp: String) {
         let p1 = self.part_one(&inp);

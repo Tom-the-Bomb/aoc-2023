@@ -82,8 +82,12 @@ impl Day16 {
             .collect::<HashSet<(usize, usize)>>()
             .len()
     }
+}
 
-    pub fn part_one<T: Display>(&self, inp: T) -> usize {
+impl Solution for Day16 {
+    const NAME: &'static str = "The Floor Will Be Lava";
+
+    fn part_one<T: Display>(&self, inp: T) -> usize {
         Self::get_energized_amount(
             &Self::get_grid(inp),
             0, usize::MAX, 0, 1,
@@ -93,7 +97,7 @@ impl Day16 {
     /// # Panics
     ///
     /// If the grid is empty
-    pub fn part_two<T: Display>(&self, inp: T) -> usize {
+    fn part_two<T: Display>(&self, inp: T) -> usize {
         let grid = Self::get_grid(inp);
 
         let n_rows = grid.len();
@@ -135,10 +139,6 @@ impl Day16 {
             )
             .unwrap()
     }
-}
-
-impl Solution for Day16 {
-    const NAME: &'static str = "The Floor Will Be Lava";
 
     fn run(&self, inp: String) {
         let p1 = self.part_one(&inp);

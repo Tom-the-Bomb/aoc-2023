@@ -10,11 +10,13 @@ use aoc_2023::Solution;
 
 pub struct Day25;
 
-impl Day25 {
+impl Solution for Day25 {
+    const NAME: &'static str = "Snowverload";
+
     /// # Panics
     ///
     /// If failed to parse input lines
-    pub fn part_one<T: Display>(&self, inp: T) -> usize {
+    fn part_one<T: Display>(&self, inp: T) -> usize {
         let mut graph = GraphMap::new();
         let inp = inp
             .to_string();
@@ -42,13 +44,9 @@ impl Day25 {
         }
     }
 
-    pub fn part_two<T: Display>(&self, _inp: T) -> usize {
+    fn part_two<T: Display>(&self, _inp: T) -> usize {
         unimplemented!()
     }
-}
-
-impl Solution for Day25 {
-    const NAME: &'static str = "Snowverload";
 
     fn run(&self, inp: String) {
         let p1 = self.part_one(inp);

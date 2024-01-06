@@ -6,11 +6,13 @@ use aoc_2023::Solution;
 
 pub struct Day2;
 
-impl Day2 {
+impl Solution for Day2 {
+    const NAME: &'static str = "Cube Conundrum";
+
     /// # Panics
     ///
     /// If failed to parse each line's delimiters
-    pub fn part_one<T: Display>(&self, inp: T) -> u32 {
+    fn part_one<T: Display>(&self, inp: T) -> usize {
         inp.to_string()
             .lines()
             .map(|line| {
@@ -19,7 +21,7 @@ impl Day2 {
                     .unwrap();
                 let game_id = game_id
                     .trim_start_matches("Game ")
-                    .parse::<u32>()
+                    .parse::<usize>()
                     .unwrap();
 
                 if plays
@@ -35,7 +37,7 @@ impl Day2 {
                                 .split_once(' ')
                                 .unwrap();
                             let num = num
-                                .parse::<u32>()
+                                .parse::<usize>()
                                 .unwrap();
                             match name {
                                 "red" => red += num,
@@ -54,7 +56,7 @@ impl Day2 {
     /// # Panics
     ///
     /// If failed to parse each line's delimiters
-    pub fn part_two<T: Display>(&self, inp: T) -> u32 {
+    fn part_two<T: Display>(&self, inp: T) -> usize {
         inp.to_string()
             .lines()
             .map(|line| {
@@ -73,7 +75,7 @@ impl Day2 {
                         .split_once(' ')
                         .unwrap();
                     let num = num
-                        .parse::<u32>()
+                        .parse::<usize>()
                         .unwrap();
                     match name {
                         "red" if num > red => red = num,
@@ -86,10 +88,6 @@ impl Day2 {
             })
             .sum()
     }
-}
-
-impl Solution for Day2 {
-    const NAME: &'static str = "Cube Conundrum";
 
     fn run(&self, inp: String) {
         let p1 = self.part_one(&inp);

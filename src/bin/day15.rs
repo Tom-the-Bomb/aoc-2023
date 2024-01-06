@@ -23,21 +23,25 @@ impl Day15 {
                 .wrapping_mul(17)
             )
     }
+}
 
-    pub fn part_one<T: Display>(&self, inp: T) -> u32 {
+impl Solution for Day15 {
+    const NAME: &'static str = "Lens Library";
+
+    fn part_one<T: Display>(&self, inp: T) -> usize {
         inp
             .to_string()
             .split(',')
-            .map(|s| u32::from(Self::hash(s)))
+            .map(|s| usize::from(Self::hash(s)))
             .sum()
     }
 
     /// # Panics
     ///
     /// If neither a '=' or '-' exist in an entry in the input
-    pub fn part_two<T: Display>(&self, inp: T) -> u32 {
+    fn part_two<T: Display>(&self, inp: T) -> usize {
         let inp = inp.to_string();
-        let mut boxes: [Vec<(&str, u32)>; 256] =
+        let mut boxes: [Vec<(&str, usize)>; 256] =
             std::array::from_fn(|_| Vec::new());
 
         for string in inp
@@ -58,7 +62,7 @@ impl Day15 {
                     map
                         .iter()
                         .position(|(l, _)| *l == label),
-                    focus.parse::<u32>()
+                    focus.parse::<usize>()
                 ) {
                     // label already exists, focus is a number
                     // update entry
@@ -94,10 +98,6 @@ impl Day15 {
             )
             .sum()
     }
-}
-
-impl Solution for Day15 {
-    const NAME: &'static str = "Lens Library";
 
     fn run(&self, inp: String) {
         let p1 = self.part_one(&inp);

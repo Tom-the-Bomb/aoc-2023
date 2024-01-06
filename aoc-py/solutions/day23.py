@@ -56,6 +56,9 @@ class Day23(Solution):
         #
         # maps: node -> (map: connected nodes -> distance away from starting node)
         # only stores directly adjacent nodes
+        #
+        # Created from [Edge Contraction](https://en.wikipedia.org/wiki/Edge_contraction)
+        # reducing the maze to only have nodes that are crossroads
         graph = defaultdict(dict)
 
         for starting_node in nodes:

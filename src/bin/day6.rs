@@ -100,19 +100,9 @@ impl Day6 {
             .unwrap()
     }
 
-    /// Non brute force part 1
-    pub fn part_one<T: Display>(&self, inp: T) -> usize {
-        Self::part_one_helper(inp, Self::get_num_beats)
-    }
-
     /// Brute force part 1
     pub fn part_one_bf<T: Display>(&self, inp: T) -> usize {
         Self::part_one_helper(inp, Self::get_num_beats_bf)
-    }
-
-    /// Non brute force part 2
-    pub fn part_two<T: Display>(&self, inp: T) -> usize {
-        Self::part_two_helper(inp, Self::get_num_beats)
     }
 
     /// Brute force part 2
@@ -123,6 +113,16 @@ impl Day6 {
 
 impl Solution for Day6 {
     const NAME: &'static str = "Wait For It";
+
+    /// Non brute force part 1
+    fn part_one<T: Display>(&self, inp: T) -> usize {
+        Self::part_one_helper(inp, Self::get_num_beats)
+    }
+
+    /// Non brute force part 2
+    fn part_two<T: Display>(&self, inp: T) -> usize {
+        Self::part_two_helper(inp, Self::get_num_beats)
+    }
 
     fn run(&self, inp: String) {
         let p1 = self.part_one(&inp);

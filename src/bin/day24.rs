@@ -140,8 +140,10 @@ impl Hailstone {
 
 pub struct Day24;
 
-impl Day24 {
-    pub fn part_one<T: Display>(&self, inp: T) -> usize {
+impl Solution for Day24 {
+    const NAME: &'static str = "Never Tell Me The Odds";
+
+    fn part_one<T: Display>(&self, inp: T) -> usize {
         let hailstones = inp
             .to_string()
             .lines()
@@ -174,7 +176,7 @@ impl Day24 {
     ///
     /// If failed to invert the `a` matrix
     /// or failed to parse input lines
-    pub fn part_two<T: Display>(&self, inp: T) -> usize {
+    fn part_two<T: Display>(&self, inp: T) -> usize {
         let inp = inp.to_string();
         let mut hailstones = inp
             .lines()
@@ -254,10 +256,6 @@ impl Day24 {
             })
             .unwrap()
     }
-}
-
-impl Solution for Day24 {
-    const NAME: &'static str = "Never Tell Me The Odds";
 
     fn run(&self, inp: String) {
         let p1 = self.part_one(&inp);

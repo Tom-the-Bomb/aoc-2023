@@ -158,8 +158,12 @@ impl Day22 {
         }
         (bricks, supports, supported_by)
     }
+}
 
-    pub fn part_one<T: Display>(&self, inp: T) -> usize {
+impl Solution for Day22 {
+    const NAME: &'static str = "Sand Slabs";
+
+    fn part_one<T: Display>(&self, inp: T) -> usize {
         let (bricks, supports, supported_by) = Self::get_support_mappings(inp);
 
         (0..bricks.len())
@@ -178,7 +182,7 @@ impl Day22 {
             .count()
     }
 
-    pub fn part_two<T: Display>(&self, inp: T) -> usize {
+    fn part_two<T: Display>(&self, inp: T) -> usize {
         let (bricks, supports, supported_by) = Self::get_support_mappings(inp);
         let mut total = 0;
 
@@ -215,10 +219,6 @@ impl Day22 {
         }
         total
     }
-}
-
-impl Solution for Day22 {
-    const NAME: &'static str = "Sand Slabs";
 
     fn run(&self, inp: String) {
         let p1 = self.part_one(&inp);

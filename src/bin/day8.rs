@@ -78,11 +78,15 @@ impl Day8 {
         }
         count
     }
+}
+
+impl Solution for Day8 {
+    const NAME: &'static str = "Haunted Wasteland";
 
     /// # Panics
     ///
     /// Panics if the AAA node does not exist for some reason
-    pub fn part_one<T: Display>(&self, inp: T) -> usize {
+    fn part_one<T: Display>(&self, inp: T) -> usize {
         let (instructions, nodes) =
             Self::parse(inp);
         let (left, right) = nodes.get("AAA")
@@ -92,7 +96,7 @@ impl Day8 {
         )
     }
 
-    pub fn part_two<T: Display>(&self, inp: T) -> usize {
+    fn part_two<T: Display>(&self, inp: T) -> usize {
         let (instructions, nodes) =
             Self::parse(inp);
 
@@ -110,10 +114,6 @@ impl Day8 {
             )
         )
     }
-}
-
-impl Solution for Day8 {
-    const NAME: &'static str = "Haunted Wasteland";
 
     fn run(&self, inp: String) {
         let p1 = self.part_one(&inp);

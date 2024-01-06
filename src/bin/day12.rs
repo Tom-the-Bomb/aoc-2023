@@ -69,11 +69,15 @@ impl Day12 {
         cache.insert((records, criteria), count);
         count
     }
+}
+
+impl Solution for Day12 {
+    const NAME: &'static str = "Hot Springs";
 
     /// # Panics
     ///
     /// If unable to parse out the criteria and records from each line
-    pub fn part_one<T: Display>(&self, inp: T) -> usize {
+    fn part_one<T: Display>(&self, inp: T) -> usize {
         inp
             .to_string()
             .lines()
@@ -96,7 +100,7 @@ impl Day12 {
     /// # Panics
     ///
     /// If unable to parse out the criteria and records from each line
-    pub fn part_two<T: Display>(&self, inp: T) -> usize {
+    fn part_two<T: Display>(&self, inp: T) -> usize {
         inp
             .to_string()
             .lines()
@@ -118,10 +122,6 @@ impl Day12 {
             })
             .sum()
     }
-}
-
-impl Solution for Day12 {
-    const NAME: &'static str = "Hot Springs";
 
     fn run(&self, inp: String) {
         let p1 = self.part_one(&inp);

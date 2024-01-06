@@ -83,18 +83,18 @@ impl Day13 {
             })
             .sum()
     }
-
-    pub fn part_one<T: Display>(&self, inp: T) -> usize {
-        Self::get_summary(inp, 0)
-    }
-
-    pub fn part_two<T: Display>(&self, inp: T) -> usize {
-        Self::get_summary(inp, 1)
-    }
 }
 
 impl Solution for Day13 {
     const NAME: &'static str = "Point of Incidence";
+
+    fn part_one<T: Display>(&self, inp: T) -> usize {
+        Self::get_summary(inp, 0)
+    }
+
+    fn part_two<T: Display>(&self, inp: T) -> usize {
+        Self::get_summary(inp, 1)
+    }
 
     fn run(&self, inp: String) {
         let p1 = self.part_one(&inp);

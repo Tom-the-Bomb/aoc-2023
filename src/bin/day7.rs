@@ -100,11 +100,15 @@ impl Day7 {
             )
         }
     }
+}
+
+impl Solution for Day7 {
+    const NAME: &'static str = "Camel Cards";
 
     /// # Panics
     ///
     /// If the hand and bid amount cannot be parsed from a line
-    pub fn part_one<T: Display>(&self, inp: T) -> usize {
+    fn part_one<T: Display>(&self, inp: T) -> usize {
         let hands = inp
             .to_string();
         let mut hands = hands
@@ -129,7 +133,7 @@ impl Day7 {
     /// # Panics
     ///
     /// If the hand and bid amount cannot be parsed from a line
-    pub fn part_two<T: Display>(&self, inp: T) -> usize {
+    fn part_two<T: Display>(&self, inp: T) -> usize {
         let hands = inp
             .to_string();
         let mut hands = hands
@@ -150,10 +154,6 @@ impl Day7 {
             .map(|(i, (_, bid))| (i + 1) * bid)
             .sum()
     }
-}
-
-impl Solution for Day7 {
-    const NAME: &'static str = "Camel Cards";
 
     fn run(&self, inp: String) {
         let p1 = self.part_one(&inp);

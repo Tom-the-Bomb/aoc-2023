@@ -201,11 +201,15 @@ impl Day19 {
             }
         }
     }
+}
+
+impl Solution for Day19 {
+    const NAME: &'static str = "Aplenty";
 
     /// # Panics
     ///
     /// If failed to parse input (malformed)
-    pub fn part_one<T: Display>(&self, inp: T) -> usize {
+    fn part_one<T: Display>(&self, inp: T) -> usize {
         let inp = inp
             .to_string()
             .replace('\r', "");
@@ -226,7 +230,7 @@ impl Day19 {
     /// # Panics
     ///
     /// If failed to parse input (malformed)
-    pub fn part_two<T: Display>(&self, inp: T) -> usize {
+    fn part_two<T: Display>(&self, inp: T) -> usize {
         let inp = inp
             .to_string()
             .replace('\r', "");
@@ -246,10 +250,6 @@ impl Day19 {
             "in",
         )
     }
-}
-
-impl Solution for Day19 {
-    const NAME: &'static str = "Aplenty";
 
     fn run(&self, inp: String) {
         let p1 = self.part_one(&inp);

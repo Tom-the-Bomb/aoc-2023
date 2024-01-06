@@ -17,16 +17,19 @@ impl Day17 {
     /// # Panics
     ///
     /// If the grid is empty for some reason
-    fn find_path<T: Display>(inp: T, is_part_two: bool) -> Option<u32> {
+    fn find_path<T: Display>(inp: T, is_part_two: bool) -> Option<usize> {
         let grid = inp
             .to_string()
             .lines()
             .map(|line| line
                 .chars()
-                .filter_map(|c| c.to_digit(10))
-                .collect::<Vec<u32>>()
+                .filter_map(|c| c
+                    .to_digit(10)
+                    .and_then(|c| usize::try_from(c).ok())
+                )
+                .collect::<Vec<usize>>()
             )
-            .collect::<Vec<Vec<u32>>>();
+            .collect::<Vec<Vec<usize>>>();
 
         let n_rows = grid.len();
         let n_cols = grid
@@ -35,7 +38,7 @@ impl Day17 {
             .len();
         let mut traversed = HashSet::new();
         let mut to_check = BinaryHeap::from([
-            Reverse((0u32, 0u8, (0, 0), (0, 0)))
+            Reverse((0usize, 0u8, (0, 0), (0, 0)))
         ]);
         let max_dir_traversed = if is_part_two { 10 } else { 3 };
 
@@ -104,11 +107,15 @@ impl Day17 {
         }
         None
     }
+}
+
+impl Solution for Day17 {
+    const NAME: &'static str = "Clumsy Crucible";
 
     /// # Panics
     ///
     /// If no paths to the end are found (not possible)
-    pub fn part_one<T: Display>(&self, inp: T) -> u32 {
+    fn part_one<T: Display>(&self, inp: T) -> usize {
         Self::find_path(inp, false)
             .expect("No paths found")
     }
@@ -116,14 +123,10 @@ impl Day17 {
     /// # Panics
     ///
     /// If no paths to the end are found (not possible)
-    pub fn part_two<T: Display>(&self, inp: T) -> u32 {
+    fn part_two<T: Display>(&self, inp: T) -> usize {
         Self::find_path(inp, true)
             .expect("No paths found")
     }
-}
-
-impl Solution for Day17 {
-    const NAME: &'static str = "Clumsy Crucible";
 
     fn run(&self, inp: String) {
         let p1 = self.part_one(&inp);

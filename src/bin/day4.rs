@@ -33,29 +33,31 @@ impl Day4 {
             )
             .count()
     }
+}
+
+impl Solution for Day4 {
+    const NAME: &'static str = "Scratchcards";
 
     /// # Panics
     ///
-    /// If the amount of winning numbers exceeds [`u32::MAX`]
-    pub fn part_one<T: Display>(&self, inp: T) -> u32 {
+    /// If the amount of winning numbers exceeds [`usize::MAX`]
+    fn part_one<T: Display>(&self, inp: T) -> usize {
         inp
             .to_string()
             .lines()
             .map(|card| {
                 let amt_win = Self::get_winning_amt(card);
                 if amt_win > 0 {
-                    (2_u32).pow(
+                    (2_usize).pow(
                         u32::try_from(amt_win)
                             .unwrap() - 1
                     )
-                } else {
-                    0
-                }
+                } else { 0 }
             })
             .sum()
     }
 
-    pub fn part_two<T: Display>(&self, inp: T) -> u32 {
+    fn part_two<T: Display>(&self, inp: T) -> usize {
         let inp = inp.to_string();
         let mut copies = vec![1; inp.lines().count()];
 
@@ -77,10 +79,6 @@ impl Day4 {
             .into_iter()
             .sum()
     }
-}
-
-impl Solution for Day4 {
-    const NAME: &'static str = "Scratchcards";
 
     fn run(&self, inp: String) {
         let p1 = self.part_one(&inp);

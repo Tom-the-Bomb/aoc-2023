@@ -15,8 +15,8 @@ impl Day5 {
     ///
     /// # Panics
     ///
-    /// If the almanac's mapping data fail to be parsed into [`i64`]
-    fn get_lookup_table<T>(map: T) -> Vec<(Range<i64>, i64)>
+    /// If the almanac's mapping data fail to be parsed into [`isize`]
+    fn get_lookup_table<T>(map: T) -> Vec<(Range<isize>, isize)>
     where
         T: AsRef<str>
     {
@@ -26,7 +26,7 @@ impl Day5 {
             .skip(1)
             .map(|line| {
                 let mut parts = line.split_whitespace()
-                    .filter_map(|part| part.parse::<i64>().ok());
+                    .filter_map(|part| part.parse::<isize>().ok());
                 let dest_start = parts
                     .next()
                     .unwrap();
@@ -38,13 +38,17 @@ impl Day5 {
                     .unwrap();
                 (src_start..src_start + range, dest_start - src_start)
             })
-            .collect::<Vec<(Range<i64>, i64)>>()
+            .collect::<Vec<(Range<isize>, isize)>>()
     }
+}
+
+impl Solution for Day5 {
+    const NAME: &'static str = "If You Give A Seed A Fertilizer";
 
     /// # Panics
     ///
     /// If somehow there are no lines in the data after the first
-    pub fn part_one<T: Display>(&self, inp: T) -> i64 {
+    fn part_one<T: Display>(&self, inp: T) -> usize {
         let inp = inp
             .to_string()
             .replace('\r', "");
@@ -55,8 +59,8 @@ impl Day5 {
             .map(|string| string
                 .trim_start_matches("seeds:")
                 .split_whitespace()
-                .filter_map(|item| item.parse::<i64>().ok())
-                .collect::<Vec<i64>>()
+                .filter_map(|item| item.parse::<isize>().ok())
+                .collect::<Vec<isize>>()
             )
             .unwrap();
         for map in maps {
@@ -74,13 +78,14 @@ impl Day5 {
         curr_data
             .into_iter()
             .min()
+            .and_then(|n| usize::try_from(n).ok())
             .unwrap()
     }
 
     /// # Panics
     ///
     /// If somehow there are no lines in the data after the first
-    pub fn part_two<T: Display>(&self, inp: T) -> i64 {
+    fn part_two<T: Display>(&self, inp: T) -> usize {
         let inp = inp
             .to_string()
             .replace('\r', "");
@@ -92,9 +97,9 @@ impl Day5 {
                 string
                     .trim_start_matches("seeds:")
                     .split_whitespace()
-                    .filter_map(|item| item.parse::<i64>().ok())
+                    .filter_map(|item| item.parse::<isize>().ok())
                     .array_chunks::<2>()
-                    .collect::<Vec<[i64; 2]>>()
+                    .collect::<Vec<[isize; 2]>>()
             )
             .unwrap();
 
@@ -125,12 +130,9 @@ impl Day5 {
         curr_data
             .into_iter()
             .min()
-            .unwrap()[0]
+            .and_then(|[n, _]| usize::try_from(n).ok())
+            .unwrap()
     }
-}
-
-impl Solution for Day5 {
-    const NAME: &'static str = "If You Give A Seed A Fertilizer";
 
     fn run(&self, inp: String) {
         let p1 = self.part_one(&inp);

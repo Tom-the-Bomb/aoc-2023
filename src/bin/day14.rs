@@ -103,8 +103,12 @@ impl Day14 {
             )
             .collect::<Grid>()
     }
+}
 
-    pub fn part_one<T: Display>(&self, inp: T) -> usize {
+impl Solution for Day14 {
+    const NAME: &'static str = "Parabolic Reflector Dish";
+
+    fn part_one<T: Display>(&self, inp: T) -> usize {
         Self::get_load(
             &Self::tilt_north(
                 &Self::get_grid(inp)
@@ -115,7 +119,7 @@ impl Day14 {
     /// # Panics
     ///
     /// If the cycles vec is empty
-    pub fn part_two<T: Display>(&self, inp: T) -> usize {
+    fn part_two<T: Display>(&self, inp: T) -> usize {
         let grid = Self::get_grid(inp);
 
         let mut cycles = VecDeque::from([grid]);
@@ -142,10 +146,6 @@ impl Day14 {
             ]
         )
     }
-}
-
-impl Solution for Day14 {
-    const NAME: &'static str = "Parabolic Reflector Dish";
 
     fn run(&self, inp: String) {
         let p1 = self.part_one(&inp);

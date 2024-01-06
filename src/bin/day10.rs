@@ -136,15 +136,19 @@ impl Day10 {
 
         format!("\n{formatted}\n")
     }
+}
 
-    pub fn part_one<T: Display>(&self, inp: T) -> usize {
+impl Solution for Day10 {
+    const NAME: &'static str = "Pipe Maze";
+
+    fn part_one<T: Display>(&self, inp: T) -> usize {
         Self::get_loop(
             &Self::get_grid(inp)
         )
         .len() / 2
     }
 
-    pub fn part_two<T: Display>(&self, inp: T) -> u32 {
+    fn part_two<T: Display>(&self, inp: T) -> usize {
         let grid = Self::get_grid(inp);
         let nodes = Self::get_loop(&grid);
 
@@ -174,10 +178,6 @@ impl Day10 {
         }
         area
     }
-}
-
-impl Solution for Day10 {
-    const NAME: &'static str = "Pipe Maze";
 
     fn run(&self, inp: String) {
         println!("{}", self.display_grid(&inp));

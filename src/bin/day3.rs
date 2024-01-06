@@ -58,11 +58,15 @@ impl Day3 {
             })
             .collect()
     }
+}
+
+impl Solution for Day3 {
+    const NAME: &'static str = "Gear Ratios";
 
     /// # Panics
     ///
-    /// If a number string in the input somehow is unable to be parsed into [`u32`]
-    pub fn part_one<T: Display>(&self, inp: T) -> u32 {
+    /// If a number string in the input somehow is unable to be parsed into [`usize`]
+    fn part_one<T: Display>(&self, inp: T) -> usize {
         let arr = inp
             .to_string()
             .lines()
@@ -90,7 +94,7 @@ impl Day3 {
                             |c| !c.is_numeric() && c != '.'
                         ).is_empty()
                     {
-                        total += curr_num.parse::<u32>()
+                        total += curr_num.parse::<usize>()
                             .unwrap();
                     }
                     curr_indices.clear();
@@ -103,8 +107,8 @@ impl Day3 {
 
     /// # Panics
     ///
-    /// if the numbers failed to be parsed into [`u32`]
-    pub fn part_two<T: Display>(&self, inp: T) -> u32 {
+    /// if the numbers failed to be parsed into [`usize`]
+    fn part_two<T: Display>(&self, inp: T) -> usize {
         let arr = inp
             .to_string()
             .lines()
@@ -152,11 +156,11 @@ impl Day3 {
                             let mut values = num_map.values();
                             total += values.next()
                                 .unwrap()
-                                .parse::<u32>()
+                                .parse::<usize>()
                                 .unwrap()
                                 * values.next()
                                 .unwrap()
-                                .parse::<u32>()
+                                .parse::<usize>()
                                 .unwrap();
                         }
                     }
@@ -165,10 +169,6 @@ impl Day3 {
         }
         total
     }
-}
-
-impl Solution for Day3 {
-    const NAME: &'static str = "Gear Ratios";
 
     fn run(&self, inp: String) {
         let p1 = self.part_one(&inp);

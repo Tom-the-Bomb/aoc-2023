@@ -9,7 +9,7 @@ pub struct Day11;
 impl Day11 {
     /// Brute force method
     /// that expands the universe
-    /// by +1 row for each empty row and +1 column for each empty colun
+    /// by `+1` row for each empty row and +1 column for each empty colun
     fn expand_one(mut universe: Vec<Vec<u8>>) -> Vec<Vec<u8>> {
         for _ in 0..2 {
             let mut new_vec = Vec::with_capacity(universe.len());
@@ -130,18 +130,18 @@ impl Day11 {
             )
             .sum()
     }
-
-    pub fn part_one<T: Display>(&self, inp: T) -> usize {
-        Self::get_total_distances(inp, 2)
-    }
-
-    pub fn part_two<T: Display>(&self, inp: T) -> usize {
-        Self::get_total_distances(inp, 1_000_000)
-    }
 }
 
 impl Solution for Day11 {
     const NAME: &'static str = "Cosmic Expansion";
+
+    fn part_one<T: Display>(&self, inp: T) -> usize {
+        Self::get_total_distances(inp, 2)
+    }
+
+    fn part_two<T: Display>(&self, inp: T) -> usize {
+        Self::get_total_distances(inp, 1_000_000)
+    }
 
     fn run(&self, inp: String) {
         let p1 = self.part_one(&inp);

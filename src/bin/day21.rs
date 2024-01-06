@@ -102,8 +102,12 @@ impl Day21 {
         }
         n_reached
     }
+}
 
-    pub fn part_one<T: Display>(&self, inp: T) -> usize {
+impl Solution for Day21 {
+    const NAME: &'static str = "Step Counter";
+
+    fn part_one<T: Display>(&self, inp: T) -> usize {
         let grid = Self::get_grid(inp);
         Self::traverse(
             &grid,
@@ -112,7 +116,7 @@ impl Day21 {
         )
     }
 
-    pub fn part_two<T: Display>(&self, inp: T) -> usize {
+    fn part_two<T: Display>(&self, inp: T) -> usize {
         let grid = Self::get_grid(inp);
         let start = Self::get_starting_pos(&grid);
 
@@ -128,10 +132,6 @@ impl Day21 {
             + n * (t2 - t1)
             + t1
     }
-}
-
-impl Solution for Day21 {
-    const NAME: &'static str = "Step Counter";
 
     fn run(&self, inp: String) {
         let p1 = self.part_one(&inp);

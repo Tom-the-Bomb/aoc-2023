@@ -144,18 +144,18 @@ impl Day23 {
         }
         Self::dfs(start, end, &graph, &mut HashSet::new())
     }
-
-    pub fn part_one<T: Display>(&self, inp: T) -> usize {
-        Self::hike(inp, true)
-    }
-
-    pub fn part_two<T: Display>(&self, inp: T) -> usize {
-        Self::hike(inp, false)
-    }
 }
 
 impl Solution for Day23 {
     const NAME: &'static str = "A Long Walk";
+
+    fn part_one<T: Display>(&self, inp: T) -> usize {
+        Self::hike(inp, true)
+    }
+
+    fn part_two<T: Display>(&self, inp: T) -> usize {
+        Self::hike(inp, false)
+    }
 
     fn run(&self, inp: String) {
         let p1 = self.part_one(&inp);

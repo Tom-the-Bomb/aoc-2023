@@ -6,16 +6,21 @@ use aoc_2023::Solution;
 
 pub struct Day1;
 
-impl Day1 {
+impl Solution for Day1 {
+    const NAME: &'static str = "Trebuchet!?";
+
     /// # Panics
     ///
     /// If no digits exist on a line
-    pub fn part_one<T: Display>(&self, inp: T) -> u32 {
+    fn part_one<T: Display>(&self, inp: T) -> usize {
         inp.to_string()
             .lines()
             .map(|line| {
                 let mut digits = line.chars()
-                    .filter_map(|c| c.to_digit(10));
+                    .filter_map(|c| c
+                        .to_digit(10)
+                        .and_then(|c| usize::try_from(c).ok())
+                    );
                 let first = digits
                     .next()
                     .unwrap();
@@ -26,7 +31,7 @@ impl Day1 {
             .sum()
     }
 
-    pub fn part_two<T: Display>(&self, inp: T) -> u32 {
+    fn part_two<T: Display>(&self, inp: T) -> usize {
         let mut inp = inp.to_string();
         let map = [
             ("one", "1"),
@@ -44,10 +49,6 @@ impl Day1 {
         }
         self.part_one(inp)
     }
-}
-
-impl Solution for Day1 {
-    const NAME: &'static str = "Trebuchet!?";
 
     fn run(&self, inp: String) {
         let p1 = self.part_one(&inp);

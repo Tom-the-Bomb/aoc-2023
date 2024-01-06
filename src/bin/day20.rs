@@ -168,8 +168,12 @@ impl Day20 {
             })
             .collect::<VecDeque<Destination>>()
     }
+}
 
-    pub fn part_one<T: Display>(&self, inp: T) -> usize {
+impl Solution for Day20 {
+    const NAME: &'static str = "Pulse Propagation";
+
+    fn part_one<T: Display>(&self, inp: T) -> usize {
         let inp = inp.to_string();
         let (mut modules, broadcast_targets) =
             Self::parse_input(&inp);
@@ -205,7 +209,7 @@ impl Day20 {
     /// # Panics
     ///
     /// If the module that feeds into 'rx' is not found
-    pub fn part_two<T: Display>(&self, inp: T) -> usize {
+    fn part_two<T: Display>(&self, inp: T) -> usize {
         let inp = inp.to_string();
         let (mut modules, broadcast_targets) =
             Self::parse_input(&inp);
@@ -271,10 +275,6 @@ impl Day20 {
         }
         unreachable!()
     }
-}
-
-impl Solution for Day20 {
-    const NAME: &'static str = "Pulse Propagation";
 
     fn run(&self, inp: String) {
         let p1 = self.part_one(&inp);
