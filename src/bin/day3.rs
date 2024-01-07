@@ -10,53 +10,55 @@ use aoc_2023::Solution;
 pub struct Day3;
 
 impl Day3 {
-    fn symbol_adjacent<F, A>(
-        arr: &[Vec<char>],
-        coordinates: A,
+    fn symbol_adjacent<A, C, F>(
+        arr: A,
+        coordinates: C,
         condition: F,
     ) -> Vec<(usize, usize)>
     where
         F: Fn(char) -> bool,
-        A: AsRef<[(usize, usize)]>,
+        A: AsRef<[Vec<char>]>,
+        C: AsRef<[(usize, usize)]>,
     {
+        let arr = arr.as_ref();
         let coordinates = coordinates.as_ref();
         let n_coords = coordinates.len() - 1;
 
         coordinates
             .iter()
             .enumerate()
-            .flat_map(|(i, (row, col))| {
+            .flat_map(|(i, &(row, col))| {
                 let mut indices = vec![
-                    (row.wrapping_sub(1), *col),
-                    (*row + 1, *col),
+                    (row.wrapping_sub(1), col),
+                    (row + 1, col),
                 ];
                 if i == 0 {
                     indices.extend([
-                        (*row, col.wrapping_sub(1)),
+                        (row, col.wrapping_sub(1)),
                         (row.wrapping_sub(1), col.wrapping_sub(1)),
-                        (*row + 1, col.wrapping_sub(1)),
+                        (row + 1, col.wrapping_sub(1)),
                     ]);
                 }
                 if i == n_coords {
                     indices.extend([
-                        (*row, *col + 1),
-                        (row.wrapping_sub(1), *col + 1),
-                        (*row + 1, *col + 1),
+                        (row, col + 1),
+                        (row.wrapping_sub(1), col + 1),
+                        (row + 1, col + 1),
                     ]);
                 }
                 indices
                     .into_iter()
-                    .filter_map(|(y, x)|
-                        arr.get(y)
-                            .and_then(|row| row
-                                .get(x)
-                                .and_then(|c| condition(*c)
-                                    .then_some((y, x))
-                                )
+                    .filter_map(|coord @ (row, col)| arr
+                        .get(row)
+                        .and_then(|row| row
+                            .get(col)
+                            .and_then(|&c| condition(c)
+                                .then_some(coord)
                             )
+                        )
                     )
             })
-            .collect()
+            .collect::<Vec<(usize, usize)>>()
     }
 }
 
@@ -70,7 +72,7 @@ impl Solution for Day3 {
         let arr = inp
             .to_string()
             .lines()
-            .map(|line| line.chars().collect())
+            .map(|line| line.chars().collect::<Vec<char>>())
             .collect::<Vec<Vec<char>>>();
         let mut total = 0;
 
@@ -91,10 +93,11 @@ impl Solution for Day3 {
                     if !curr_indices.is_empty()
                         && !Self::symbol_adjacent(
                             &arr, &curr_indices,
-                            |c| !c.is_numeric() && c != '.'
+                            |c| !c.is_numeric() && c != '.',
                         ).is_empty()
                     {
-                        total += curr_num.parse::<usize>()
+                        total += curr_num
+                            .parse::<usize>()
                             .unwrap();
                     }
                     curr_indices.clear();
@@ -112,7 +115,7 @@ impl Solution for Day3 {
         let arr = inp
             .to_string()
             .lines()
-            .map(|line| line.chars().collect())
+            .map(|line| line.chars().collect::<Vec<char>>())
             .collect::<Vec<Vec<char>>>();
         let mut total = 0;
 
@@ -127,22 +130,26 @@ impl Solution for Day3 {
                 if *chr == '*' {
                     let nums = Self::symbol_adjacent(
                         &arr, [(y, x)],
-                        char::is_numeric
+                        char::is_numeric,
                     );
                     if !nums.is_empty() {
                         let mut num_map = HashMap::new();
                         for (y, mut x) in nums {
                             let mut curr_num = String::new();
 
-                            while arr.get(y)
-                                .and_then(|row| row.get(x.wrapping_sub(1))
+                            while arr
+                                .get(y)
+                                .and_then(|row| row
+                                    .get(x.wrapping_sub(1))
                                     .filter(|c| c.is_numeric())
                                 )
                                 .is_some()
                             {
                                 x -= 1;
                             }
-                            while let Some(chr) = arr.get(y)
+
+                            while let Some(chr) = arr
+                                .get(y)
                                 .and_then(|row| row.get(x)
                                     .filter(|c| c.is_numeric())
                                 )
@@ -154,13 +161,13 @@ impl Solution for Day3 {
                         }
                         if num_map.len() == 2 {
                             let mut values = num_map.values();
-                            total += values.next()
+                            total += values
+                                .next()
+                                .and_then(|a| a.parse::<usize>().ok())
                                 .unwrap()
-                                .parse::<usize>()
-                                .unwrap()
-                                * values.next()
-                                .unwrap()
-                                .parse::<usize>()
+                                * values
+                                .next()
+                                .and_then(|b| b.parse::<usize>().ok())
                                 .unwrap();
                         }
                     }

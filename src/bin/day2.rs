@@ -60,7 +60,8 @@ impl Solution for Day2 {
         inp.to_string()
             .lines()
             .map(|line| {
-                let (_, plays) = line.split_once(':')
+                let (_, plays) = line
+                    .split_once(':')
                     .unwrap();
                 let mut red = 0;
                 let mut green = 0;
