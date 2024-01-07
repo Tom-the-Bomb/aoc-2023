@@ -1,10 +1,14 @@
-use std::{env, process::Command};
+use std::{
+    env,
+    time::Instant,
+    process::Command,
+};
 
 fn run_bin_day(day: u8) -> Option<String> {
     let cmd = Command::new("cargo")
-            .args(["run", "--release", "--bin", &format!("day{day}")])
-            .output()
-            .unwrap();
+        .args(["run", "--release", "--bin", &format!("day{day}")])
+        .output()
+        .unwrap();
     let stdout = String::from_utf8(cmd.stdout)
         .unwrap();
     let stderr = String::from_utf8(cmd.stderr)
@@ -21,8 +25,7 @@ fn main() {
     if let Some(day) = env::args()
         .collect::<Vec<String>>()
         .get(1)
-        .map(|x| x.parse::<u8>())
-        .and_then(Result::ok)
+        .and_then(|x| x.parse::<u8>().ok())
     {
         println!("{}",
             run_bin_day(day)
@@ -30,9 +33,19 @@ fn main() {
         );
     } else {
         let mut day = 1;
+        let instant = Instant::now();
+
         while let Some(output) = run_bin_day(day) {
             println!("{output}");
             day += 1;
         }
+        let text = format!(
+            "[Total Execution time: {:?}]",
+            instant.elapsed(),
+        );
+        println!(
+            "{text}\n{}",
+            "=".repeat(text.chars().count())
+        );
     }
 }

@@ -42,7 +42,5 @@ class Day25(Solution):
 
     def run(self, inp: str) -> None:
         print('Part 1:', p1 := self.part_one(inp))
-        print('Part 2:', p2 := self.part_two(inp))
 
         assert p1 == 554064
-        assert p2 is None

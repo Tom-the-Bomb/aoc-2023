@@ -23,5 +23,5 @@ def run_day(day: int) -> None:
         solution.run(inp)
         end = perf_counter()
 
-        print(line := f'Execution time: {(end - start) * 1000:.2f}ms')
+        print(line := f'Execution time: {(end - start) * 1000:,.2f}ms')
         print('=' * len(line))

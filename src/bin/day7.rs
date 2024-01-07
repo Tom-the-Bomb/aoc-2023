@@ -1,7 +1,7 @@
 //! Day 7: Camel Cards
 //!
 //! <https://adventofcode.com/2023/day/7>
-use std::{collections::HashSet, fmt::Display};
+use std::{collections::HashMap, fmt::Display};
 use aoc_2023::Solution;
 
 pub struct Day7;
@@ -20,21 +20,19 @@ impl Day7 {
         let jokers = jokers
             .as_ref()
             .map(AsRef::as_ref)
-            .unwrap_or(&[]);
+            .unwrap_or_default();
         let hand = hand
             .as_ref();
-        let counter = hand
-            .bytes()
-            .collect::<HashSet<u8>>()
-            .into_iter()
-            .map(|card| hand
-                .bytes()
-                .filter(|&c| c == card)
-                .count()
-            )
-            .collect::<Vec<usize>>();
+        let mut counter = HashMap::with_capacity(hand.len());
+
+        for c in hand.bytes() {
+            let count = counter.entry(c)
+                .or_insert(0);
+            *count += 1;
+        }
+
         let mut strength = vec![
-            match (counter.iter().max(), counter.len()) {
+            match (counter.values().max(), counter.len()) {
                 (Some(5), _) => 6,
                 (Some(4), _) => 5,
                 (Some(3), 2) => 4,

@@ -17,3 +17,103 @@ lto = "fat"
 rustworkx-core = "0.13"
 nalgebra = "0.32"
 astro_nalgebra = "0.1"
+
+[[bin]]
+name = "day1"
+path = "src/bin/day1.rs"
+
+[[bin]]
+name = "day2"
+path = "src/bin/day2.rs"
+
+[[bin]]
+name = "day3"
+path = "src/bin/day3.rs"
+
+[[bin]]
+name = "day4"
+path = "src/bin/day4.rs"
+
+[[bin]]
+name = "day5"
+path = "src/bin/day5.rs"
+
+[[bin]]
+name = "day6"
+path = "src/bin/day6.rs"
+
+[[bin]]
+name = "day7"
+path = "src/bin/day7.rs"
+
+[[bin]]
+name = "day8"
+path = "src/bin/day8.rs"
+
+[[bin]]
+name = "day9"
+path = "src/bin/day9.rs"
+
+[[bin]]
+name = "day10"
+path = "src/bin/day10.rs"
+
+[[bin]]
+name = "day11"
+path = "src/bin/day11.rs"
+
+[[bin]]
+name = "day12"
+path = "src/bin/day12.rs"
+
+[[bin]]
+name = "day13"
+path = "src/bin/day13.rs"
+
+[[bin]]
+name = "day14"
+path = "src/bin/day14.rs"
+
+[[bin]]
+name = "day15"
+path = "src/bin/day15.rs"
+
+[[bin]]
+name = "day16"
+path = "src/bin/day16.rs"
+
+[[bin]]
+name = "day17"
+path = "src/bin/day17.rs"
+
+[[bin]]
+name = "day18"
+path = "src/bin/day18.rs"
+
+[[bin]]
+name = "day19"
+path = "src/bin/day19.rs"
+
+[[bin]]
+name = "day20"
+path = "src/bin/day20.rs"
+
+[[bin]]
+name = "day21"
+path = "src/bin/day21.rs"
+
+[[bin]]
+name = "day22"
+path = "src/bin/day22.rs"
+
+[[bin]]
+name = "day23"
+path = "src/bin/day23.rs"
+
+[[bin]]
+name = "day24"
+path = "src/bin/day24.rs"
+
+[[bin]]
+name = "day25"
+path = "src/bin/day25.rs"

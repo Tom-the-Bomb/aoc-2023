@@ -31,7 +31,7 @@ pub fn run_day<D: Solution>(day: u8, cls: &D) {
     // benchmark and run
     let instant = Instant::now();
     cls.run(input);
-    let text = format!("Execution time {:?}", instant.elapsed());
+    let text = format!("Execution time: {:?}", instant.elapsed());
     println!(
         "{text}\n{}",
         "=".repeat(text.chars().count())

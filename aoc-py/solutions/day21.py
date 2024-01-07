@@ -96,7 +96,7 @@ class Day21(Solution):
         t1 = self._traverse(grid, start, steps=start_x)
         t2 = self._traverse(grid, start, steps=start_x + n_rows)
         t3 = self._traverse(grid, start, steps=start_x + n_rows + n_rows)
-        print(t1, t2, t3)
+
         return (
             (n ** 2 - n)
             * ((t1 + t3) // 2 - t2)

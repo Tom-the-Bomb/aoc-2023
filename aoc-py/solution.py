@@ -5,7 +5,7 @@ from typing import ClassVar
 from abc import ABC, abstractmethod
 
 class Solution(ABC):
-    """Contains the solution(s) for a single day"""
+    """Contains the solutions for both parts of a single day"""
     NAME: ClassVar[str]
 
     @abstractmethod
@@ -18,4 +18,4 @@ class Solution(ABC):
 
     @abstractmethod
     def run(self, inp: str) -> None:
-        """Executes that day's code"""
+        """Executes that day's solution"""
